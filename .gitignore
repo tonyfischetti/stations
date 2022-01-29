@@ -9,3 +9,6 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+papers/whitepaper.aux
+papers/whitepaper.log
+papers/whitepaper.pdf
