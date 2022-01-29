@@ -20,6 +20,7 @@ let _DEBUG;
 
 
 
+
 /* runs when DOM is finished loading */
 const startDapp = () => {
 
@@ -130,7 +131,8 @@ const startDapp = () => {
 
 const insertBroadcast = (bcast) => {
   // TODO: write this better
-  if(bcast.broadcast_flags==="0x8000"){
+  if(spec_bcastCheckDeleted(+bcast.broadcast_flags) ||
+     spec_bcastCheckSystem(+bcast.broadcast_flags)){
     return;
   }
   // TODO: dispatch based on type
@@ -305,6 +307,7 @@ const exportBroadcasts = () => {
   download(expFileName, JSON.stringify(allBroadcasts));
 };
 
+// TODO: try to remove encodeURIComponent...
 const download = (filename, text) => {
     let element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
