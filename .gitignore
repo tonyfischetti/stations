@@ -1,4 +1,5 @@
 www/flask/__pycache__
+www/flask/static/.Rhistory
 venv/
 *.pyc
 __pycache__/

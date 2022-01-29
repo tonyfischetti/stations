@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add supported chains to Metamask</title>
+
+    <!-- TODO get the hash (integrity) -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+
+    <script src="{{ url_for('static', filename='info-and-utils-5.js') }}"></script>
+    <script src="{{ url_for('static', filename='add-network.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='add-network.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='/favicon.ico') }}">
+
+  </head>
+
+  <body>
+
+    <h1>Add supported chains to Metamask</h1>
+
+    <button id="addPolygon">Add Polygon</button><br/>
+    <button id="addAvalanche">Add Avalanche</button><br/>
+    <button id="addFantom">Add Fantom</button><br/>
+    <button id="addHarmony">Add Harmony</button><br/>
+
+  </body>
+
+</html>

@@ -1,0 +1,46 @@
+
+
+const STATION_ABIS = {
+  v4: [ { "inputs": [ { "internalType": "address", "name": "_creator", "type": "address" }, { "internalType": "string", "name": "_station_name", "type": "string" }, { "internalType": "string", "name": "_station_frequency", "type": "string" }, { "internalType": "string", "name": "_station_description", "type": "string" }, { "internalType": "bytes2", "name": "_station_type", "type": "bytes2" }, { "internalType": "bytes2", "name": "_station_flags", "type": "bytes2" } ], "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "components": [ { "internalType": "uint256", "name": "broadcast_id", "type": "uint256" }, { "internalType": "uint256", "name": "unix_timestamp", "type": "uint256" }, { "internalType": "address", "name": "author", "type": "address" }, { "internalType": "string", "name": "username", "type": "string" }, { "internalType": "string", "name": "content", "type": "string" }, { "internalType": "uint256", "name": "parent", "type": "uint256" }, { "internalType": "bytes2", "name": "broadcast_flags", "type": "bytes2" }, { "internalType": "string", "name": "broadcast_metadata", "type": "string" } ], "indexed": false, "internalType": "struct Stations.Broadcast", "name": "thebroadcast", "type": "tuple" } ], "name": "NewBroadcast", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "internalType": "address", "name": "who", "type": "address" }, { "indexed": false, "internalType": "string", "name": "username", "type": "string" }, { "indexed": false, "internalType": "uint256", "name": "unix_timestamp", "type": "uint256" } ], "name": "UserJoined", "type": "event" }, { "inputs": [ { "internalType": "uint256[]", "name": "unix_timestamp", "type": "uint256[]" }, { "internalType": "address[]", "name": "author", "type": "address[]" }, { "internalType": "string[]", "name": "username", "type": "string[]" }, { "internalType": "string[]", "name": "content", "type": "string[]" }, { "internalType": "uint256[]", "name": "parent", "type": "uint256[]" }, { "internalType": "bytes2[]", "name": "broadcast_flags", "type": "bytes2[]" }, { "internalType": "string[]", "name": "broadcast_metadata", "type": "string[]" } ], "name": "_import_broadcasts", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "string[]", "name": "content", "type": "string[]" } ], "name": "_import_simple", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "unix_timestamp", "type": "uint256" }, { "internalType": "string", "name": "content", "type": "string" }, { "internalType": "uint256", "name": "parent", "type": "uint256" }, { "internalType": "bytes2", "name": "broadcast_flags", "type": "bytes2" }, { "internalType": "string", "name": "broadcast_metadata", "type": "string" } ], "name": "_make_broadcast_advanced", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "someone", "type": "address" } ], "name": "add_admin", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "new_username", "type": "string" } ], "name": "change_username", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "id_to_delete", "type": "uint256" } ], "name": "delete_broadcast", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "id_to_edit", "type": "uint256" }, { "internalType": "string", "name": "newcontent", "type": "string" } ], "name": "edit_broadcast", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "get_all_broadcasts", "outputs": [ { "components": [ { "internalType": "uint256", "name": "broadcast_id", "type": "uint256" }, { "internalType": "uint256", "name": "unix_timestamp", "type": "uint256" }, { "internalType": "address", "name": "author", "type": "address" }, { "internalType": "string", "name": "username", "type": "string" }, { "internalType": "string", "name": "content", "type": "string" }, { "internalType": "uint256", "name": "parent", "type": "uint256" }, { "internalType": "bytes2", "name": "broadcast_flags", "type": "bytes2" }, { "internalType": "string", "name": "broadcast_metadata", "type": "string" } ], "internalType": "struct Stations.Broadcast[]", "name": "", "type": "tuple[]" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "get_all_users", "outputs": [ { "internalType": "address[]", "name": "", "type": "address[]" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "username", "type": "string" } ], "name": "inaugurate_station", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "who", "type": "address" } ], "name": "is_admin_p", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "who", "type": "address" } ], "name": "is_allowed_in_p", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "username", "type": "string" } ], "name": "join_station", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "content", "type": "string" } ], "name": "make_broadcast_simple", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "someone", "type": "address" } ], "name": "remove_admin", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "someone", "type": "address" } ], "name": "reverse_whitelist", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "station_info", "outputs": [ { "internalType": "string", "name": "", "type": "string" }, { "internalType": "string", "name": "", "type": "string" }, { "internalType": "string", "name": "", "type": "string" }, { "internalType": "uint256", "name": "", "type": "uint256" }, { "internalType": "address", "name": "", "type": "address" }, { "internalType": "uint256", "name": "", "type": "uint256" }, { "internalType": "bytes2", "name": "", "type": "bytes2" }, { "internalType": "bytes2", "name": "", "type": "bytes2" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "who", "type": "address" } ], "name": "user_already_in_station_p", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "a_name", "type": "string" } ], "name": "username_already_in_station_p", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "someone", "type": "address" } ], "name": "whitelist_address", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "whoami", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" } ]
+};
+
+const PROVIDER_PARAMS = {
+  polygon: {
+    chainId: '0x89',
+    chainName: 'Polygon Mainnet',
+    nativeCurrency: {
+        name: 'MATIC',
+        symbol: 'MATIC',
+        decimals: 18
+    },
+    rpcUrls: ['https://polygon-rpc.com'],
+    blockExplorerUrls: ['https://www.polygonscan.com']
+
+  },
+  avalanche: {
+    chainId: '0xA86A',
+    chainName: 'Avalanche Mainnet C-Chain',
+    nativeCurrency: {
+        name: 'Avalanche',
+        symbol: 'AVAX',
+        decimals: 18
+    },
+    rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+    blockExplorerUrls: ['https://snowtrace.io/']
+  }
+};
+
+const RPC_URL_MAP = {
+  polygon: "https://rpc-mainnet.maticvigil.com/v1/a383485c02d70e19b2660c539983b17e9566a297",
+  avalanche: "https://rpc.ankr.com/avalanche",
+};
+
+const addOrSwitchNetwork = (chain) => {
+  window.ethereum.request({ method: 'wallet_addEthereumChain',
+    params: [ PROVIDER_PARAMS[chain] ] }).
+    then(() => console.log('Success')).
+    catch((error) => console.log("Error"));
+
+};
+
+

@@ -1,0 +1,42 @@
+{% extends 'tune-head-3.html' %}
+
+{% block microblog %}
+  <body>
+
+    <div id="tuned_outer_way">
+      <div id="topbar">
+        <div id="tmp">
+          <div id="stationname">tuning</div>
+
+          <div id="current_login">logged in as: </div>
+
+          <div id="morepseudobutton">&#9660;</div>
+        </div>
+        <br/>
+
+        <!-- TODO: place these better -->
+        <div id="sidebuttons">
+          <button id="connectbutton" class="sidebutton">Connect wallet</button><br/>
+          <button id="exportbutton" class="sidebutton">Export broadcasts</button><br/>
+          <button id="importbutton" class="sidebutton">Import broadcasts</button><br/>
+          <button id="addavaxnetwork" class="sidebutton">Add Avalanche network</button><br/>
+          <button id="addpolygonnetwork" class="sidebutton">Add Polygon network</button>
+        </div>
+
+        <div id="moreinside">
+          <textarea id="thebroadcast" cols="50" rows="3">(broadcast)</textarea>
+          <br/>
+          <button id="broadcastthis">Broadcast</button>
+        </div>
+
+      </div>
+
+      <div id="middle_way">
+        <div id="broadcasts_holder">
+        </div>
+      </div>
+    </div>
+
+  </body>
+
+{% endblock %}
