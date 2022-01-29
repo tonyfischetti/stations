@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo cp -R flask /var/ww && sudo systemctl restart apache2
+sudo cp -R flask /var/www && sudo systemctl restart apache2
