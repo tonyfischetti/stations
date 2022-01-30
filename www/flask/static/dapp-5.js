@@ -304,13 +304,14 @@ const toggleElementVisibility = (aselector) => {
 
 const exportBroadcasts = () => {
   let expFileName = `${stationInfo.stationFrequency}-export-${Date.now()}.json`;
-  download(expFileName, JSON.stringify(allBroadcasts));
+  // TODO: check for errors
+  download(expFileName, JSON.stringify(allBroadcasts, null, 2));
 };
 
 // TODO: try to remove encodeURIComponent...
 const download = (filename, text) => {
     let element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + text);
     element.setAttribute('download', filename);
     element.style.display = 'none';
     document.body.appendChild(element);
