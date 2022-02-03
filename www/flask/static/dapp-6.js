@@ -240,8 +240,7 @@ const setUpLoggedInElements = () => {
   }
 
   let broadcastButton = document.getElementById("broadcastButton");
-  // broadcastButton.onclick = makeSimpleBroadcast;
-  broadcastButton.onclick = makeForgedBroadcast;
+  broadcastButton.onclick = makeSimpleBroadcast;
 };
 
 const getSignature = async (text) => {
@@ -255,7 +254,8 @@ const makeSimpleBroadcast = async () => {
   let sig = await getSignature(toBroadcast);
   _DEBUG("attempting to broadcast: " + toBroadcast +
          " with signature: " + sig);
-  myContract.methods.make_broadcast_simple(toBroadcast).send(
+  myContract.methods.make_broadcast_simple(toBroadcast, sig, "0x0000",
+                                           "0x0000", "").send(
     { from: window.ethereum.selectedAddress },
     function(error, result){
       if (error){

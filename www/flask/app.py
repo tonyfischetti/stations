@@ -81,10 +81,10 @@ def currentjam5():
 def bikini_atoll():
     chain       = request.args.get('chain', default="harmony", type=str)
     con_address = request.args.get('address', type=str,
-                                   default="0xcae91f2908a5142860beafbb73a811078d1a0e16")
-    sver        = request.args.get('version', default="v5", type=str)
+                                   default="0x1b1f9e1227aae2a67f03955f222d7642e2ba1720")
+    sver        = request.args.get('version', default="v6", type=str)
     debug_p     = request.args.get('debug', default="true", type=str)
-    return render_template("microblog-5.html",
+    return render_template("microblog-6.html",
                            chain=chain,
                            contract=con_address,
                            version=sver,
