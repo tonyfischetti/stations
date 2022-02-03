@@ -27,7 +27,7 @@ def bikini_atoll():
     con_address = request.args.get('address', type=str,
                                    default="0x1b1f9e1227aae2a67f03955f222d7642e2ba1720")
     sver        = request.args.get('version', default="v6", type=str)
-    debug_p     = request.args.get('debug', default="galse", type=str)
+    debug_p     = request.args.get('debug', default="false", type=str)
     return render_template("microblog.html",
                            chain=chain,
                            contract=con_address,
