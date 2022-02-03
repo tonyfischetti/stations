@@ -1,4 +1,4 @@
-{% extends 'tune-head-5.html' %}
+{% extends 'tune-head-6.html' %}
 
 {% block microblog %}
 
@@ -40,8 +40,10 @@
           <span class="close">&times;</span>
         </div>
         <div class="modal-body">
-          <textarea id="compositionArea" cols="40" rows="3">content</textarea>
-          <br/>
+          <textarea id="forgedTimeArea" rows="1" placeholder="forged timestamp"></textarea>
+          <br/><br/>
+          <textarea id="compositionArea" rows="3" placeholder="content"></textarea>
+          <br/><br/>
           <button id="broadcastButton">Broadcast!</button>
         </div>
       </div>

@@ -15,6 +15,7 @@ let web3;
 let myContract;
 let stationInfo;
 let allBroadcasts;
+let allUsers = {};
 
 let _DEBUG;
 
@@ -22,7 +23,7 @@ let _DEBUG;
 
 
 /* runs when DOM is finished loading */
-const startDapp = () => {
+const startDapp = async () => {
 
   /* if debug is true, this constructs the a working _DEBUG
    * function. If not, it's a no-op function */
@@ -73,26 +74,10 @@ const startDapp = () => {
   _DEBUG("made new web3 object. attempting to connect to contract");
   myContract = new web3.eth.Contract(ABI_IN_USE, CONTRACT_ADDRESS);
   _DEBUG("made contract object");
-  myContract.methods.station_info().call({}, getStationInfo);
-  _DEBUG("got station info");
 
-  /* get and display all broadcasts */
-  myContract.methods.get_all_broadcasts().call({},
-    function(error, result){
-      if (error){
-        alert("UNHANDLED ERROR:\n" + error);
-        return;
-      }
-      console.log(result);
-      allBroadcasts = result;
-      result.map(bcast => {
-        try{
-          insertBroadcast(bcast);
-        } catch (error){
-          console.log("broadcast insertion failed: " + error);
-        }
-      });
-  });
+  await myContract.methods.station_info().call({}, getStationInfo);
+  await myContract.methods.get_all_users().call({}, getUserInfo);
+  await getAllBroadcasts();
 
   let exportButton = document.getElementById("exportButton");
   exportButton.onclick = exportBroadcasts;
@@ -144,9 +129,11 @@ const insertBroadcast = (bcast) => {
 const insertBroadcast_HTML = (bcast) => {
   let containerElement = document.getElementById("broadcastsHolder");
   const htmlString = `
-        <div class="broadcast piece">
+        <div class="broadcast">
           <div class="broadcastHeader">
-            <div class="username">${bcast.username}</div>
+            <div class="username">
+              ${allUsers[bcast.author].username}
+            </div>
             <div class="broadcastTimestamp">
               ${formatTimestamp(bcast.unix_timestamp)}
             </div>
@@ -183,8 +170,50 @@ function getStationInfo(error, objFromChain){
     createdOn:            objFromChain["5"],
     stationType:          objFromChain["6"],
     stationFlags:         objFromChain["7"],
+    stationMetadata:      objFromChain["8"],
   };
   fillStationInfoOnDOM();
+  _DEBUG("got station info");
+}
+
+function getUserInfo(error, objFromChain){
+  if (error){
+    alert("UNHANDLED ERROR:\n" + error);
+    return;
+  }
+  console.log("got object from chain: " + objFromChain);
+  objFromChain.map(it => {
+    if(it[1]!=="uncaused-cause"){
+      let tmpaddress =  it[0];
+      allUsers[tmpaddress] = {
+        username:       it[1],
+        time_joined:    it[2],
+        user_metadata:  it[3]
+      };
+    }
+  });
+  _DEBUG("got user info");
+}
+
+async function getAllBroadcasts(){
+  /* get and display all broadcasts */
+  myContract.methods.get_all_broadcasts().call({},
+    function(error, result){
+      if (error){
+        alert("UNHANDLED ERROR:\n" + error);
+        return;
+      }
+      console.log(result);
+      allBroadcasts = result;
+      result.map(bcast => {
+        try{
+          insertBroadcast(bcast);
+        } catch (error){
+          console.log("broadcast insertion failed: " + error);
+        }
+      });
+  });
+  _DEBUG("got all broadcasts");
 }
 
 
@@ -211,13 +240,21 @@ const setUpLoggedInElements = () => {
   }
 
   let broadcastButton = document.getElementById("broadcastButton");
-  broadcastButton.onclick = makeSimpleBroadcast;
+  // broadcastButton.onclick = makeSimpleBroadcast;
+  broadcastButton.onclick = makeForgedBroadcast;
 };
 
+const getSignature = async (text) => {
+  let inHex = web3.utils.utf8ToHex(text);
+  let hashed = web3.utils.keccak256(inHex);
+  return await web3.eth.personal.sign(hashed, window.ethereum.selectedAddress);
+}
 
-const makeSimpleBroadcast = () => {
+const makeSimpleBroadcast = async () => {
   let toBroadcast = document.getElementById("compositionArea").value;
-  _DEBUG("attempting to broadcast: " + toBroadcast);
+  let sig = await getSignature(toBroadcast);
+  _DEBUG("attempting to broadcast: " + toBroadcast +
+         " with signature: " + sig);
   myContract.methods.make_broadcast_simple(toBroadcast).send(
     { from: window.ethereum.selectedAddress },
     function(error, result){
@@ -229,13 +266,17 @@ const makeSimpleBroadcast = () => {
     });
 };
 
-const makeForgedBroadcast = () => {
+const makeForgedBroadcast = async () => {
+  console.log("making forgery!");
   let toBroadcast = document.getElementById("compositionArea").value;
-  let forgedTime = document.getElementById("forgeTimeArea").value;
+  let forgedTime = document.getElementById("forgedTimeArea").value;
+  let sig = await getSignature(toBroadcast);
   _DEBUG("attempting to broadcast: '" + toBroadcast + "' for timestamp: " +
-    forgedTime);
+    forgedTime + " with signature: " + sig);
   myContract.methods._make_broadcast_forge_timestamp(toBroadcast,
-                                                     forgedTime).send(
+                                                     forgedTime,
+                                                     sig, "0x0000",
+                                                     "0x0000", "").send(
     { from: window.ethereum.selectedAddress },
     function(error, result){
       if (error){

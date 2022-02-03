@@ -15,17 +15,9 @@ body {
     display: none;
 }
 
-/* #composeButton { */
-/*     display: none; */
-/* } */
-
 #stationName {
     font-size: 3em;
     font-weight: bold;
-}
-
-#stationDescription {
-    /* font-style: oblique; */
 }
 
 #outerWay {
@@ -83,6 +75,11 @@ hr {
     margin-bottom: 20px;
     margin-top: 20px;
     padding: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+@media screen and (min-width: 450px) {
     padding-top: 20px;
     padding-bottom: 20px;
 }
@@ -93,6 +90,10 @@ hr {
     margin: 20px;
     padding: 20px;
     word-wrap: break-word;
+}
+
+.broadcastContent audio, img, video {
+    max-width: 100%;
 }
 
 /* The Modal (background) */
@@ -184,23 +185,4 @@ hr {
     100% {
         opacity: 1;
     }
-}
-
-
-.broadcastContent audio, img, video {
-    max-width: 100%;
-}
-
-.broadcast {
-    background-color: white;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    padding: 0px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-@media screen and (min-width: 450px) {
-    padding-top: 20px;
-    padding-bottom: 20px;
 }

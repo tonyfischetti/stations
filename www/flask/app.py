@@ -50,8 +50,7 @@ def microblog5():
                            version=sver,
                            debug=debug_p)
 
-# pinned (version 5)
-@app.route('/den-of-understanding', methods=['GET'])
+@app.route('/den5', methods=['GET'])
 def currentden5():
     chain       = request.args.get('chain', default="polygon", type=str)
     con_address = request.args.get('address', type=str,
@@ -90,6 +89,38 @@ def bikini_atoll():
                            contract=con_address,
                            version=sver,
                            debug=debug_p)
+
+
+@app.route('/tune', methods=['GET'])
+def tune():
+    chain       = request.args.get('chain', default="harmony", type=str)
+    con_address = request.args.get('address', type=str,
+                                   default="0xd63b063df87e53a60feca6001375977d66f54083")
+    sver        = request.args.get('version', default="v6", type=str)
+    debug_p     = request.args.get('debug', default="false", type=str)
+    return render_template("microblog-6.html",
+                           chain=chain,
+                           contract=con_address,
+                           version=sver,
+                           debug=debug_p)
+
+
+# pinned (version 6)
+@app.route('/den-of-understanding', methods=['GET'])
+def currentden6():
+    chain       = request.args.get('chain', default="harmony", type=str)
+    con_address = request.args.get('address', type=str,
+                                   default="0xd63b063df87e53a60feca6001375977d66f54083")
+    sver        = request.args.get('version', default="v6", type=str)
+    debug_p     = request.args.get('debug', default="false", type=str)
+    return render_template("microblog-6.html",
+                           chain=chain,
+                           contract=con_address,
+                           version=sver,
+                           debug=debug_p)
+
+
+
 
 
 
