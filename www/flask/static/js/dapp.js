@@ -129,7 +129,7 @@ const insertBroadcast = (bcast) => {
 const insertBroadcast_HTML = (bcast) => {
   let containerElement = document.getElementById("broadcastsHolder");
   const htmlString = `
-        <div class="broadcast">
+        <div id=${bcast.broadcast_id} class="broadcast">
           <div class="broadcastHeader">
             <div class="username">
               ${allUsers[bcast.author].username}

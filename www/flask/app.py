@@ -63,6 +63,18 @@ def currentden6():
                            debug=debug_p)
 
 
+@app.route('/arsenic!', methods=['GET'])
+def arsenic_pinned():
+    chain       = request.args.get('chain', default="harmony", type=str)
+    con_address = request.args.get('address', type=str,
+                                   default="0x82419640d0fcc1bedaf4c3875b29be202bf0cce3")
+    sver        = request.args.get('version', default="v6", type=str)
+    debug_p     = request.args.get('debug', default="false", type=str)
+    return render_template("microblog.html",
+                           chain=chain,
+                           contract=con_address,
+                           version=sver,
+                           debug=debug_p)
 
 
 
