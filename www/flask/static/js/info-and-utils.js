@@ -57,7 +57,8 @@ const RPC_URL_MAP = {
   polygon: "https://rpc-mainnet.maticvigil.com/v1/a383485c02d70e19b2660c539983b17e9566a297",
   avalanche: "https://rpc.ankr.com/avalanche",
   fantom: "https://rpc.ftm.tools",
-  harmony: "https://api.harmony.one"
+  // harmony: "https://api.harmony.one"
+  harmony: "https://rpc.hermesdefi.io"
 };
 
 const addOrSwitchNetwork = (chain) => {
