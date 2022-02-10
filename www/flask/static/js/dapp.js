@@ -75,30 +75,6 @@ const startDapp = async () => {
 
 /* ---------------------------------------------------------------- */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// TODO: this doesn't toggle
-const toggleElementVisibility = (aselector) => {
-  let tmp = document.querySelector(aselector);
-  tmp.style.display = "block";
-};
-
-
-
-/* ---------------------------------------------------------------- */
-
 const isMetaMaskInstalled = () => {
   return Boolean(window.ethereum && window.ethereum.isMetaMask);
 };
@@ -125,6 +101,8 @@ const setUpLoggedInElements = () => {
 
   /* have to use metamask provider now--so we'll change the web3 var */
   replaceWeb3andMyContractAfterLogin();
+
+  toggleElementVisibility("#composeButton", "inline");
 
   let broadcastButton = document.getElementById("broadcastButton");
   broadcastButton.onclick = makeSimpleBroadcast;
@@ -206,7 +184,6 @@ function fillStationInfoOnDOM(){
   elStationDescription.textContent = stationInfo.stationDescription;
 }
 
-// TODO: use destructuring
 function getStationInfo(error, objFromChain){
   if (error){ alert("UNHANDLED ERROR:\n" + error); return; }
 
@@ -363,12 +340,20 @@ const makeForgedBroadcast = async () => {
 };
 
 
+const toggleElementVisibility = (aselector, type="block") => {
+  const tmp = document.querySelector(aselector);
+  console.log(tmp.style.display);
+  if (tmp.style.display === "none") {
+    tmp.style.display = type;
+  } else {
+    tmp.style.display = "none";
+  }
+};
+
 
 /**********************************************/
 /* DOM is finished loading.... LEZZZ GOOOO!!! */
 /**********************************************/
 window.addEventListener('DOMContentLoaded', startDapp);
-
-
 
 

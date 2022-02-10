@@ -4,7 +4,9 @@
     /* margin: 0px; */
 }
 
-body {
+html, body {
+    margin:  0px;
+    padding: 0px;
 }
 
 #debugArea {
@@ -12,6 +14,10 @@ body {
 }
 
 #debugContainer {
+    display: none;
+}
+
+#composeButton {
     display: none;
 }
 
