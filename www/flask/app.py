@@ -41,11 +41,10 @@ def tune():
                                    default="0xd63b063df87e53a60feca6001375977d66f54083")
     sver        = request.args.get('version', default="v6", type=str)
     debug_p     = request.args.get('debug', default="false", type=str)
-    return render_template("microblog.html",
-                           chain=chain,
-                           contract=con_address,
-                           version=sver,
-                           debug=debug_p)
+    scrollto    = request.args.get('scrollto', default=None, type=str)
+    return render_template("microblog.html", chain=chain,
+                           contract=con_address, version=sver, debug=debug_p,
+                           scrollto=scrollto)
 
 
 # pinned (version 6)
@@ -56,11 +55,10 @@ def currentden6():
                                    default="0xd63b063df87e53a60feca6001375977d66f54083")
     sver        = request.args.get('version', default="v6", type=str)
     debug_p     = request.args.get('debug', default="false", type=str)
-    return render_template("microblog.html",
-                           chain=chain,
-                           contract=con_address,
-                           version=sver,
-                           debug=debug_p)
+    scrollto    = request.args.get('scrollto', default=None, type=str)
+    return render_template("microblog.html", chain=chain,
+                           contract=con_address, version=sver, debug=debug_p,
+                           scrollto=scrollto)
 
 
 @app.route('/arsenic!', methods=['GET'])
@@ -70,11 +68,10 @@ def arsenic_pinned():
                                    default="0x82419640d0fcc1bedaf4c3875b29be202bf0cce3")
     sver        = request.args.get('version', default="v6", type=str)
     debug_p     = request.args.get('debug', default="false", type=str)
-    return render_template("microblog.html",
-                           chain=chain,
-                           contract=con_address,
-                           version=sver,
-                           debug=debug_p)
+    scrollto    = request.args.get('scrollto', default=None, type=str)
+    return render_template("microblog.html", chain=chain,
+                           contract=con_address, version=sver, debug=debug_p,
+                           scrollto=scrollto)
 
 
 

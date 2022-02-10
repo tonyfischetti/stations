@@ -8,6 +8,7 @@ const CHAIN             = document.documentElement.getAttribute("chain");
 const CONTRACT_ADDRESS  = document.documentElement.getAttribute("contract");
 const STATIONS_VERSION  = document.documentElement.getAttribute("version");
 const DEBUG_P           = document.documentElement.getAttribute("debug");
+const SCROLL_TO         = document.documentElement.getAttribute("scrollto");
 const RPC_URL_IN_USE    = RPC_URL_MAP[CHAIN];
 const ABI_IN_USE        = STATION_ABIS[STATIONS_VERSION];
 
@@ -70,6 +71,13 @@ const startDapp = async () => {
     let toBroadcast = document.getElementById("compositionArea").value;
     console.log(toBroadcast);
   };
+
+  if (SCROLL_TO !== "None"){
+    waitForElement(SCROLL_TO, () => {
+      scrollToBroadcastID(SCROLL_TO);
+      callAttentionToElement(SCROLL_TO);
+    }, 1000, 30000);
+  }
 
 };
 
@@ -295,7 +303,9 @@ const exportBroadcasts = () => {
 
 
 
-
+const scrollToBroadcastID = (theid) => {
+  document.getElementById(theid).scrollIntoView();
+};
 
 
 const getSignature = async (text) => {
@@ -357,3 +367,35 @@ const toggleElementVisibility = (aselector, type="block") => {
 window.addEventListener('DOMContentLoaded', startDapp);
 
 
+
+
+
+
+function waitForElement(id, callback, checkFrequencyInMs, timeoutInMs) {
+  let startTimeInMs = Date.now();
+  (function loopSearch() {
+    if (document.getElementById(id) != null) { callback(); return; }
+    else {
+      setTimeout(function() {
+        if (timeoutInMs && Date.now() - startTimeInMs > timeoutInMs){ return; }
+        loopSearch();
+      }, checkFrequencyInMs);
+    }
+  })();
+}
+
+function callAttentionToElement(id){
+  console.log("call attention was called");
+  document.getElementById(id).style.opacity = "0";
+  (function stepUpOpacity() {
+    let currentOpacity = document.getElementById(id).style.opacity;
+    let newOpacity = String(+currentOpacity + 0.01);
+    if (+currentOpacity >= 1){ return; }
+    else {
+      setTimeout(function() {
+        document.getElementById(id).style.opacity = newOpacity;
+        stepUpOpacity();
+      }, 1);
+    }
+  })();
+}

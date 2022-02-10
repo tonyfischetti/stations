@@ -76,7 +76,7 @@ hr {
 }
 
 .broadcast {
-    background-color: white;
+    /* background-color: white; */
     margin-bottom: 20px;
     margin-top: 20px;
     padding: 0px;
@@ -93,7 +93,7 @@ hr {
 
 
 .broadcastContentContainer {
-    background-color: white;
+    /* background-color: white; */
     margin: 20px;
     padding: 20px;
     word-wrap: break-word;
