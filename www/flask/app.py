@@ -13,6 +13,12 @@ def bfip():
     htmllang = request.args.get('lang', default="en", type=str)
     return render_template("bfip.html", htmllang=htmllang)
 
+@app.route('/debug-info')
+def debug_info():
+    htmllang = request.args.get('lang', default="en", type=str)
+    return render_template("debug-info.html", htmllang=htmllang,
+                           user_agent=request.headers.get('User-Agent'))
+
 # @app.route('/thats-my-jam', methods=['GET'])
 # def currentjam5():
 #     chain       = request.args.get('chain', default="fantom", type=str)

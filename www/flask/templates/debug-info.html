@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block html_language %} {{ htmllang }} {% endblock %}
+
+{% block title %} debug-info {% endblock %}
+
+{% block javascript_imports %}
+  {{ super() }}
+    <script src="{{ url_for('static', filename='js/detect-if-mobile.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/debug-info.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+  {% if htmllang=="en" %}
+  {% elif htmllang=="es" %}
+  {% else %}
+  {% endif %}
+  {{ super() }}
+{% endblock %}
+
+{% block div_outerWay %}
+  <div id="veryTempBigText">stations.network</div>
+  <div id="homeContent">
+    <div id="userAgent">
+      {{ user_agent }}
+    </div>
+    <div id="isMobileOrDesktopDiv">
+    </div>
+  </div>
+{% endblock %}
+
+
+
