@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang     = {% block html_language %}"en"{% endblock %}
+      chain    = "{{ chain }}"
+      contract = "{{ contract }}"
+      version  = "{{ version }}"
+      debug    = "{{ debug }}"
+      scrollto = "{{ scrollto }}">
+
+  {% block head %}
+  <head>
+
+    {% block metatags %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock %} <!-- ends metatags -->
+
+    <title>[stations.network] - {% block title %} {% endblock %}</title>
+
+    {% block fontimports %}
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Commissioner" -->
+    <!--   rel="stylesheet"> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;1,300&#38;display=swap" -->
+    <!--   rel="stylesheet">  -->
+    <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100;200;300;400&family=Poppins:ital,wght@0,200;0,300;1,300&display=swap"
+    rel="stylesheet"> 
+    {% endblock %}
+
+    <link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous" rel="stylesheet">
+
+    {% block javascript_imports %}
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    {% endblock %}
+
+    {% block css_imports %}
+    <link  href="{{ url_for('static', filename='styles/base-style.css') }}" rel="stylesheet">
+    {% endblock %}
+
+    {% block other_link_elements %}
+    <link  href="{{ url_for('static', filename='assets/favicon.ico') }}" rel="icon">
+    {% endblock %}
+
+  </head>
+  {% endblock %} <!-- ends head -->
+  <body>
+    {% block body %}
+    <div id="outerWay">
+      {% block div_outerWay %} {% endblock %}
+    </div>
+    {% endblock %}
+  </body>
+</html>

@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>home</title>
-  </head>
-  <body>
-    home
-    where I want to be
-  </body>
-</html>
+{% extends 'base.html' %}
+
+{% block html_language %} {{ htmllang }} {% endblock %}
+
+{% block title %} home {% endblock %}
+
+
+{% block div_outerWay %}
+  {% if htmllang=="en" %}
+    <div class="stations-not-finished-notice notice">
+      The following is written as if
+      <div id="stations-proper-noun">stations</div> currently had all this
+      functionality; this is as much of a description of how
+      <div id="stations-proper-noun">stations</div>
+      works now as it is a proposal for what
+      <div id="stations-proper-noun">stations</div>
+      will be.
+    </div>
+  {% elif htmllang=="es" %}
+    <div class="stations-not-finished-notice notice">
+      Lo siguente fue escrito como si
+      <div id="stations-proper-noun">stations</div>,
+      actualmente, tuvieran toda esta funcionalidad;
+      Como tal, esto es tanto una descripción de cómo funciona
+      ahora como una propuesta de lo que será.
+    </div>
+  {% else %}
+    <div class="notice">language not supported... defaulting to English</div>
+  {% endif %}
+
+{% endblock %}
+
+
+

@@ -1,0 +1,90 @@
+
+* {
+    /* font-family: Commissioner, Helvetica, Arial, sans-serif; */
+    font-family: Poppins, Helvetica, Arial, sans-serif;
+    /* margin: 0px; */
+}
+
+html, body {
+    /* margin:  0px; */
+    /* padding: 0px; */
+    background-color: #FFFBF7;
+}
+
+.stations-proper-noun {
+    display: inline;
+    font-style: oblique;
+    /* font-size: 1rem; */
+}
+
+#outerWay {
+    /* max-width: 750px; */
+    max-width: 1161px;
+    margin: auto;
+}
+
+.notice {
+    background: #C81D1526;
+    background: #6A050026;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-style: oblique;
+    font-size: 0.8rem;
+}
+
+#veryTempBigText {
+    font-weight: 200;
+    font-size: 6rem;
+    display: flex;
+    justify-content: center;
+    /* border: solid; */
+    /* border-color: #2E8654; */
+    background-color: #2E8654;
+    background-color: #1c1676;
+    background-color: #1c1676db;
+    margin-bottom: 99px;
+    margin-top: 69px;
+    padding: 28px;
+    color: white;
+    border-radius: 600px;
+    font-family: Commissioner, Helvetica, Arial, sans-serif;
+}
+
+#homeContent {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+}
+
+.info-box {
+    background-color: #2E865487;
+    border-radius: 600px;
+    padding: 20px;
+    max-width: 40%;
+    margin: 11px;
+    /* text-align: center; */
+}
+
+.info-green {
+    background-color: #2E865487;
+}
+
+.info-red {
+    background-color: #2E865487;
+    background: #C81D1526;
+}
+
+.info-yellow {
+    background-color: #deab0061;
+}
+
+.info-left {
+    margin-left: 0px;
+}
+
+.info-right {
+    margin-left: auto;
+}
+

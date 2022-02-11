@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block html_language %} {{ htmllang }} {% endblock %}
+
+{% block title %} home {% endblock %}
+
+
+{% block body %}
+  {% if htmllang=="en" %}
+    <div class="stations-not-finished-notice notice">
+      The following is written as if
+      <div class="stations-proper-noun">stations</div> currently had all this
+      functionality; this is as much of a description of how
+      <div class="stations-proper-noun">stations</div>
+      works now as it is a proposal for what
+      <div class="stations-proper-noun">stations</div>
+      will be.
+    </div>
+  {% elif htmllang=="es" %}
+    <div class="stations-not-finished-notice notice">
+      Lo siguente fue escrito como si
+      <div class="stations-proper-noun">stations</div>,
+      actualmente, tuvieran toda esta funcionalidad;
+      Como tal, esto es tanto una descripción de cómo funciona
+      ahora como una propuesta de lo que será.
+    </div>
+  {% else %}
+    <div class="notice">language not supported... defaulting to English</div>
+  {% endif %}
+  {{ super() }}
+{% endblock %}
+
+{% block div_outerWay %}
+  <div id="veryTempBigText">stations.network</div>
+  <div id="homeContent">
+    <div class="info-box info-left info-green">
+      <div class="stations-proper-noun">stations</div> es un nuevo tipo de
+      red social.
+    </div>
+    <div class="info-box info-right info-red">
+      ¿En cúal manera?
+    </div>
+    <div class="info-box info-left info-green">
+      Pues, <div class="stations-proper-noun">stations</div> es una red
+      social <em>completamente</em> decentralizada.
+    </div>
+    <div class="info-box info-right info-red">
+      Ok, dime más, porfa
+    </div>
+  </div>
+{% endblock %}
+
+
+

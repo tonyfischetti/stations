@@ -5,7 +5,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("home.html")
+    htmllang = request.args.get('lang', default="en", type=str)
+    return render_template("home.html", htmllang=htmllang)
+
+@app.route('/bfip')
+def bfip():
+    htmllang = request.args.get('lang', default="en", type=str)
+    return render_template("bfip.html", htmllang=htmllang)
 
 # @app.route('/thats-my-jam', methods=['GET'])
 # def currentjam5():
