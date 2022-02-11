@@ -146,9 +146,11 @@ const connectButtonClicked_Connect = async () => {
         PROVIDER_PARAMS[CHAIN].chainName);
       if (confirm(ermes)) {
         _DEBUG("switching to the correct network");
+        // WE ACTUALLY HAVE TO WAIT HERE!!
         addOrSwitchNetwork(CHAIN);
       } else {
         _DEBUG("user declined to change networks... bailing out");
+        // TODO: RETURN FALSE, SO WE CAN ACTUALLY BAIL!!!!
         return;
       }
     }
