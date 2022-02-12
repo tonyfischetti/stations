@@ -17,7 +17,8 @@ def bfip():
 def debug_info():
     htmllang = request.args.get('lang', default="en", type=str)
     return render_template("debug-info.html", htmllang=htmllang,
-                           user_agent=request.headers.get('User-Agent'))
+                           user_agent=request.headers.get('User-Agent'),
+                           all_headers=request.headers)
 
 # @app.route('/thats-my-jam', methods=['GET'])
 # def currentjam5():
