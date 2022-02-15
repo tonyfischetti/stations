@@ -64,6 +64,14 @@ def station_updates():
                            contract="0xC016d44bd9189244e2F16b072dcb5a256469abEa",
                            version="v6", debug=debug_p, scrollto=scrollto)
 
+@app.route('/the-lotus-eaters', methods=['GET'])
+def the_lotus_eaters():
+    debug_p     = request.args.get('debug', default="false", type=str)
+    scrollto    = request.args.get('scrollto', default=None, type=str)
+    return render_template("microblog.html", chain="harmony",
+                           contract="0xe4060498941b05390acb501d80a2b5a648789409",
+                           version="v7", debug=debug_p, scrollto=scrollto)
+
 
 @app.route('/bikini-atoll', methods=['GET'])
 def bikini_atoll():
@@ -95,7 +103,15 @@ def arsenic_pinned():
 
 @app.route('/add-network')
 def add_network():
-    return render_template("add-network.html")
+    htmllang = request.args.get('lang', default="en", type=str)
+    return render_template("add-network.html",
+                           htmllang=htmllang)
+
+@app.route('/tmp-instructions')
+def tmp_instructions():
+    htmllang = request.args.get('lang', default="en", type=str)
+    return render_template("tmp-instructions.html",
+                           htmllang=htmllang)
 
 
 if __name__ == "__main__":

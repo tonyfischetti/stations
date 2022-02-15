@@ -1,33 +1,23 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'web3-base.html' %}
 
-    <title>Add supported chains to Metamask</title>
+{% block html_language %} {{ htmllang }} {% endblock %}
 
-    <link href="https://fonts.googleapis.com/css?family=Commissioner" rel="stylesheet">
+{% block title %} Add supported networks {% endblock %}
 
-    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"
-      integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk="
-      crossorigin="anonymous"></script>
+{% block css_imports %}
+  {{ super() }}
+  <link  href="{{ url_for('static', filename='styles/add-network.css') }}" rel="stylesheet">
+{% endblock %}
 
-    <script src="{{ url_for('static', filename='js/info-and-utils.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/add-network.js') }}"></script>
-    <link  href="{{ url_for('static', filename='styles/style.css') }}" rel="stylesheet">
-    <link  href="{{ url_for('static', filename='assets/favicon.ico') }}" rel="icon">
+{% block body %}
+  {{ super() }}
+{% endblock %}
 
-  </head>
-
-  <body>
-
+{% block div_outerWay %}
+    <div id="veryTempBigText">stations.network</div>
     <h1>Add supported chains to Metamask</h1>
-
-    <button id="addPolygon">Add Polygon</button><br/>
-    <button id="addAvalanche">Add Avalanche</button><br/>
-    <button id="addFantom">Add Fantom</button><br/>
-    <button id="addHarmony">Add Harmony</button><br/>
-
-  </body>
-
-</html>
+    <button id="addPolygon">Polygon</button><br/>
+    <button id="addAvalanche">Avalanche</button><br/>
+    <button id="addFantom">Fantom</button><br/>
+    <button id="addHarmony">Harmony</button><br/>
+{% endblock %}

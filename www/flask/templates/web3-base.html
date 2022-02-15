@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block javascript_imports %}
+  {{ super() }}
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"
+    integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk="
+    crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/info-and-utils.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/add-network.js') }}"></script>
+{% endblock %}
+
+{% block css_imports %}
+  {{ super() }}
+  <!-- DO I NEED THIS? -->
+  {# <link  href="{{ url_for('static', filename='styles/style.css') }}" rel="stylesheet"> #}
+{% endblock %}
+
+

@@ -1,4 +1,7 @@
 
+const LANG              = document.documentElement.getAttribute("lang");
+
+
 const init = () => {
   const poly = document.getElementById("addPolygon");
   poly.onclick = () => addOrSwitchNetwork("polygon");

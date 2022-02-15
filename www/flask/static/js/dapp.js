@@ -9,6 +9,7 @@ const CONTRACT_ADDRESS  = document.documentElement.getAttribute("contract");
 const STATIONS_VERSION  = document.documentElement.getAttribute("version");
 const DEBUG_P           = document.documentElement.getAttribute("debug");
 const SCROLL_TO         = document.documentElement.getAttribute("scrollto");
+const LANG              = document.documentElement.getAttribute("lang");
 const RPC_URL_IN_USE    = RPC_URL_MAP[CHAIN];
 const ABI_IN_USE        = STATION_ABIS[STATIONS_VERSION];
 
