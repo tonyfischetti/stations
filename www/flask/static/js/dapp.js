@@ -118,15 +118,15 @@ const setUpLoggedInElements = () => {
 
 const replaceWeb3andMyContractAfterLogin = () => {
   web3 = new Web3(window.ethereum);
-  myContract = new web3.eth.Contract(ABI_IN_USE, CONTRACT_ADDRESS);
+  // myContract = new web3.eth.Contract(ABI_IN_USE, CONTRACT_ADDRESS);
 
   // TODO: fix this ugliness
-  // if(CHAIN=="polygon"){
-  //   myContract = new web3.eth.Contract(ABI_IN_USE, CONTRACT_ADDRESS,
-  //     { gasPrice: '500000000000'}); // 500 gwei
-  // } else {
-  //   myContract = new web3.eth.Contract(ABI_IN_USE, CONTRACT_ADDRESS);
-  // }
+  if(CHAIN=="polygon"){
+    myContract = new web3.eth.Contract(ABI_IN_USE, CONTRACT_ADDRESS,
+      { gasPrice: '60000000000'}); // 60 gwei
+  } else {
+    myContract = new web3.eth.Contract(ABI_IN_USE, CONTRACT_ADDRESS);
+  }
 };
 
 const connectButtonClicked_Connect = async () => {

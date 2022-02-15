@@ -5,8 +5,8 @@
 }
 
 html, body {
-    margin:  0px;
-    padding: 0px;
+    /* margin:  0px; */
+    /* padding: 0px; */
 }
 
 #debugArea {
@@ -91,12 +91,15 @@ hr {
     }
 }
 
-
 .broadcastContentContainer {
     /* background-color: white; */
     margin: 20px;
     padding: 20px;
     word-wrap: break-word;
+}
+
+.broadcastContent {
+    font-weight: 200 !important;
 }
 
 .broadcastContent audio, img, video {
