@@ -14,7 +14,9 @@
     <div class="notice">
       These are temporary instructions for usage just for my παρέα.<br/>
       In time, the instructions will be fleshed out and will not include
-      the option to get in touch will me to send you some skrilla.
+      the option to get in touch will me to send you some skrilla.<br/>Oh,
+      also, this is in very early development, but all the most important
+      features are right around the corner.
     </div>
   {% else %}
     <div class="notice">language not supported... defaulting to English</div>
@@ -71,5 +73,33 @@
        multi-user test stations, let's make it concrete, shall we?
     </small></i>
     <br/><br/>
-    Blah blah
+    When you visit <a href="https://stations.network/the-lotus-eaters">
+      "the lotus eaters" station page</a>, click the "Connect" button. If,
+    successful, it should make a "Compose" button appear. It should bring
+    up a pop-up modal where you can enter a broadcast. Upon hitting the
+    "broadcast" button, Metamask will pop up asking you to (a) sign the
+    content of the broadcast, and then (b) accept the transaction. Just
+    hit "ok" (or whatever) for both.<br/><br/>
+    Assuming everything went ok, within 5 seconds you should get a popup
+    from Metamask saying the transaction was confirmed. Asynchronous station
+    updates aren't implemented, yet (very soon, tho!), so you have to refresh
+    the page in order to view our broadcast.
+    <br/><br/>
+    <h1>THERE'S MORE</h1>
+    The stations pages (not the info pages) are responsive and it work
+    quite well on mobile. In order to use stations on mobile (something
+    I highly encourage), download the official Metamask Android or iOS app
+    and put in your seed phrase. All the ONE from your desktop Metamask
+    extension should be in there. Hit the hamburger (three horizontal lines)
+    menu in the top left, and tap on "Browser". Then you can navigate to
+    whatever station you'd like, connect, and compose broadcasts!
+    <br/><br/>
+    <h1>MORE?!</h1>
+    Keep your seed phrase a secret; it's the secret key in order to spend
+    your ONE. Though, if it falls into the wrong hands, the financial impact
+    is negligible (we're talking losing a few cents), with your seed phrase
+    or private key, someone can impersonate you on a stations and say bad
+    things. Keep it safe.<br/><br/>
 {% endblock %}
+
+
