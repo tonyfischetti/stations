@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.6.12;
+pragma solidity ^0.8.2;
 pragma experimental ABIEncoderV2;
 
 
@@ -9,7 +9,7 @@ pragma experimental ABIEncoderV2;
    *    Stations.sol                                                    *
    *                                                                    *
    *      author:    Tony Fischetti    <tony@stations.network>          *
-   *      version:   6                                                  *
+   *      version:   7                                                  *
    *                                                                    *
    **********************************************************************/
 
@@ -168,7 +168,7 @@ contract Stations {
                  string memory _station_description,
                  bytes2        _station_type,
                  bytes2        _station_flags,
-                 string memory _station_metadata) public {
+                 string memory _station_metadata) {
         creator = _creator;
         station_name = _station_name;
         station_frequency = _station_frequency;
@@ -298,6 +298,29 @@ contract Stations {
         uint256 timenow = block.timestamp;
         user_exist_map[who] = current_user_index;
         User memory tmp = User(who, username, timenow, "");
+        all_users_of_station.push(tmp);
+        current_user_index += 1;
+        username_exist_map[username] = true;
+        emit UserJoined(tmp);
+        return true;
+    }
+
+    function _add_user_to_station(address new_user_address,
+                                  string memory username)
+                                     public returns (bool){
+        address who = msg.sender;
+        require(is_admin_p(who),
+                "error: must be admin to add user in this manner");
+        require(sf_multiuser_p || who==creator,
+                "station is single-user. cannot join station");
+        require(!user_already_in_station_p(new_user_address),
+                "error: user already in station");
+        require(!username_already_in_station_p(username),
+                "error: username already taken");
+
+        uint256 timenow = block.timestamp;
+        user_exist_map[who] = current_user_index;
+        User memory tmp = User(new_user_address, username, timenow, "");
         all_users_of_station.push(tmp);
         current_user_index += 1;
         username_exist_map[username] = true;
