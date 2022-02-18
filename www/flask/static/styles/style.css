@@ -1,7 +1,6 @@
 
 * {
     font-family: Commissioner, Helvetica, Arial, sans-serif;
-    /* margin: 0px; */
 }
 
 html, body {
@@ -39,13 +38,13 @@ html, body {
 
 .piece {
     padding: 30px;
-    /* padding-top: 30px; */
-    /* padding-bottom: 30px; */
 }
 
 hr {
-    color: #ffcdcd;
+    background-color: #850101b8;
     width: 100%;
+    border: none;
+    height: 1px;
 }
 
 #broadcastsHolder {
@@ -99,7 +98,7 @@ hr {
 }
 
 .broadcastContent {
-    font-weight: 200 !important;
+    font-weight: 300 !important;
 }
 
 .broadcastContent audio, img, video {
