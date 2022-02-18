@@ -195,3 +195,14 @@ hr {
         opacity: 1;
     }
 }
+
+
+summary, .broadcastTypeForm {
+    text-align: left;
+    margin-bottom: 10px;
+    color: white;
+}
+
+textArea {
+    width: 95%;
+}

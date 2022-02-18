@@ -113,8 +113,14 @@ const setUpLoggedInElements = () => {
 
   toggleElementVisibility("#composeButton", "inline");
 
-  let broadcastButton = document.getElementById("broadcastButton");
-  broadcastButton.onclick = makeSimpleBroadcast;
+  let specifiedButton = document.getElementById("rawHTML_broadcastButton");
+  specifiedButton.onclick = makeRawHTMLBroadcast;
+
+  specifiedButton = document.getElementById("rawHTMLForgedTimestamp_broadcastButton");
+  specifiedButton.onclick = makeRawHTMLForgedDateBroadcast;
+
+  specifiedButton = document.getElementById("image_broadcastButton");
+  specifiedButton.onclick = makeImageBroadcast;
 };
 
 const replaceWeb3andMyContractAfterLogin = () => {
@@ -317,41 +323,6 @@ const getSignature = async (text) => {
   return await web3.eth.personal.sign(hashed, window.ethereum.selectedAddress);
 }
 
-const makeSimpleBroadcast = async () => {
-  let toBroadcast = document.getElementById("compositionArea").value;
-  let sig = await getSignature(toBroadcast);
-  _DEBUG("attempting to broadcast: " + toBroadcast +
-         " with signature: " + sig);
-  myContract.methods.make_broadcast_simple(toBroadcast, sig, "0x0000",
-                                           "0x0000", "").send(
-    { from: window.ethereum.selectedAddress },
-    function(error, result){
-      if (error){
-        alert("!UNHANDLED ERROR:\n" + error);
-        return;
-      }
-      console.log(result);
-    });
-};
-
-const makeForgedBroadcast = async () => {
-  console.log("making forgery!");
-  let toBroadcast = document.getElementById("compositionArea").value;
-  let forgedTime = document.getElementById("forgedTimeArea").value;
-  let sig = await getSignature(toBroadcast);
-  _DEBUG("attempting to broadcast: '" + toBroadcast + "' for timestamp: " +
-    forgedTime + " with signature: " + sig);
-  myContract.methods._make_broadcast_forge_timestamp(toBroadcast,
-                                                     forgedTime,
-                                                     sig, "0x0000",
-                                                     "0x0000", "").send(
-    { from: window.ethereum.selectedAddress },
-    function(error, result){
-      if (error){ alert("UNHANDLED ERROR:\n" + error); return; }
-      console.log(result);
-    });
-};
-
 
 const toggleElementVisibility = (aselector, type="block") => {
   const tmp = document.querySelector(aselector);
@@ -402,3 +373,70 @@ function callAttentionToElement(id){
     }
   })();
 }
+
+// --------------------------------------------------------------- //
+
+/* broadcast functions for different types
+ * (see TODO in html template              */
+
+
+const makeRawHTMLBroadcast = async () => {
+  let toBroadcast = document.getElementById("rawHTML_compositionArea").value;
+  let sig = await getSignature(toBroadcast);
+  _DEBUG("attempting to broadcast: " + toBroadcast +
+         " with signature: " + sig);
+  myContract.methods.make_broadcast_simple(toBroadcast, sig, "0x0000",
+                                           "0x0000", "").send(
+    { from: window.ethereum.selectedAddress },
+    function(error, result){
+      if (error){
+        alert("!UNHANDLED ERROR:\n" + error);
+        return;
+      }
+      console.log(result);
+    });
+};
+
+const makeRawHTMLForgedDateBroadcast = async () => {
+  console.log("making forgery!");
+  let toBroadcast = document.getElementById("rawHTMLForgedTimestamp_compositionArea").value;
+  let forgedTime = document.getElementById("forgedTimeArea").value;
+  let sig = await getSignature(toBroadcast);
+  _DEBUG("attempting to broadcast: '" + toBroadcast + "' for timestamp: " +
+    forgedTime + " with signature: " + sig);
+  myContract.methods._make_broadcast_forge_timestamp(toBroadcast,
+                                                     forgedTime,
+                                                     sig, "0x0000",
+                                                     "0x0000", "").send(
+    { from: window.ethereum.selectedAddress },
+    function(error, result){
+      if (error){ alert("UNHANDLED ERROR:\n" + error); return; }
+      console.log(result);
+    });
+};
+
+const makeImageBroadcast = async () => {
+  console.log("posting image");
+  let imageURL = document.getElementById("imageURL").value;
+  let altText = document.getElementById("altText").value;
+  let imageCaption = document.getElementById("imageCaption").value;
+
+  let toBroadcast = `<figure><img src="${imageURL}" alt="${altText}">
+                     <figcaption>${imageCaption}</figcaption></figure>`;
+
+  let sig = await getSignature(toBroadcast);
+  _DEBUG("attempting to broadcast: " + toBroadcast +
+         " with signature: " + sig);
+  myContract.methods.make_broadcast_simple(toBroadcast, sig, "0x0000",
+                                           "0x0000", "").send(
+    { from: window.ethereum.selectedAddress },
+    function(error, result){
+      if (error){
+        alert("!UNHANDLED ERROR:\n" + error);
+        return;
+      }
+      console.log(result);
+    });
+};
+
+

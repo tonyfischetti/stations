@@ -40,13 +40,45 @@
           <span class="close">&times;</span>
         </div>
         <div class="modal-body">
-          <!--
-          <textarea id="forgedTimeArea" rows="1" placeholder="forged timestamp"></textarea>
-          <br/><br/>
-          -->
-          <textarea id="compositionArea" rows="3" placeholder="content"></textarea>
-          <br/><br/>
-          <button id="broadcastButton">Broadcast!</button>
+
+          <details open>
+            <summary class="broadcastTypeForm">Raw HTML broadcast</summary>
+            <textarea id="rawHTML_compositionArea" class="compositionArea"
+                      rows="3" placeholder="content"></textarea>
+            <br/><br/>
+            <button id="rawHTML_broadcastButton">Broadcast!</button>
+          </details>
+
+          <details>
+            <summary class="broadcastTypeForm">Raw HTML broadcast (forged timestamp)</summary>
+            <textarea id="forgedTimeArea" rows="1" placeholder="forged timestamp"></textarea>
+            <br/><br/>
+            <textarea id="rawHTMLForgedTimestamp_compositionArea"
+                      class="compositionArea" rows="3"
+                      placeholder="content"></textarea>
+            <br/><br/>
+            <button id="rawHTMLForgedTimestamp_broadcastButton">Broadcast!</button>
+          </details>
+
+          <!-- TODO: the javascript doesn't specify different broadcast types.
+                     Right now, it converts it all into raw HTML.
+                     Eventually, they'll be separate `render...` function
+                     for the different broadcast types and the "content" will
+                     simply be JSON -->
+
+          <!-- TODO: this is terrible! no escaping! -->
+
+          <details>
+            <summary class="broadcastTypeForm">Image</summary>
+            <textarea id="imageURL" rows="1" placeholder="URL to image"></textarea>
+            <br/><br/>
+            <textarea id="altText" rows="1" placeholder="alt text"></textarea>
+            <br/><br/>
+            <textarea id="imageCaption" rows="1" placeholder="image caption"></textarea>
+            <br/><br/>
+            <button id="image_broadcastButton">Broadcast!</button>
+          </details>
+
         </div>
       </div>
     </div>
