@@ -60,7 +60,9 @@ const startDapp = async () => {
   await myContract.methods.get_all_users().call({}, getUserInfo);
   await getAllBroadcasts();
 
+  /* _now_ we can enable the export button */
   let exportButton = document.getElementById("exportButton");
+  exportButton.disabled = false;
   exportButton.onclick = exportBroadcasts;
 
   const modal = document.getElementById("myModal");
