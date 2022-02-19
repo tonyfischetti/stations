@@ -4,6 +4,8 @@
  * of `stations` and `broadcast` flags
  */
 
+'use strict';
+
 // TODO: FILL OUT!!
 
 const makeFlagTestClosure = (flagPosition) => {

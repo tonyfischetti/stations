@@ -1,4 +1,6 @@
 
+'use strict';
+
 const LANG              = document.documentElement.getAttribute("lang");
 
 

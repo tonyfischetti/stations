@@ -1,6 +1,8 @@
 
 // TODO: react to network changes
 
+'use strict';
+
 const CLIENT_STATIONS_VERSION = "v1";
 
 const DEBUG             = true;
@@ -245,7 +247,7 @@ const formatTimestamp = (atimestamp) => {
 
 // TODO: writing now
 const makeBroadcastPrettier = (bcast) => {
-  [broadcastID, unixTimestamp, author, content, signature,
+  let [broadcastID, unixTimestamp, author, content, signature,
     parent, broadcastType, broadcastFlags, broadcastMetadata] = bcast;
   return {broadcastID, unixTimestamp, author, content, signature,
     parent, broadcastType, broadcastFlags, broadcastMetadata};

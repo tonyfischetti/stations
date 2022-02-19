@@ -1,4 +1,6 @@
 
+'use strict';
+
 let IS_MOBILE_P = false;
 
 const checkIfMobile = () => {
