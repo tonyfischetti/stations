@@ -44,7 +44,7 @@ const startDapp = async () => {
   _DEBUG("chain:            " + CHAIN);
   _DEBUG("contract address: " + CONTRACT_ADDRESS);
   _DEBUG("stations version: " + STATIONS_VERSION);
-  _DEBUG("\n");
+  _DEBUG("");
 
   const connectButton = document.getElementById("connectButton");
 
@@ -245,9 +245,8 @@ const formatTimestamp = (atimestamp) => {
     }).format(atimestamp * 1e3);
 }
 
-// TODO: writing now
 const makeBroadcastPrettier = (bcast) => {
-  let [broadcastID, unixTimestamp, author, content, signature,
+  const [broadcastID, unixTimestamp, author, content, signature,
     parent, broadcastType, broadcastFlags, broadcastMetadata] = bcast;
   return {broadcastID, unixTimestamp, author, content, signature,
     parent, broadcastType, broadcastFlags, broadcastMetadata};
@@ -268,7 +267,7 @@ async function getAllBroadcasts(){
         }
       });
   });
-  _DEBUG("got all broadcasts");
+  _DEBUG("got all broadcasts\n");
 }
 
 const download = (filename, text) => {
@@ -357,7 +356,7 @@ function callAttentionToElement(id){
 // --------------------------------------------------------------- //
 
 /* broadcast functions for different types
- * (see TODO in html template              */
+ * (see TODO in html template)             */
 
 
 const makeRawHTMLBroadcast = async () => {
@@ -427,8 +426,12 @@ const makeImageBroadcast = async () => {
 
 const insertBroadcast = (bcast) => {
   // TODO: write this better
-  if(spec_bcastCheckDeleted(+bcast.broadcastFlags) ||
-     spec_bcastCheckSystem(+bcast.broadcastFlags)){
+  if(spec_bcastCheckDeleted(+bcast.broadcastFlags)){
+    _DEBUG(`[insertion] broadcastID ${bcast.broadcastID} - skipped (deleted)`);
+    return;
+  }
+  else if(spec_bcastCheckSystem(+bcast.broadcastFlags)){
+    _DEBUG(`[insertion] broadcastID ${bcast.broadcastID} - skipped (system)`);
     return;
   }
   // TODO: dispatch based on type
@@ -439,7 +442,7 @@ const insertBroadcast = (bcast) => {
 const insertBroadcast_HTML = (bcast) => {
   let containerElement = document.getElementById("broadcastsHolder");
   const htmlString = `
-        <div id=${bcast.broadcastId} class="broadcast">
+        <div id=${bcast.broadcastID} class="broadcast">
           <div class="broadcastHeader">
             <div class="username">
               ${stationState.allUsers[bcast.author].username}
