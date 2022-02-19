@@ -65,6 +65,12 @@ const startDapp = async () => {
   exportButton.disabled = false;
   exportButton.onclick = exportBroadcasts;
 
+  /* we can't handle big network changes, right now  *
+   * just reload                                     */
+  window.ethereum.on('networkChanged', handleBigMetamaskChange);
+  window.ethereum.on('accountsChanged', handleBigMetamaskChange);
+  window.ethereum.on('chainChanged', handleBigMetamaskChange);
+
   const modal = document.getElementById("myModal");
   const composeButton = document.getElementById("composeButton");
   const modClose = document.getElementsByClassName("close")[0];
@@ -114,6 +120,7 @@ const setUpLoggedInElements = () => {
   /* have to use metamask provider now--so we'll change the web3 var */
   replaceWeb3andMyContractAfterLogin();
 
+  console.log("supposed to make compose visible now");
   toggleElementVisibility("#composeButton", "inline");
 
   let specifiedButton = document.getElementById("rawHTML_broadcastButton");
@@ -140,6 +147,7 @@ const replaceWeb3andMyContractAfterLogin = () => {
 };
 
 const connectButtonClicked_Connect = async () => {
+  let ret = false;
   try {
     _DEBUG("\nattempting to connect to metamask client");
     let connectButton = document.getElementById("connectButton");
@@ -148,26 +156,28 @@ const connectButtonClicked_Connect = async () => {
     let detectedChain = CHAIN_ID_MAPPING[currentChainId];
     _DEBUG("selected address: " + window.ethereum.selectedAddress);
     _DEBUG("network version: " + currentChainId);
-    if (PROVIDER_PARAMS[CHAIN].chainName===detectedChain) {
-      setUpLoggedInElements();
+    if(PROVIDER_PARAMS[CHAIN].chainName===detectedChain){
       _DEBUG("we appear to be on the right blockchain");
+      ret = true;
+      setUpLoggedInElements();
     } else {
       let ermes = makeWrongChainMessage(currentChainId, detectedChain,
         PROVIDER_PARAMS[CHAIN].chainName);
-      if (confirm(ermes)) {
+      if(confirm(ermes)){
         _DEBUG("switching to the correct network");
-        // WE ACTUALLY HAVE TO WAIT HERE!!
-        addOrSwitchNetwork(CHAIN);
+        await addOrSwitchNetwork(CHAIN);
       } else {
         _DEBUG("user declined to change networks... bailing out");
-        // TODO: RETURN FALSE, SO WE CAN ACTUALLY BAIL!!!!
-        return;
+        ret = false;
       }
     }
-    setUpLoggedInElements();
   } catch (error) {
     alert("UNHANDLED ERROR:\n" + error);
+    ret = false;
   }
+  if(ret)
+    setUpLoggedInElements();
+  return ret;
 };
 
 const connectButtonClicked_Info = () => {
@@ -307,6 +317,8 @@ const getSignature = async (text) => {
 
 const toggleElementVisibility = (aselector, type="block") => {
   const tmp = document.querySelector(aselector);
+  console.log(`got tmp: ${tmp}`);
+  console.log(`display is: ${tmp.style.display}`);
   console.log(tmp.style.display);
   if (tmp.style.display === "none") {
     tmp.style.display = type;
@@ -324,6 +336,10 @@ window.addEventListener('DOMContentLoaded', startDapp);
 
 
 
+
+const handleBigMetamaskChange = (something) => {
+  window.location.reload();
+};
 
 
 function waitForElement(id, callback, checkFrequencyInMs, timeoutInMs) {

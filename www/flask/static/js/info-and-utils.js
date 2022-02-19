@@ -64,12 +64,10 @@ const RPC_URL_MAP = {
   harmony: "https://rpc.hermesdefi.io"
 };
 
-const addOrSwitchNetwork = (chain) => {
-  window.ethereum.request({ method: 'wallet_addEthereumChain',
-    params: [ PROVIDER_PARAMS[chain] ] }).
-    then(() => console.log('Success')).
-    catch((error) => console.log("Error"));
-
+// TODO: return unsuccessful if not on chain
+const addOrSwitchNetwork = async (chain) => {
+  await window.ethereum.request({ method: 'wallet_addEthereumChain',
+    params: [ PROVIDER_PARAMS[chain] ] });
 };
 
 
@@ -93,7 +91,9 @@ const makeWrongChainMessage = (currentChainId, detectedChain, correctChain) => {
   let mes = `Your metamask is connected to chain ID ${currentChainId} ` +
     (detectedChain ? `(${detectedChain})` : "(unrecognized blockchain)") +
     ` but this station is on ${correctChain}.\n` +
-    `\nWould you like to switch to the correct network?`;
+    `\nWould you like to switch to the correct network?\n\n` +
+    `After you switch, the page will reload, and you can click "Connect"` +
+    ` again to finish connecting.`;
   console.log(mes);
   return mes;
 };
