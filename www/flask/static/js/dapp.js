@@ -15,9 +15,14 @@ const ABI_IN_USE        = STATION_ABIS[STATIONS_VERSION];
 
 let web3;
 let myContract;
-let stationInfo;
-let allBroadcasts;
-let allUsers = {};
+
+let stationState = {};
+stationState["stationInfo"] = {};
+stationState.contract = {};
+stationState.contract.chain = CHAIN;
+stationState.contract.address = CONTRACT_ADDRESS;
+stationState["allUsers"] = {};
+stationState["allBroadcasts"] = [];
 
 let _DEBUG;
 
@@ -66,12 +71,6 @@ const startDapp = async () => {
   window.onclick = function(event) {
     if (event.target == modal) { modal.style.display = "none"; }
   }
-
-  let broadcastButton = document.getElementById("broadcastButton");
-  broadcastButton.onclick = function(){
-    let toBroadcast = document.getElementById("compositionArea").value;
-    console.log(toBroadcast);
-  };
 
   if (SCROLL_TO !== "None"){
     waitForElement(SCROLL_TO, () => {
@@ -194,17 +193,17 @@ const makeDebugFunction = () => {
 };
 
 function fillStationInfoOnDOM(){
-  document.title = "[stations.network] " + stationInfo.stationName;
+  document.title = "[stations.network] " + stationState.stationInfo.stationName;
   const elStationName           = document.getElementById("stationName");
   const elStationDescription    = document.getElementById("stationDescription");
-  elStationName.textContent = stationInfo.stationName;
-  elStationDescription.textContent = stationInfo.stationDescription;
+  elStationName.textContent = stationState.stationInfo.stationName;
+  elStationDescription.textContent = stationState.stationInfo.stationDescription;
 }
 
 function getStationInfo(error, objFromChain){
   if (error){ alert("UNHANDLED ERROR:\n" + error); return; }
 
-  stationInfo = {
+  stationState.stationInfo = {
     stationName:          objFromChain["0"],
     stationFrequency:     objFromChain["1"],
     stationDescription:   objFromChain["2"],
@@ -226,7 +225,7 @@ function getUserInfo(error, objFromChain){
   objFromChain.map(it => {
     if(it[1]!=="uncaused-cause"){
       let tmpaddress =  it[0];
-      allUsers[tmpaddress] = {
+      stationState.allUsers[tmpaddress] = {
         username:       it[1],
         time_joined:    it[2],
         user_metadata:  it[3]
@@ -244,34 +243,12 @@ const formatTimestamp = (atimestamp) => {
     }).format(atimestamp * 1e3);
 }
 
-const insertBroadcast = (bcast) => {
-  // TODO: write this better
-  if(spec_bcastCheckDeleted(+bcast.broadcast_flags) ||
-     spec_bcastCheckSystem(+bcast.broadcast_flags)){
-    return;
-  }
-  // TODO: dispatch based on type
-  insertBroadcast_HTML(bcast);
-};
-
-// TODO: does the templating make this unsafe?
-const insertBroadcast_HTML = (bcast) => {
-  let containerElement = document.getElementById("broadcastsHolder");
-  const htmlString = `
-        <div id=${bcast.broadcast_id} class="broadcast">
-          <div class="broadcastHeader">
-            <div class="username">
-              ${allUsers[bcast.author].username}
-            </div>
-            <div class="broadcastTimestamp">
-              ${formatTimestamp(bcast.unix_timestamp)}
-            </div>
-          </div>
-          <div class="broadcastContentContainer">
-            <label class="broadcastContent">${bcast.content}</label>
-          </div>
-        </div>`;
-  containerElement.insertAdjacentHTML("afterbegin", htmlString);
+// TODO: writing now
+const makeBroadcastPrettier = (bcast) => {
+  [broadcastID, unixTimestamp, author, content, signature,
+    parent, broadcastType, broadcastFlags, broadcastMetadata] = bcast;
+  return {broadcastID, unixTimestamp, author, content, signature,
+    parent, broadcastType, broadcastFlags, broadcastMetadata};
 };
 
 /* get and display all broadcasts */
@@ -280,8 +257,8 @@ async function getAllBroadcasts(){
     function(error, result){
       if (error){ alert("UNHANDLED ERROR:\n" + error); return; }
       console.log(result);
-      allBroadcasts = result;
-      result.map(bcast => {
+      stationState.allBroadcasts = result.map(makeBroadcastPrettier);
+      stationState.allBroadcasts.map(bcast => {
         try{
           insertBroadcast(bcast);
         } catch (error){
@@ -294,7 +271,8 @@ async function getAllBroadcasts(){
 
 const download = (filename, text) => {
     let element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + text);
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' +
+      encodeURIComponent(text));
     element.setAttribute('download', filename);
     element.style.display = 'none';
     document.body.appendChild(element);
@@ -304,9 +282,9 @@ const download = (filename, text) => {
 
 const exportBroadcasts = () => {
   let expFileName =
-    `${stationInfo.stationFrequency}-export-${Date.now()}.json`;
+    `${stationState.stationInfo.stationFrequency}-export-${Date.now()}.json`;
   // TODO: check for errors
-  download(expFileName, JSON.stringify(allBroadcasts, null, 2));
+  download(expFileName, JSON.stringify(stationState, null, 2));
 };
 
 
@@ -440,3 +418,39 @@ const makeImageBroadcast = async () => {
 };
 
 
+
+// --------------------------------------------------------------- //
+
+/* display rules for different broadcast Types */
+
+const insertBroadcast = (bcast) => {
+  // TODO: write this better
+  if(spec_bcastCheckDeleted(+bcast.broadcastFlags) ||
+     spec_bcastCheckSystem(+bcast.broadcastFlags)){
+    return;
+  }
+  // TODO: dispatch based on type
+  insertBroadcast_HTML(bcast);
+};
+
+// TODO: does the templating make this unsafe?
+const insertBroadcast_HTML = (bcast) => {
+  let containerElement = document.getElementById("broadcastsHolder");
+  const htmlString = `
+        <div id=${bcast.broadcastId} class="broadcast">
+          <div class="broadcastHeader">
+            <div class="username">
+              ${stationState.allUsers[bcast.author].username}
+            </div>
+            <div class="broadcastTimestamp">
+              ${formatTimestamp(bcast.unixTimestamp)}
+            </div>
+          </div>
+          <div class="broadcastContentContainer">
+            <label class="broadcastContent">${bcast.content}</label>
+          </div>
+        </div>`;
+  containerElement.insertAdjacentHTML("afterbegin", htmlString);
+};
+
+// --------------------------------------------------------------- //
