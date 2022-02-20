@@ -81,13 +81,13 @@ def bikini_atoll():
                            contract="0x1b1f9e1227aae2a67f03955f222d7642e2ba1720",
                            version="v6", debug=debug_p, scrollto=scrollto)
 
-@app.route('/bikini-atoll-import', methods=['GET'])
-def bikini_atoll_import():
-    debug_p     = request.args.get('debug', default="true", type=str)
-    scrollto    = request.args.get('scrollto', default=None, type=str)
-    return render_template("microblog-import.html", chain="harmony",
-                           contract="0x1b1f9e1227aae2a67f03955f222d7642e2ba1720",
-                           version="v6", debug=debug_p, scrollto=scrollto)
+# @app.route('/bikini-atoll-import', methods=['GET'])
+# def bikini_atoll_import():
+#     debug_p     = request.args.get('debug', default="true", type=str)
+#     scrollto    = request.args.get('scrollto', default=None, type=str)
+#     return render_template("microblog-import.html", chain="harmony",
+#                            contract="0x1b1f9e1227aae2a67f03955f222d7642e2ba1720",
+#                            version="v6", debug=debug_p, scrollto=scrollto)
 
 
 @app.route('/arsenic!', methods=['GET'])

@@ -147,15 +147,14 @@ hr {
 }
 
 /* The Close Button */
-.close {
+.modal-close {
     color: white;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.modal-close:hover, .modal-close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
@@ -203,8 +202,12 @@ summary, .broadcastTypeForm {
     color: white;
 }
 
-textArea {
+textarea {
     width: 95%;
+}
+
+textarea.debug-related {
+    width: 100%;
 }
 
 details {

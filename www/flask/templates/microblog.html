@@ -15,7 +15,8 @@
       <hr/>
       <button id="connectButton"></button>
       <button id="exportButton" disabled>Export broadcasts</button>
-      <button id="composeButton"><i class="fas fa-satellite-dish"></i> Compose</button>
+      <button id="composeButton">Compose</button>
+      <button id="debugConsoleButton">Debug console</button>
       <br/> <br/> <br/>
 
       <div id="middleWay">
@@ -24,24 +25,18 @@
       </div>
     </div>
 
-    <div id="debugContainer">
-      <br/> <br/> <br/>
-      <br/> <br/> <br/>
-      <textarea cols="40" rows="20" id="debugArea">
-      </textarea>
-    </div>
 
     <!-- TODO -->
-    <div id="myModal" class="modal">
+    <div id="composition-modal" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
         <div class="modal-header">
           Compose broadcast
-          <span class="close">*</span>
+          <span id="composition-modal-close" class="modal-close">*</span>
         </div>
         <div class="modal-body">
 
-          <details open>
+          <details>
             <summary class="broadcastTypeForm">Raw HTML broadcast</summary>
             <textarea id="rawHTML_compositionArea" class="compositionArea"
                       rows="3" placeholder="content"></textarea>
@@ -84,7 +79,25 @@
 
         </div>
       </div>
-    </div>
+    </div>     <!-- end composition modal -->
+
+
+    <div id="debug-console-modal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          Debug console
+          <span id="debug-console-modal-close" class="modal-close">*</span>
+        </div>
+        <div class="modal-body">
+          <div id="debugContainer">
+            <textarea class="debug-related" readonly rows="20" id="debugArea">
+            </textarea>
+          </div>
+        </div>
+      </div>
+    </div>     <!-- end debug console modal -->
+
 
   </body>
 

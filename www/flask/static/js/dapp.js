@@ -71,16 +71,34 @@ const startDapp = async () => {
   window.ethereum.on('accountsChanged', handleBigMetamaskChange);
   window.ethereum.on('chainChanged', handleBigMetamaskChange);
 
-  const modal = document.getElementById("myModal");
-  const composeButton = document.getElementById("composeButton");
-  const modClose = document.getElementsByClassName("close")[0];
-  composeButton.onclick = function() { modal.style.display = "block"; }
-  modClose.onclick = function() { modal.style.display = "none"; }
 
-  /* When the user clicks anywhere outside of the modal, close it */
-  window.onclick = function(event) {
-    if (event.target == modal) { modal.style.display = "none"; }
-  }
+  /****************/
+  /* Modal things */
+  /****************/
+
+  /* composition modal things */
+  const compositionModal = document.getElementById("composition-modal");
+  const composeButton = document.getElementById("composeButton");
+  const compositionModalClose = document.getElementById("composition-modal-close");
+  composeButton.onclick = () => { compositionModal.style.display = "block"; }
+  compositionModalClose.onclick = () => { compositionModal.style.display = "none"; }
+
+  /* debug modal things */
+  const debugConsoleModal = document.getElementById("debug-console-modal");
+  const debugConsoleButton = document.getElementById("debugConsoleButton");
+  const debugConsoleModalClose = document.getElementById("debug-console-modal-close");
+  debugConsoleButton.onclick = () => { debugConsoleModal.style.display = "block"; }
+  debugConsoleModalClose.onclick = () => { debugConsoleModal.style.display = "none"; }
+
+  window.onclick = (event) => {
+    if (event.target == debugConsoleModal ||
+        event.target ==compositionModal) {
+      debugConsoleModal.style.display = "none";
+      compositionModal.style.display = "none";
+    }
+  };
+
+
 
   if (SCROLL_TO !== "None"){
     waitForElement(SCROLL_TO, () => {
