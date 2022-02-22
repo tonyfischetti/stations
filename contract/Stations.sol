@@ -9,7 +9,7 @@ pragma experimental ABIEncoderV2;
    *    Stations.sol                                                    *
    *                                                                    *
    *      author:    Tony Fischetti    <tony@stations.network>          *
-   *      version:   7                                                  *
+   *      version:   8                                                  *
    *                                                                    *
    **********************************************************************/
 
@@ -32,20 +32,23 @@ pragma experimental ABIEncoderV2;
  *     0x0000 = microblog
  *
  *   station_flags (starting from left-most bit)
- *     0: single user (0) or multi-user (1)
- *     1: trusted [can render arbitrary HTML] (0) or untrusted (1)
- *     2: private (0) or public (1)
- *     3: undeletable (0) or deletable (1) broadcasts
- *     4: unmodifiable (0) or modifiable (1) broadcasts
- *     5: disallow (0) or allow (1) replies
- *     6: disallow (0) or allow (1) changing usernames
+ *     0: single user (0) or multi-user (1)                   - 0x8000
+ *     1: trusted/render arbitrary HTML (0) or untrusted (1)  - 0x4000
+ *     2: private (0) or public (1)                           - 0x2000
+ *     3: undeletable (0) or deletable (1) broadcasts         - 0x1000
+ *
+ *     4: unmodifiable (0) or modifiable (1) broadcasts       - 0x0800
+ *     5: disallow (0) or allow (1) replies                   - 0x0400
+ *     6: disallow (0) or allow (1) changing usernames        - 0x0200
  *
  *   broadcast_flags (starting from left-most bit)
- *     0: user-created (0) or system-created (1)
- *     1: undeleted (0) or (1) deleted broadcast
- *     2: unedited (0) or (1) edited broadcast
- *     3: unimported (0) or imported (1) broadcast
- *     4: apocryphal date
+ *     0: user-created (0) or system-created (1)              - 0x8000
+ *     1: undeleted (0) or (1) deleted broadcast              - 0x4000
+ *     2: unedited (0) or (1) edited broadcast                - 0x2000
+ *     3: unimported (0) or imported (1) broadcast            - 0x1000
+ *
+ *     4: apocryphal date (1)                                 - 0x0800
+ *     5: encrypted (1)                                       - 0x0400
  *
  *   broadcast_type (starting from left-most bit)
  *     0x0000 = raw HTML
@@ -61,7 +64,7 @@ pragma experimental ABIEncoderV2;
  *   frequency: den-of-understanding
  *   description: an investigation into pulling the curtain back and seeing how the machinery works
  *   type: 0x0000
- *   flags: 0x1C00
+ *   flags: 0x1E00       (0x9E00 for group tests)
  */
 
 /**
@@ -84,6 +87,7 @@ pragma experimental ABIEncoderV2;
  *  [ ] implement piece-meal fetching of broadcasts
  *  [ ] grep for /TODO/
  *  [ ] self-destruct
+ *  [ ] closer to end, trade from clarity to give to gas savings
  *  [ ] all the other ones
  */
 
@@ -206,10 +210,10 @@ contract Stations {
         user_exist_map[address(this)] = current_user_index;
         all_users_of_station.push(uncaused_cause);
         current_user_index += 1;
-        username_exist_map["uncaused_cause"] = true;
+        username_exist_map["uncaused-cause"] = true;
 
         // creates the "prime" broadcast
-        Broadcast memory tmp = Broadcast(0, 0, creator,
+        Broadcast memory tmp = Broadcast(0, 0, address(this),
                                          "this is a placeholder",
                                          abi.encodePacked(username),
                                          0, 0x0001, 0x8000, "");
@@ -328,12 +332,39 @@ contract Stations {
         return true;
     }
 
-    function make_broadcast_simple(string memory content,
-                                   bytes  memory signature,
-                                   bytes2 broadcast_type,
-                                   bytes2 broadcast_flags,
-                                   string memory broadcast_metadata)
-                                          public returns (bool){
+    // new function that'll take the place of ".?make_broadcast_.+" fns
+    function do_broadcast(string memory content, bytes memory signature,
+                          uint256 parent, bytes2  broadcast_type,
+                          bytes2  broadcast_flags,
+                          string  memory broadcast_metadata)
+                               public returns (bool){
+        address who = msg.sender;
+        uint256 timenow = block.timestamp;
+
+        require(user_already_in_station_p(who), "error: user not in station");
+        require((broadcast_type!=0x0000) || (!sf_untrusted_p),
+                "error: this station cannot broadcast raw HTML");
+        require(!((broadcast_flags & 0x8000) > 0),
+                "error: cannot broadcast a 'system' broadcast");
+        require(parent == 0 || sf_allow_replies_p,
+                "error: this station doesn't accept replies");
+        Broadcast memory tmp = Broadcast(current_broadcast_id, timenow, who,
+                                         content, signature, parent,
+                                         broadcast_type, broadcast_flags,
+                                         broadcast_metadata);
+        all_broadcasts.push(tmp);
+        emit NewBroadcast(tmp);
+        current_broadcast_id += 1;
+        return true;
+    }
+
+    // deprecated
+    function make_broadcast_simple(string  memory content,
+                                   bytes   memory signature,
+                                   bytes2  broadcast_type,
+                                   bytes2  broadcast_flags,
+                                   string  memory broadcast_metadata)
+                                        public returns (bool){
         address who = msg.sender;
         uint256 timenow = block.timestamp;
 
