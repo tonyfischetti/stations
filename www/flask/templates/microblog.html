@@ -6,18 +6,19 @@
 
     <div id="outerWay">
 
-      <hr/>
+      <div id="stationHeader">
+        <hr/>
+        <div id="stationName">tuning</div>
+        <div id="stationDescription"></div>
+        <hr/>
+      </div>
 
-      <div id="stationName">tuning</div>
-      <br/>
-      <div id="stationDescription"></div>
-
-      <hr/>
-      <button id="connectButton"></button>
-      <button id="exportButton" disabled>Export broadcasts</button>
-      <button id="composeButton">Compose</button>
-      <button id="debugConsoleButton">Debug console</button>
-      <br/> <br/> <br/>
+      <div id="stationActions">
+        <button id="connectButton"></button>
+        <button id="exportButton" disabled>Export broadcasts</button>
+        <button id="composeButton">Compose</button>
+        <button id="debugConsoleButton">Debug console</button>
+      </div>
 
       <div id="middleWay">
         <div id="broadcastsHolder">
@@ -31,17 +32,17 @@
       <!-- Modal content -->
       <div class="modal-content">
         <div class="modal-header">
-          Compose broadcast
-          <span id="composition-modal-close" class="modal-close">*</span>
+          <div class="modal-title">Compose broadcast</div>
+          <div id="composition-modal-close" class="modal-close">&#9679;</div>
         </div>
         <div class="modal-body">
 
           <details>
             <summary class="broadcastTypeForm">Raw HTML broadcast</summary>
             <textarea id="rawHTML_compositionArea" class="compositionArea"
-                      rows="3" placeholder="content"></textarea>
+                      rows="5" placeholder="content"></textarea>
             <br/><br/>
-            <button id="rawHTML_broadcastButton">Broadcast!</button>
+            <button id="rawHTML_broadcastButton">Broadcast</button>
             <br/><br/>
           </details>
 
@@ -50,10 +51,10 @@
             <textarea id="forgedTimeArea" rows="1" placeholder="forged timestamp"></textarea>
             <br/><br/>
             <textarea id="rawHTMLForgedTimestamp_compositionArea"
-                      class="compositionArea" rows="3"
+                      class="compositionArea" rows="5"
                       placeholder="content"></textarea>
             <br/><br/>
-            <button id="rawHTMLForgedTimestamp_broadcastButton">Broadcast!</button>
+            <button id="rawHTMLForgedTimestamp_broadcastButton">Broadcast</button>
             <br/><br/>
           </details>
 
@@ -73,7 +74,7 @@
             <br/><br/>
             <textarea id="imageCaption" rows="1" placeholder="image caption"></textarea>
             <br/><br/>
-            <button id="image_broadcastButton">Broadcast!</button>
+            <button id="image_broadcastButton">Broadcast</button>
             <br/><br/>
           </details>
 
@@ -86,8 +87,8 @@
       <!-- Modal content -->
       <div class="modal-content">
         <div class="modal-header">
-          Debug console
-          <span id="debug-console-modal-close" class="modal-close">*</span>
+          <div class="modal-title">Debug console</div>
+          <span id="debug-console-modal-close" class="modal-close">&#9679;</span>
         </div>
         <div class="modal-body">
           <div id="debugContainer">
@@ -97,6 +98,23 @@
         </div>
       </div>
     </div>     <!-- end debug console modal -->
+
+
+    <div id="edit-modal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">Edit broadcast</div>
+          <span id="edit-modal-close" class="modal-close">&#9679;</span>
+        </div>
+        <div class="modal-body">
+          <textarea id="editArea" rows="5"></textarea>
+          <br/><br/>
+          <button id="editButton">Submit edit</button>
+          <br/><br/>
+        </div>
+      </div>
+    </div>     <!-- end edit modal -->
 
 
   </body>

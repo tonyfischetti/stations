@@ -71,6 +71,18 @@ const startDapp = async () => {
   window.ethereum.on('accountsChanged', handleBigMetamaskChange);
   window.ethereum.on('chainChanged', handleBigMetamaskChange);
 
+  const bcastHolder = document.getElementById('broadcastsHolder');
+  bcastHolder.addEventListener('click', (event) => {
+    if(event.target.nodeName !== 'BUTTON'){
+      return;
+    }
+
+    if(event.target.classList.contains("bcast-action-edit")){
+      beginEdit(+event.target.attributes.bid.value);
+    }
+    console.dir(+event.target.attributes.bid.value);
+  });
+
 
   /****************/
   /* Modal things */
@@ -80,21 +92,31 @@ const startDapp = async () => {
   const compositionModal = document.getElementById("composition-modal");
   const composeButton = document.getElementById("composeButton");
   const compositionModalClose = document.getElementById("composition-modal-close");
-  composeButton.onclick = () => { compositionModal.style.display = "block"; }
-  compositionModalClose.onclick = () => { compositionModal.style.display = "none"; }
+  composeButton.onclick = () => {
+    compositionModal.style.display = "block";
+  };
+  compositionModalClose.onclick = () => { compositionModal.style.display = "none"; };
+
+  /* edit modal things */
+  const editModal = document.getElementById("edit-modal");
+  const editModalClose = document.getElementById("edit-modal-close");
+  editModalClose.onclick = () => { editModal.style.display = "none"; };
 
   /* debug modal things */
   const debugConsoleModal = document.getElementById("debug-console-modal");
   const debugConsoleButton = document.getElementById("debugConsoleButton");
   const debugConsoleModalClose = document.getElementById("debug-console-modal-close");
-  debugConsoleButton.onclick = () => { debugConsoleModal.style.display = "block"; }
-  debugConsoleModalClose.onclick = () => { debugConsoleModal.style.display = "none"; }
+  debugConsoleButton.onclick = () => { debugConsoleModal.style.display = "block"; };
+  debugConsoleModalClose.onclick = () => { debugConsoleModal.style.display = "none"; };
 
   window.onclick = (event) => {
+    _DEBUG(`[window click event] target: ${event.target}`);
     if (event.target == debugConsoleModal ||
-        event.target ==compositionModal) {
+        event.target == compositionModal ||
+        event.target == editModal) {
       debugConsoleModal.style.display = "none";
       compositionModal.style.display = "none";
+      editModal.style.display = "none";
     }
   };
 
@@ -110,6 +132,33 @@ const startDapp = async () => {
 };
 
 /* ---------------------------------------------------------------- */
+
+
+const beginEdit = async (anid) => {
+  const editModal = document.getElementById("edit-modal");
+  editModal.style.display = "block";
+  document.getElementById("editArea").value = stationState.allBroadcasts[anid].content
+  const editButton = document.getElementById("editButton");
+  editButton.onclick = async () => {
+    let toBroadcast = document.getElementById("editArea").value;
+    let sig = await getSignature(toBroadcast);
+    _DEBUG("attempting to edit broadcast: " + anid +
+           " with new signature: " + sig);
+    myContract.methods.edit_broadcast(anid, toBroadcast, sig).send(
+      { from: window.ethereum.selectedAddress },
+      function(error, result){
+        if (error){
+          alert("!UNHANDLED ERROR:\n" + error);
+          return;
+        }
+        console.log(result);
+      });
+  };
+
+};
+
+
+
 
 const isMetaMaskInstalled = () => {
   return Boolean(window.ethereum && window.ethereum.isMetaMask);
@@ -149,6 +198,14 @@ const setUpLoggedInElements = () => {
 
   specifiedButton = document.getElementById("image_broadcastButton");
   specifiedButton.onclick = makeImageBroadcast;
+
+  // TODO: maybe add broadcast actions here?
+  //
+  // Array.from(document.getElementsByClassName("broadcast")).map((it) => {
+  //   console.log(it.id);
+  //   let tmp = it.getElementsByClassName("broadcastActionsContainer")[0];
+  //   tmp.insertAdjacentHTML("afterbegin", "HII");
+  // });
 };
 
 const replaceWeb3andMyContractAfterLogin = () => {
@@ -209,17 +266,18 @@ const connectButtonClicked_Onboard = () => {
 const makeDebugFunction = () => {
   /* if debug is true, this constructs the a working _DEBUG
    * function. If not, it's a no-op function */
+  let tmp = document.getElementById("debugContainer");
+  tmp.style.display = "block";
+  let area = document.getElementById("debugArea");
   if(DEBUG_P==="true"){
     console.log("debug is true");
-    let tmp = document.getElementById("debugContainer");
-    tmp.style.display = "block";
-    let area = document.getElementById("debugArea");
     area.value = "";
     _DEBUG = (msg) => {
       let tmp = area.value;
       area.value = tmp + "\n" + msg;
     };
   } else{
+    area.value = "(debug mode is off)";
     _DEBUG = (msg) => { return; }
   }
 };
@@ -490,6 +548,10 @@ const insertBroadcast_HTML = (bcast) => {
           <div class="broadcastContentContainer">
             <label class="broadcastContent">${bcast.content}</label>
           </div>
+          <div class="broadcastActionsContainer">
+            <button bid="${bcast.broadcastID}" class="bcast-action bcast-action-edit">edit</button>
+          </div>
+          <div class="broadcastFooter"></div>
         </div>`;
   containerElement.insertAdjacentHTML("afterbegin", htmlString);
 };

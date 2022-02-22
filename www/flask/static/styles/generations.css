@@ -22,11 +22,13 @@ html, body {
 
 #stationName {
     font-size: 3em;
+    /* margin-top: 20px; */
+    margin-bottom: 14px;
 }
 
 #outerWay {
     background: white;
-    max-width: 750px;
+    max-width: 700px;
     margin: auto;
 }
 
@@ -49,6 +51,8 @@ hr {
 
 #broadcastsHolder {
     background-color: white;
+    display: flex;
+    flex-direction: column;
 }
 
 .username {
@@ -58,20 +62,19 @@ hr {
     padding: 5px;
     padding-right: 10px;
     padding-left: 10px;
-    border-radius: 25px;
-    float: left;
+    /* border-radius: 25px; */
+    /* float: left; */
 }
 
 .broadcastTimestamp {
     background-color: #e6e0dc;
-    font-weight: italic;
     text-align: right;
     font-size: .8em;
-    width: 70%;
+    width: 100%;
     padding-right: 10px;
-    border-radius: 10px;
-
-    float: right;
+    /* border-radius: 10px; */
+    /* float: right; */
+    height: 0%;
 }
 
 .broadcast {
@@ -79,22 +82,24 @@ hr {
     margin-bottom: 20px;
     margin-top: 20px;
     padding: 0px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 @media screen and (min-width: 450px) {
     .broadcast {
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-top: 40px;
+        padding-bottom: 40px;
     }
 }
 
 .broadcastContentContainer {
     /* background-color: white; */
-    margin: 20px;
-    padding: 20px;
+    /* margin: 20px; */
+    padding-left: 20px;
+    padding-right: 20px;
     word-wrap: break-word;
+    margin-bottom: 10px;
 }
 
 .broadcastContent {
@@ -160,11 +165,6 @@ hr {
     cursor: pointer;
 }
 
-.modal-header {
-    padding: 10px 20px;
-    background-color: #092156;
-    color: white;
-}
 
 .modal-body {
     padding: 20px 30px;
@@ -196,7 +196,7 @@ hr {
 }
 
 
-summary, .broadcastTypeForm {
+summary.broadcastTypeForm {
     text-align: left;
     margin-bottom: 10px;
     color: white;
@@ -216,3 +216,54 @@ details {
     padding: 0.5em 0.5em 0;
     margin: 15px;
 }
+
+.broadcastHeader {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.broadcastActionsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    visibility: hidden;
+}
+
+.broadcastFooter {
+    height: 1px;
+    /* background-color: #850101b8; */
+    background-color: #e6e0dc;
+}
+
+.bcast-action{
+    border: none;
+}
+
+.modal-title {
+    width: 100%;
+}
+
+
+.modal-header {
+    background-color: #092156;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#stationHeader {
+    margin-top: 30px;
+    /* margin-bottom: 40px; */
+}
+
+#stationActions {
+    margin-bottom: 30px;
+}
+
+
