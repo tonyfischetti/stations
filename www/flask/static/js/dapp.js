@@ -457,6 +457,7 @@ function callAttentionToElement(id){
 /* broadcast functions for different types
  * (see TODO in html template)             */
 
+// TODO: replace `make_broadcast_simple`, etc... to non-deprecated one
 
 const makeRawHTMLBroadcast = async () => {
   let toBroadcast = document.getElementById("rawHTML_compositionArea").value;
