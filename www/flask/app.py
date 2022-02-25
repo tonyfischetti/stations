@@ -39,11 +39,10 @@ def tune():
     chain       = request.args.get('chain', default="harmony", type=str)
     con_address = request.args.get('address', type=str,
                                    default="0xd63b063df87e53a60feca6001375977d66f54083")
-    sver        = request.args.get('version', default="v6", type=str)
     debug_p     = request.args.get('debug', default="false", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain=chain,
-                           contract=con_address, version=sver, debug=debug_p,
+                           contract=con_address, debug=debug_p,
                            scrollto=scrollto)
 
 
@@ -54,7 +53,7 @@ def currentden6():
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
                            contract="0xd63b063df87e53a60feca6001375977d66f54083",
-                           version="v6", debug=debug_p, scrollto=scrollto)
+                           debug=debug_p, scrollto=scrollto)
 
 @app.route('/stations-updates', methods=['GET'])
 def station_updates():
@@ -62,15 +61,15 @@ def station_updates():
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="polygon",
                            contract="0xC016d44bd9189244e2F16b072dcb5a256469abEa",
-                           version="v6", debug=debug_p, scrollto=scrollto)
+                           debug=debug_p, scrollto=scrollto)
 
 @app.route('/the-lotus-eaters', methods=['GET'])
 def the_lotus_eaters():
     debug_p     = request.args.get('debug', default="false", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
-                           contract="0xe4060498941b05390acb501d80a2b5a648789409",
-                           version="v7", debug=debug_p, scrollto=scrollto)
+                           contract="0x5F8ccfF7c31245564d0FdA3a4387Bb03B925776C",
+                           debug=debug_p, scrollto=scrollto)
 
 
 @app.route('/bikini-atoll', methods=['GET'])
@@ -79,7 +78,7 @@ def bikini_atoll():
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
                            contract="0x1b1f9e1227aae2a67f03955f222d7642e2ba1720",
-                           version="v6", debug=debug_p, scrollto=scrollto)
+                           debug=debug_p, scrollto=scrollto)
 
 # @app.route('/bikini-atoll-import', methods=['GET'])
 # def bikini_atoll_import():
@@ -87,7 +86,7 @@ def bikini_atoll():
 #     scrollto    = request.args.get('scrollto', default=None, type=str)
 #     return render_template("microblog-import.html", chain="harmony",
 #                            contract="0x1b1f9e1227aae2a67f03955f222d7642e2ba1720",
-#                            version="v6", debug=debug_p, scrollto=scrollto)
+#                            debug=debug_p, scrollto=scrollto)
 
 
 @app.route('/arsenic!', methods=['GET'])
@@ -96,7 +95,7 @@ def arsenic_pinned():
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
                            contract="0x82419640d0fcc1bedaf4c3875b29be202bf0cce3",
-                           version="v6", debug=debug_p, scrollto=scrollto)
+                           debug=debug_p, scrollto=scrollto)
 
 
 

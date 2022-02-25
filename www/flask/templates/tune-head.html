@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html chain    = "{{ chain }}"
       contract = "{{ contract }}"
-      version  = "{{ version }}"
       debug    = "{{ debug }}"
       scrollto = "{{ scrollto }}">
   <head>
@@ -11,20 +10,15 @@
 
     <title>tuning</title>
 
-    <!-- <link href="https://fonts.googleapis.com/css?family=Commissioner" rel="stylesheet"> -->
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
-    <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
-    <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100;200;300;400&family=Poppins:ital,wght@0,200;0,300;1,300&display=swap"
-    <link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
-      crossorigin="anonymous" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100;200;300;400&family=Poppins:ital,wght@0,200;0,300;1,300&display=swap">
 
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"
       integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk="
       crossorigin="anonymous"></script>
 
-    <script src="{{ url_for('static', filename='js/info-and-utils.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/flag-and-spec-utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chains.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/flags-and-permissions.js') }}"></script>
     <script src="{{ url_for('static', filename='js/dapp.js') }}"></script>
     <link  href="{{ url_for('static', filename='styles/generations.css') }}" rel="stylesheet">
     <link  href="{{ url_for('static', filename='assets/favicon.ico') }}" rel="icon">

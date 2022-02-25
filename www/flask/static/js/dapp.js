@@ -3,31 +3,34 @@
 
 'use strict';
 
-const CLIENT_STATIONS_VERSION = "v1";
+// REPLACE
 
-const DEBUG             = true;
-const CHAIN             = document.documentElement.getAttribute("chain");
-const CONTRACT_ADDRESS  = document.documentElement.getAttribute("contract");
-const STATIONS_VERSION  = document.documentElement.getAttribute("version");
-const DEBUG_P           = document.documentElement.getAttribute("debug");
-const SCROLL_TO         = document.documentElement.getAttribute("scrollto");
-const LANG              = document.documentElement.getAttribute("lang");
-const RPC_URL_IN_USE    = RPC_URL_MAP[CHAIN];
-const ABI_IN_USE        = STATION_ABIS[STATIONS_VERSION];
+let stationState                      = {};
+stationState["stationInfo"]           = {};
+stationState.contract                 = {};
+stationState.contract.chain           = getDocAttr(document, "chain");
+stationState.contract.address         = getDocAttr(document, "contract");
+stationState["allUsers"]              = {};
+stationState["allBroadcasts"]         = [];
+stationState["clientInfo"]            = {};
+stationState.clientInfo.clientVersion = 0.7;
+stationState.clientInfo.currentRPC    = RPC_URL_MAP[stationState.contract.chain];
+stationState.clientInfo.debug_p       = getDocAttr(document, "debug");
 
-let web3;
-let myContract;
+const SCROLL_TO                       = getDocAttr(document, "scrollto");
+let   _DEBUG;                           // global debug function
+let   web3;
+let   myContract;
 
-let stationState = {};
-stationState["stationInfo"] = {};
-stationState.contract = {};
-stationState.contract.chain = CHAIN;
-stationState.contract.address = CONTRACT_ADDRESS;
-stationState["allUsers"] = {};
-stationState["allBroadcasts"] = [];
 
-let _DEBUG;
-
+const reconstructMyContractVar = (version, address, gasPrice=null) => {
+  if(gasPrice){
+    myContract = new web3.eth.Contract(STATION_ABIS[version], address,
+      { gasPrice: gasPrice });
+  } else{
+    myContract = new web3.eth.Contract(STATION_ABIS[version], address);
+  }
+};
 
 
 
@@ -41,22 +44,24 @@ const startDapp = async () => {
   makeDebugFunction();
 
   _DEBUG("document ready");
-  _DEBUG("chain:            " + CHAIN);
-  _DEBUG("contract address: " + CONTRACT_ADDRESS);
-  _DEBUG("stations version: " + STATIONS_VERSION);
+  _DEBUG("chain:            " + stationState.contract.chain);
+  _DEBUG("contract address: " + stationState.contract.address);
   _DEBUG("");
 
   const connectButton = document.getElementById("connectButton");
 
   MetaMaskClientCheck();
 
-  _DEBUG("after metamask client check");
-  web3 = new Web3(RPC_URL_IN_USE);
+  web3 = new Web3(stationState.clientInfo.currentRPC);
   _DEBUG("made new web3 object. attempting to connect to contract");
-  myContract = new web3.eth.Contract(ABI_IN_USE, CONTRACT_ADDRESS);
-  _DEBUG("made contract object");
+  reconstructMyContractVar("v6", stationState.contract.address);
+  _DEBUG("made contract object with base ABI before knowing station version");
 
   await myContract.methods.station_info().call({}, getStationInfo);
+  /* now that we know the stations version, we can use the correct ABI */
+  reconstructMyContractVar(`v${stationState.stationInfo.stationVersion}`,
+                           stationState.contract.address);
+  _DEBUG("recontructed myContract var with correct station version");
   await myContract.methods.get_all_users().call({}, getUserInfo);
   await getAllBroadcasts();
 
@@ -65,8 +70,8 @@ const startDapp = async () => {
   exportButton.disabled = false;
   exportButton.onclick = exportBroadcasts;
 
-  /* we can't handle big network changes, right now  *
-   * just reload                                     */
+  /* we can't handle big network changes, right now...    *
+   * just reload                                          */
   window.ethereum.on('networkChanged', handleBigMetamaskChange);
   window.ethereum.on('accountsChanged', handleBigMetamaskChange);
   window.ethereum.on('chainChanged', handleBigMetamaskChange);
@@ -210,14 +215,14 @@ const setUpLoggedInElements = () => {
 
 const replaceWeb3andMyContractAfterLogin = () => {
   web3 = new Web3(window.ethereum);
-  // myContract = new web3.eth.Contract(ABI_IN_USE, CONTRACT_ADDRESS);
-
   // TODO: fix this ugliness
-  if(CHAIN=="polygon"){
-    myContract = new web3.eth.Contract(ABI_IN_USE, CONTRACT_ADDRESS,
-      { gasPrice: '60000000000'}); // 60 gwei
+  if(stationState.contract.chain=="polygon"){
+    reconstructMyContractVar(`v${stationState.stationInfo.stationVersion}`,
+                             stationState.contract.address,
+                             "60000000000"); // 60 gwei
   } else {
-    myContract = new web3.eth.Contract(ABI_IN_USE, CONTRACT_ADDRESS);
+    reconstructMyContractVar(`v${stationState.stationInfo.stationVersion}`,
+                             stationState.contract.address);
   }
 };
 
@@ -231,16 +236,16 @@ const connectButtonClicked_Connect = async () => {
     let detectedChain = CHAIN_ID_MAPPING[currentChainId];
     _DEBUG("selected address: " + window.ethereum.selectedAddress);
     _DEBUG("network version: " + currentChainId);
-    if(PROVIDER_PARAMS[CHAIN].chainName===detectedChain){
+    if(PROVIDER_PARAMS[stationState.contract.chain].chainName===detectedChain){
       _DEBUG("we appear to be on the right blockchain");
       ret = true;
       setUpLoggedInElements();
     } else {
       let ermes = makeWrongChainMessage(currentChainId, detectedChain,
-        PROVIDER_PARAMS[CHAIN].chainName);
+        PROVIDER_PARAMS[stationState.contract.chain].chainName);
       if(confirm(ermes)){
         _DEBUG("switching to the correct network");
-        await addOrSwitchNetwork(CHAIN);
+        await addOrSwitchNetwork(stationState.contract.chain);
       } else {
         _DEBUG("user declined to change networks... bailing out");
         ret = false;
@@ -269,7 +274,7 @@ const makeDebugFunction = () => {
   let tmp = document.getElementById("debugContainer");
   tmp.style.display = "block";
   let area = document.getElementById("debugArea");
-  if(DEBUG_P==="true"){
+  if(stationState.clientInfo.debug_p==="true"){
     console.log("debug is true");
     area.value = "";
     _DEBUG = (msg) => {
