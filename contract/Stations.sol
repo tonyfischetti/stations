@@ -324,7 +324,7 @@ contract Stations {
                 "error: username already taken");
 
         uint256 timenow = block.timestamp;
-        user_exist_map[who] = current_user_index;
+        user_exist_map[new_user_address] = current_user_index;
         User memory tmp = User(new_user_address, username, timenow, "");
         all_users_of_station.push(tmp);
         current_user_index += 1;
