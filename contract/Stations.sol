@@ -62,7 +62,8 @@ pragma experimental ABIEncoderV2;
  *   creator: 0xdF94fCA483faf1bf1f1f484df3e0F1B5fF216bAe
  *   name: Den of understanding
  *   frequency: den-of-understanding
- *   description: an investigation into pulling the curtain back and seeing how the machinery works
+ *   description: an investigation into pulling the curtain back and
+                  seeing how the machinery works
  *   type: 0x0000
  *   flags: 0x1E00       (0x9E00 for group tests)
  */
@@ -99,7 +100,7 @@ contract Stations {
     string            station_name;
     string            station_frequency;
     string            station_description;
-    uint256 constant  stations_version = 6;
+    uint256 constant  stations_version = 8;
     address immutable creator;
     uint256 immutable created_on;
     bytes2  immutable station_type;
@@ -406,59 +407,44 @@ contract Stations {
         return true;
     }
 
-    // has to take multiple arrays; is there a way around that?
-    // should you only be able to import your own?
-    function import_broadcasts(uint256 [] memory unix_timestamp,
-                               address [] memory author,
-                               string  [] memory content,
-                               bytes   [] memory signature,
-                               uint256 [] memory parent,
-                               bytes2  [] memory broadcast_type,
-                               bytes2  [] memory broadcast_flags,
-                               string  [] memory broadcast_metadata)
+
+    function import_broadcast(uint256 unix_timestamp,
+                              address author,
+                              string  memory content,
+                              bytes   memory sig,
+                              uint256 parent,
+                              bytes2  broadcast_type,
+                              bytes2  broadcast_flags,
+                              string  memory broadcast_metadata)
                                                  public returns (uint256){
         address who = msg.sender;
-        uint256 num_of_content_elements = content.length;
+        // TODO: do you, though?
         require(is_admin_p(who),
                 "error: need to be station admin to import");
+        require(verify_broadcast_author(content, author, sig),
+                "error: signature mismatch");
+        // no raw html messages if untrusted
+        require(!(sf_untrusted_p && broadcast_type==0x0000),
+                "error: untrusted station cannot import html broadcasts");
+        require((broadcast_flags & 0x8000) == 0,
+                "error: cannot import system broadcasts");
+        require((broadcast_flags & 0x4000) == 0,
+                "error: will not import deleted broadcasts");
+        // TODO: can I just use 0xC000 for both?
 
-        require(unix_timestamp.length     == num_of_content_elements &&
-                author.length             == num_of_content_elements &&
-                signature.length          == num_of_content_elements &&
-                parent.length             == num_of_content_elements &&
-                broadcast_type.length     == num_of_content_elements &&
-                broadcast_flags.length    == num_of_content_elements &&
-                broadcast_metadata.length == num_of_content_elements,
-                "error: payload to import is malformed");
+        Broadcast memory tmp = Broadcast(current_broadcast_id,
+                                         unix_timestamp,
+                                         author,
+                                         content,
+                                         sig,
+                                         parent,
+                                         broadcast_type,
+                                         broadcast_flags|0x1000|0x0800,
+                                         broadcast_metadata);
+        all_broadcasts.push(tmp);
+        current_broadcast_id += 1;
 
-        uint256 num_broadcasts_imported = 0;
-
-        for (uint256 i=0; i < content.length; i++) {
-            if(!verify_broadcast_author(content[i], author[i], signature[i])){
-                continue;
-            }
-            // no raw html messages if untrusted
-            if(sf_untrusted_p && broadcast_type[i]==0x0000){
-                continue;
-            }
-            // no system broadcasts
-            if((broadcast_flags[i] & 0x8000) > 0){
-                continue;
-            }
-            Broadcast memory tmp = Broadcast(current_broadcast_id,
-                                             unix_timestamp[i],
-                                             author[i],
-                                             content[i],
-                                             signature[i],
-                                             parent[i],
-                                             broadcast_type[i],
-                                             broadcast_flags[i]|0x1000|0x0800,
-                                             broadcast_metadata[i]);
-            all_broadcasts.push(tmp);
-            current_broadcast_id    += 1;
-            num_broadcasts_imported += 1;
-        }
-        return num_broadcasts_imported;
+        return 1;
     }
 
     function change_username(string memory new_username) public returns (bool){
@@ -525,7 +511,8 @@ contract Stations {
         require(id_to_delete != 0, "error: cannot delete prime broadcast");
         require(id_to_delete < current_broadcast_id,
                 "error: array index out of bounds");
-        bytes2 newflags = all_broadcasts[id_to_delete].broadcast_flags | 0x4000;
+        all_broadcasts[id_to_delete].content = "";
+        bytes2 newflags = all_broadcasts[id_to_delete].broadcast_flags|0x4000;
         all_broadcasts[id_to_delete].broadcast_flags = newflags;
         return true;
     }
@@ -628,5 +615,6 @@ contract Stations {
 
 
 }
+
 
 

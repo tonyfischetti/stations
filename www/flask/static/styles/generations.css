@@ -20,6 +20,10 @@ html, body {
     display: none;
 }
 
+#importButton {
+    display: none;
+}
+
 #stationName {
     font-size: 3em;
     /* margin-top: 20px; */

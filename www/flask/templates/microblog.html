@@ -18,6 +18,7 @@
         <button id="exportButton" disabled>Export broadcasts</button>
         <button id="composeButton">Compose</button>
         <button id="debugConsoleButton">Debug console</button>
+        <button id="importButton">Import</button>
       </div>
 
       <div id="middleWay">
@@ -29,7 +30,6 @@
 
     <!-- TODO -->
     <div id="composition-modal" class="modal">
-      <!-- Modal content -->
       <div class="modal-content">
         <div class="modal-header">
           <div class="modal-title">Compose broadcast</div>
@@ -84,7 +84,6 @@
 
 
     <div id="debug-console-modal" class="modal">
-      <!-- Modal content -->
       <div class="modal-content">
         <div class="modal-header">
           <div class="modal-title">Debug console</div>
@@ -101,7 +100,6 @@
 
 
     <div id="edit-modal" class="modal">
-      <!-- Modal content -->
       <div class="modal-content">
         <div class="modal-header">
           <div class="modal-title">Edit broadcast</div>
@@ -115,6 +113,21 @@
         </div>
       </div>
     </div>     <!-- end edit modal -->
+
+    <div id="import-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">Import broadcasts from another Station</div>
+          <span id="import-modal-close" class="modal-close">&#9679;</span>
+        </div>
+        <div class="modal-body">
+          <textarea id="importArea" rows="5" placeholder="copy and paste JSON from a station export here"></textarea>
+          <br/><br/>
+          <button id="doImportButton">Import</button>
+          <br/><br/>
+        </div>
+      </div>
+    </div>     <!-- end import modal -->
 
 
   </body>

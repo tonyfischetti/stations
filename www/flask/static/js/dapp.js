@@ -18,9 +18,11 @@ stationState.clientInfo.currentRPC    = RPC_URL_MAP[stationState.contract.chain]
 stationState.clientInfo.debug_p       = getDocAttr(document, "debug");
 
 const SCROLL_TO                       = getDocAttr(document, "scrollto");
+const BASE_ABI_VERSION                = "v6";
 let   _DEBUG;                           // global debug function
 let   web3;
 let   myContract;
+
 
 
 const reconstructMyContractVar = (version, address, gasPrice=null) => {
@@ -54,7 +56,7 @@ const startDapp = async () => {
 
   web3 = new Web3(stationState.clientInfo.currentRPC);
   _DEBUG("made new web3 object. attempting to connect to contract");
-  reconstructMyContractVar("v6", stationState.contract.address);
+  reconstructMyContractVar(BASE_ABI_VERSION, stationState.contract.address);
   _DEBUG("made contract object with base ABI before knowing station version");
 
   await myContract.methods.station_info().call({}, getStationInfo);
@@ -114,14 +116,23 @@ const startDapp = async () => {
   debugConsoleButton.onclick = () => { debugConsoleModal.style.display = "block"; };
   debugConsoleModalClose.onclick = () => { debugConsoleModal.style.display = "none"; };
 
+  /* import modal things */
+  const importModal = document.getElementById("import-modal");
+  const importButton = document.getElementById("importButton");
+  const importModalClose = document.getElementById("import-modal-close");
+  importButton.onclick = () => { importModal.style.display = "block"; };
+  importModalClose.onclick = () => { importModal.style.display = "none"; };
+
   window.onclick = (event) => {
     _DEBUG(`[window click event] target: ${event.target}`);
     if (event.target == debugConsoleModal ||
         event.target == compositionModal ||
-        event.target == editModal) {
+        event.target == editModal ||
+        event.target == importModal) {
       debugConsoleModal.style.display = "none";
       compositionModal.style.display = "none";
       editModal.style.display = "none";
+      importModal.style.display = "none";
     }
   };
 
@@ -159,7 +170,6 @@ const beginEdit = async (anid) => {
         console.log(result);
       });
   };
-
 };
 
 
@@ -189,11 +199,16 @@ const setUpLoggedInElements = () => {
   window.ethereum.selectedAddress.substring(0, 7) + "...";
   connectButton.onclick = connectButtonClicked_Info;
 
+  // TODO do i need? (tmp todo)
+  let doImportButton = document.getElementById("doImportButton");
+  doImportButton.onclick = firstTryImport;
+
   /* have to use metamask provider now--so we'll change the web3 var */
   replaceWeb3andMyContractAfterLogin();
 
   console.log("supposed to make compose visible now");
   toggleElementVisibility("#composeButton", "inline");
+  toggleElementVisibility("#importButton", "inline");
 
   let specifiedButton = document.getElementById("rawHTML_broadcastButton");
   specifiedButton.onclick = makeRawHTMLBroadcast;
@@ -563,3 +578,49 @@ const insertBroadcast_HTML = (bcast) => {
 };
 
 // --------------------------------------------------------------- //
+
+// TODO: separate more of the xactions from the spend
+
+// TODO: restructure so that it's its own page
+//
+const firstTryImport = () => {
+  let rawJson = document.getElementById("importArea").value;
+  let parsedJson = JSON.parse(rawJson);
+
+  parsedJson.allBroadcasts.map((bcast) => {
+    if(spec_bcastCheckDeleted(+bcast.broadcastFlags)){
+      _DEBUG(`[import] foreign broadcastID ${bcast.broadcastID} - skipped (deleted)`);
+      return;
+    }
+    else if(spec_bcastCheckSystem(+bcast.broadcastFlags)){
+      _DEBUG(`[import] foreign broadcastID ${bcast.broadcastID} - skipped (system)`);
+      return;
+    }
+    // TODO: should I use try, or halt?
+
+    let singleImportXaction =
+      myContract.methods.import_broadcast(bcast.unixTimestamp,
+                                        bcast.author,
+                                        bcast.content,
+                                        bcast.signature,
+                                        bcast.parent,
+                                        bcast.broadcastType,
+                                        bcast.broadcastFlags,
+                                        bcast.broadcastMetadata);
+    console.log(singleImportXaction);
+    singleImportXaction.send(
+      { from: window.ethereum.selectedAddress },
+      function(error, result){
+        if (error){
+          alert("!UNHANDLED ERROR:\n" + error);
+          _DEBUG(`[import] foreign broadcastID ${bcast.broadcastID} - UNHANDLED ERROR: + ${error}`);
+          return;
+        }
+        console.log(result);
+    });
+    _DEBUG(`[import] foreign broadcastID ${bcast.broadcastID} successful!`);
+  });
+
+};
+
+
