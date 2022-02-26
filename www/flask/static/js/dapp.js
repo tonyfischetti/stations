@@ -479,8 +479,11 @@ const makeRawHTMLBroadcast = async () => {
   let sig = await getSignature(toBroadcast);
   _DEBUG("attempting to broadcast: " + toBroadcast +
          " with signature: " + sig);
-  myContract.methods.make_broadcast_simple(toBroadcast, sig, "0x0000",
-                                           "0x0000", "").send(
+  let rawXact =
+    myContract.methods.make_broadcast_simple(toBroadcast, sig, "0x0000",
+                                             "0x0000", "");
+  // console.log(rawXact.estimateGas({ from: window.ethereum.selectedAddress }));
+  rawXact.send(
     { from: window.ethereum.selectedAddress },
     function(error, result){
       if (error){

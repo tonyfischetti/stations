@@ -97,6 +97,14 @@ def arsenic_pinned():
                            contract="0x82419640d0fcc1bedaf4c3875b29be202bf0cce3",
                            debug=debug_p, scrollto=scrollto)
 
+@app.route('/coldbrew-princess', methods=['GET'])
+def coldbrew_princess():
+    debug_p     = request.args.get('debug', default="false", type=str)
+    scrollto    = request.args.get('scrollto', default=None, type=str)
+    return render_template("microblog.html", chain="harmony",
+                           contract="0xf457F1dfa200d84D40b2aB41937a02accd4689a9",
+                           debug=debug_p, scrollto=scrollto)
+
 
 
 
