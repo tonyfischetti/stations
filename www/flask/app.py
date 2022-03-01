@@ -33,12 +33,14 @@ def debug_info():
 #                            version=sver,
 #                            debug=debug_p)
 
+DEFAULT_CHAIN = "harmony"
+DEFAULT_CONTRACT = "0x3BA24Fa4F6C04d07FADB1df75CCEE688B2975940"
 
 @app.route('/tune', methods=['GET'])
 def tune():
-    chain       = request.args.get('chain', default="harmony", type=str)
+    chain       = request.args.get('chain', default=DEFAULT_CHAIN, type=str)
     con_address = request.args.get('address', type=str,
-                                   default="0xd63b063df87e53a60feca6001375977d66f54083")
+                                   default=DEFAULT_CONTRACT)
     debug_p     = request.args.get('debug', default="false", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain=chain,
@@ -47,12 +49,21 @@ def tune():
 
 
 # pinned (version 6)
-@app.route('/den-of-understanding', methods=['GET'])
-def currentden6():
+@app.route('/den-6', methods=['GET'])
+def den6():
     debug_p     = request.args.get('debug', default="false", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
                            contract="0xd63b063df87e53a60feca6001375977d66f54083",
+                           debug=debug_p, scrollto=scrollto)
+
+# CURRENT DEN
+@app.route('/den-of-understanding', methods=['GET'])
+def current_den8():
+    debug_p     = request.args.get('debug', default="false", type=str)
+    scrollto    = request.args.get('scrollto', default=None, type=str)
+    return render_template("microblog.html", chain="harmony",
+                           contract="0x3BA24Fa4F6C04d07FADB1df75CCEE688B2975940",
                            debug=debug_p, scrollto=scrollto)
 
 @app.route('/stations-updates', methods=['GET'])
@@ -68,7 +79,7 @@ def the_lotus_eaters():
     debug_p     = request.args.get('debug', default="false", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
-                           contract="0x5F8ccfF7c31245564d0FdA3a4387Bb03B925776C",
+                           contract="0x28512558CdA1C66c80Eb994Cb2F6b97Adbb7f4d3",
                            debug=debug_p, scrollto=scrollto)
 
 

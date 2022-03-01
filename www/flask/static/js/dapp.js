@@ -109,6 +109,11 @@ const startDapp = async () => {
   const editModalClose = document.getElementById("edit-modal-close");
   editModalClose.onclick = () => { editModal.style.display = "none"; };
 
+  /* reply modal things */
+  const replyModal = document.getElementById("reply-modal");
+  const replyModalClose = document.getElementById("reply-modal-close");
+  replyModalClose.onclick = () => { replyModal.style.display = "none"; };
+
   /* debug modal things */
   const debugConsoleModal = document.getElementById("debug-console-modal");
   const debugConsoleButton = document.getElementById("debugConsoleButton");
@@ -128,10 +133,12 @@ const startDapp = async () => {
     if (event.target == debugConsoleModal ||
         event.target == compositionModal ||
         event.target == editModal ||
+        event.target == replyModal ||
         event.target == importModal) {
       debugConsoleModal.style.display = "none";
       compositionModal.style.display = "none";
       editModal.style.display = "none";
+      replyModal.style.display = "none";
       importModal.style.display = "none";
     }
   };
@@ -161,6 +168,34 @@ const beginEdit = async (anid) => {
     _DEBUG("attempting to edit broadcast: " + anid +
            " with new signature: " + sig);
     myContract.methods.edit_broadcast(anid, toBroadcast, sig).send(
+      { from: window.ethereum.selectedAddress },
+      function(error, result){
+        if (error){
+          alert("!UNHANDLED ERROR:\n" + error);
+          return;
+        }
+        console.log(result);
+      });
+  };
+};
+
+const beginReply = async (anid) => {
+  const replyModal = document.getElementById("reply-modal");
+  replyModal.style.display = "block";
+
+  // hist is what?
+  document.getElementById("replyArea").value =
+    `response to: "${stationState.allBroadcasts[anid].content}"`;
+  const replyButton = document.getElementById("replyButton");
+
+  replyButton.onclick = async () => {
+    let toBroadcast = document.getElementById("replyArea").value;
+    let sig = await getSignature(toBroadcast);
+    _DEBUG("attempting to reply to broadcast: " + anid +
+           " with signature: " + sig);
+    let rawXact = myContract.methods.do_broadcast(toBroadcast, sig, anid,
+                                                  "0x0000", "0x0000", "");
+    rawXact.send(
       { from: window.ethereum.selectedAddress },
       function(error, result){
         if (error){
@@ -552,9 +587,14 @@ const insertBroadcast = (bcast) => {
     _DEBUG(`[insertion] broadcastID ${bcast.broadcastID} - skipped (system)`);
     return;
   }
+  insertBroadcast_Delegator(bcast);
+};
+
+const insertBroadcast_Delegator = (bcast) => {
   // TODO: dispatch based on type
   insertBroadcast_HTML(bcast);
-};
+}
+
 
 // TODO: does the templating make this unsafe?
 const insertBroadcast_HTML = (bcast) => {

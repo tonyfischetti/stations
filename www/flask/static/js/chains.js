@@ -43,7 +43,7 @@ const PROVIDER_PARAMS = {
       symbol: 'ONE',
       decimals: 18
     },
-    rpcUrls: ['https://api.harmony.one'],
+    // rpcUrls: ['https://api.harmony.one'],
     blockExplorerUrls: ['https://explorer.harmony.one/']
   }
 };
@@ -55,6 +55,7 @@ const RPC_URL_MAP = {
   fantom: "https://rpc.ftm.tools",
   // harmony: "https://api.harmony.one"
   harmony: "https://rpc.hermesdefi.io"
+  // harmony: "https://harmony-0.gateway.pokt.network/v1/lb/621dadf54e140e003a31cd1f"
 };
 
 // TODO: return unsuccessful if not on chain
