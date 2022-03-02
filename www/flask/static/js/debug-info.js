@@ -3,6 +3,7 @@
 
 const begin = () => {
   fillMobileOrDesktop();
+  document.getElementById("datenow").textContent = `Date.now(): ${Date.now()}`;
 };
 
 const fillMobileOrDesktop = () => {
