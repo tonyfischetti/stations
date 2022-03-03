@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.8.2;
+pragma solidity ^0.8.7;
 pragma experimental ABIEncoderV2;
 
 
@@ -9,7 +9,7 @@ pragma experimental ABIEncoderV2;
    *    Stations.sol                                                    *
    *                                                                    *
    *      author:    Tony Fischetti    <tony@stations.network>          *
-   *      version:   8                                                  *
+   *      version:   9                                                  *
    *                                                                    *
    **********************************************************************/
 
@@ -69,26 +69,34 @@ pragma experimental ABIEncoderV2;
  */
 
 /**
+ * Version 9 feature checklist:
+ *   [ ] ___
+ */
+
+/**
  * TODO:
  *  [x] delete
  *  [x] edit
  *  [x] advanced broadcast
  *  [x] import broadcast
- *    [ ] test imports
+ *    [x] test imports
  *  [x] have make_broadcast take broadcast type
  *  [x] have make_broadcast disallow 0x0000 type if not trusted
  *  [ ] is uint256 overkill? (yes, it is)
  *  [a] set metadata
- *  [ ] add support for user metadata
+ *  [-] add support for user metadata
  *  [x] signature
  *    [ ] should the signed hash contain the timestamp and username?
  *  [ ] another broadcast_type (that's my jam?)
+ *  [ ] events that are good enough to create station state from scratch
  *  [ ] replies / reply count
  *  [ ] "acknowledgements" (and count)
  *  [ ] implement piece-meal fetching of broadcasts
  *  [ ] grep for /TODO/
  *  [ ] self-destruct
  *  [ ] closer to end, trade from clarity to give to gas savings
+ *  [ ] delete replies/acknowledgements go away on an edit?
+ *        or maybe you need approval after edit?
  *  [ ] all the other ones
  */
 
@@ -100,7 +108,8 @@ contract Stations {
     string            station_name;
     string            station_frequency;
     string            station_description;
-    uint256 constant  stations_version = 8;
+    uint256 constant  stations_version = 9;
+    uint256 constant  stations_minor_version = 0;
     address immutable creator;
     uint256 immutable created_on;
     bytes2  immutable station_type;
@@ -137,6 +146,7 @@ contract Stations {
         string  content;
         bytes   signature;
         uint256 parent;
+        uint256 reference_count;
         bytes2  broadcast_type;
         bytes2  broadcast_flags;
         string  broadcast_metadata;
@@ -217,7 +227,7 @@ contract Stations {
         Broadcast memory tmp = Broadcast(0, 0, address(this),
                                          "this is a placeholder",
                                          abi.encodePacked(username),
-                                         0, 0x0001, 0x8000, "");
+                                         0, 0, 0x0001, 0x8000, "");
         all_broadcasts.push(tmp);
         current_broadcast_id += 1;
 
@@ -232,11 +242,13 @@ contract Stations {
 
     function station_info() public view returns (string memory, string memory,
                                                  string memory, uint256,
-                                                 address, uint256, bytes2,
-                                                 bytes2, string memory){
+                                                 uint256, address, uint256,
+                                                 bytes2, bytes2, string memory,
+                                                 uint256, uint256){
         return (station_name, station_frequency, station_description,
-                stations_version, creator, created_on, station_type,
-                station_flags, station_metadata);
+                stations_version, stations_minor_version, creator,
+                created_on, station_type, station_flags, station_metadata,
+                current_user_index, current_broadcast_id);
     }
     /* ------------------------------------------------------ */
 
@@ -271,16 +283,10 @@ contract Stations {
         return all_broadcasts;
     }
 
+    // TODO: slices
+
     function get_all_users() public view returns (User [] memory){
         return all_users_of_station;
-    }
-
-    // uses msg.sender to get the user's username
-    function whoami() public view returns (string memory){
-        address who = msg.sender;
-        require(user_already_in_station_p(who),
-                "error: user not in station");
-        return all_users_of_station[user_exist_map[who]].username;
     }
     /* ------------------------------------------------------ */
 
@@ -310,6 +316,7 @@ contract Stations {
         return true;
     }
 
+    // TODO: this is a temporary solution
     function _add_user_to_station(address new_user_address,
                                   string memory username)
                                      public returns (bool){
@@ -333,14 +340,20 @@ contract Stations {
         return true;
     }
 
-    // new function that'll take the place of ".?make_broadcast_.+" fns
     function do_broadcast(string memory content, bytes memory signature,
-                          uint256 parent, bytes2  broadcast_type,
+                          uint256 parent, bytes2 broadcast_type,
                           bytes2  broadcast_flags,
-                          string  memory broadcast_metadata)
+                          string  memory broadcast_metadata,
+                          uint256 optional_timestamp)
                                public returns (bool){
         address who = msg.sender;
-        uint256 timenow = block.timestamp;
+        uint256 timetouse = block.timestamp;
+
+        if (optional_timestamp != 0){
+            // date is now apocryphal
+            timetouse = optional_timestamp;
+            broadcast_flags = broadcast_flags | 0x0800;
+        }
 
         require(user_already_in_station_p(who), "error: user not in station");
         require((broadcast_type!=0x0000) || (!sf_untrusted_p),
@@ -349,70 +362,25 @@ contract Stations {
                 "error: cannot broadcast a 'system' broadcast");
         require(parent == 0 || sf_allow_replies_p,
                 "error: this station doesn't accept replies");
-        Broadcast memory tmp = Broadcast(current_broadcast_id, timenow, who,
-                                         content, signature, parent,
+        require(verify_broadcast_author(content, who, signature),
+                "error: signature mismatch");
+
+        Broadcast memory tmp = Broadcast(current_broadcast_id, timetouse, who,
+                                         content, signature, parent, 0,
                                          broadcast_type, broadcast_flags,
                                          broadcast_metadata);
+
+        all_broadcasts[parent].reference_count += 1;
         all_broadcasts.push(tmp);
         emit NewBroadcast(tmp);
         current_broadcast_id += 1;
         return true;
     }
-
-    // deprecated
-    function make_broadcast_simple(string  memory content,
-                                   bytes   memory signature,
-                                   bytes2  broadcast_type,
-                                   bytes2  broadcast_flags,
-                                   string  memory broadcast_metadata)
-                                        public returns (bool){
-        address who = msg.sender;
-        uint256 timenow = block.timestamp;
-
-        require(user_already_in_station_p(who), "error: user not in station");
-        require((broadcast_type!=0x0000) || (!sf_untrusted_p),
-                "error: untrusted stations cannot broadcast raw HTML");
-        require(!((broadcast_flags & 0x8000) > 0),
-                "error: cannot broadcast a 'system' broadcast");
-        Broadcast memory tmp = Broadcast(current_broadcast_id, timenow, who,
-                                         content, signature, 0, broadcast_type,
-                                         broadcast_flags, broadcast_metadata);
-        all_broadcasts.push(tmp);
-        emit NewBroadcast(tmp);
-        current_broadcast_id += 1;
-        return true;
-    }
-
-    function _make_broadcast_forge_timestamp(string  memory content,
-                                             uint256 unix_timestamp,
-                                             bytes memory signature,
-                                             bytes2 broadcast_type,
-                                             bytes2 broadcast_flags,
-                                             string memory broadcast_metadata)
-                                       public returns (bool){
-        address who = msg.sender;
-
-        require(user_already_in_station_p(who), "error: user not in station");
-
-        // date is now apocryphal
-        bytes2 newflags = broadcast_flags | 0x0800;
-
-        Broadcast memory tmp = Broadcast(current_broadcast_id, unix_timestamp,
-                                         who, content, signature, 0,
-                                         broadcast_type, newflags,
-                                         broadcast_metadata);
-        all_broadcasts.push(tmp);
-        emit NewBroadcast(tmp);
-        current_broadcast_id += 1;
-        return true;
-    }
-
 
     function import_broadcast(uint256 unix_timestamp,
                               address author,
                               string  memory content,
                               bytes   memory sig,
-                              uint256 parent,
                               bytes2  broadcast_type,
                               bytes2  broadcast_flags,
                               string  memory broadcast_metadata)
@@ -433,16 +401,13 @@ contract Stations {
         // TODO: can I just use 0xC000 for both?
 
         Broadcast memory tmp = Broadcast(current_broadcast_id,
-                                         unix_timestamp,
-                                         author,
-                                         content,
-                                         sig,
-                                         parent,
-                                         broadcast_type,
+                                         unix_timestamp, author, content,
+                                         sig, 0, 0, broadcast_type,
                                          broadcast_flags|0x1000|0x0800,
                                          broadcast_metadata);
         all_broadcasts.push(tmp);
         current_broadcast_id += 1;
+        all_broadcasts[0].reference_count += 1;
 
         return 1;
     }
@@ -501,7 +466,7 @@ contract Stations {
     /* ------------------------------------------------------ */
     /* -- DELETIONS AND EDITING FUNCTIONS                     */
 
-    // QUESTION: should the broadcaster *and* the admins be able to delete?
+    // TODO QUESTION: should the bcaster *and* the admins be able to delete?
     function delete_broadcast(uint256 id_to_delete) public returns (bool){
         require(sf_deletable_broadcasts_p,
                 "error: station doesn't allow deletion of broadcasts");
@@ -512,17 +477,19 @@ contract Stations {
         require(id_to_delete < current_broadcast_id,
                 "error: array index out of bounds");
         all_broadcasts[id_to_delete].content = "";
+        all_broadcasts[id_to_delete].signature = "";
         bytes2 newflags = all_broadcasts[id_to_delete].broadcast_flags|0x4000;
         all_broadcasts[id_to_delete].broadcast_flags = newflags;
+        all_broadcasts[0].reference_count -= 1;
         return true;
     }
 
     // TODO: needs more flexibility
-    // TODO: does this redo the signature?
     // NOTE: even the creator cannot edit a broadcast made by someone else
     function edit_broadcast(uint256 id_to_edit,
                             string memory newcontent,
                             bytes memory newsignature) public returns (bool){
+        address who = msg.sender;
         require(sf_modifiable_broadcasts_p,
                 "error: station doesn't allow editing broadcasts");
         require(msg.sender == all_broadcasts[id_to_edit].author,
@@ -530,6 +497,8 @@ contract Stations {
         require(id_to_edit != 0, "error: cannot edit prime broadcast");
         require(id_to_edit < current_broadcast_id,
                 "error: array index out of bounds");
+        require(verify_broadcast_author(newcontent, who, newsignature),
+                "error: signature mismatch");
         all_broadcasts[id_to_edit].content = newcontent;
         all_broadcasts[id_to_edit].signature = newsignature;
         bytes2 newflags = all_broadcasts[id_to_edit].broadcast_flags | 0x2000;
@@ -556,6 +525,22 @@ contract Stations {
         require(is_admin_p(msg.sender),
                 "error: must be admin or author to change station metadata");
         station_metadata = newmetadata;
+        return true;
+    }
+
+    function replace_station_name(string memory newname)
+                                             public returns (bool){
+        require(is_admin_p(msg.sender),
+                "error: must be admin or author to change station metadata");
+        station_name = newname;
+        return true;
+    }
+
+    function replace_station_description(string memory newdescription)
+                                             public returns (bool){
+        require(is_admin_p(msg.sender),
+                "error: must be admin or author to change station metadata");
+        station_description = newdescription;
         return true;
     }
 
@@ -613,8 +598,6 @@ contract Stations {
     }
     /* ------------------------------------------------------ */
 
-
 }
-
 
 
