@@ -69,27 +69,11 @@ pragma experimental ABIEncoderV2;
  */
 
 /**
- * Version 9 feature checklist:
- *   [ ] ___
- */
-
-/**
  * TODO:
- *  [x] delete
- *  [x] edit
- *  [x] advanced broadcast
- *  [x] import broadcast
- *    [x] test imports
- *  [x] have make_broadcast take broadcast type
- *  [x] have make_broadcast disallow 0x0000 type if not trusted
- *  [ ] is uint256 overkill? (yes, it is)
- *  [a] set metadata
- *  [-] add support for user metadata
  *  [x] signature
  *    [ ] should the signed hash contain the timestamp and username?
  *  [ ] another broadcast_type (that's my jam?)
  *  [ ] events that are good enough to create station state from scratch
- *  [ ] replies / reply count
  *  [ ] "acknowledgements" (and count)
  *  [ ] implement piece-meal fetching of broadcasts
  *  [ ] grep for /TODO/
@@ -171,6 +155,21 @@ contract Stations {
     event NewBroadcast(
         Broadcast thebroadcast
     );
+
+    event BroadcastChange(
+        string whatkindofchange,
+        Broadcast thebroadcast
+    );
+
+    event StationMetadataChange(
+        string whatkindofchange
+    );
+
+    event UserMetadataChange(
+        string whatkindofchange,
+        User theuser
+    );
+
     /* ------------------------------------------------------ */
 
 
@@ -282,8 +281,6 @@ contract Stations {
     function get_all_broadcasts() public view returns (Broadcast [] memory){
         return all_broadcasts;
     }
-
-    // TODO: slices
 
     function get_all_users() public view returns (User [] memory){
         return all_users_of_station;
@@ -406,6 +403,7 @@ contract Stations {
                                          broadcast_flags|0x1000|0x0800,
                                          broadcast_metadata);
         all_broadcasts.push(tmp);
+        emit NewBroadcast(tmp);
         current_broadcast_id += 1;
         all_broadcasts[0].reference_count += 1;
 
@@ -426,6 +424,8 @@ contract Stations {
         username_exist_map[old_username] = false;
         username_exist_map[new_username] = true;
         all_users_of_station[user_exist_map[who]].username = new_username;
+        emit UserMetadataChange("username-change",
+                                all_users_of_station[user_exist_map[who]]);
         return true;
     }
 
@@ -481,6 +481,7 @@ contract Stations {
         bytes2 newflags = all_broadcasts[id_to_delete].broadcast_flags|0x4000;
         all_broadcasts[id_to_delete].broadcast_flags = newflags;
         all_broadcasts[0].reference_count -= 1;
+        emit BroadcastChange("deletion", all_broadcasts[id_to_delete]);
         return true;
     }
 
@@ -503,6 +504,7 @@ contract Stations {
         all_broadcasts[id_to_edit].signature = newsignature;
         bytes2 newflags = all_broadcasts[id_to_edit].broadcast_flags | 0x2000;
         all_broadcasts[id_to_edit].broadcast_flags = newflags;
+        emit BroadcastChange("edit", all_broadcasts[id_to_edit]);
         return true;
     }
 
@@ -517,6 +519,7 @@ contract Stations {
         require(id_to_edit < current_broadcast_id,
                 "error: array index out of bounds");
         all_broadcasts[id_to_edit].broadcast_metadata = newmetadata;
+        emit BroadcastChange("metadata-change", all_broadcasts[id_to_edit]);
         return true;
     }
 
@@ -525,6 +528,7 @@ contract Stations {
         require(is_admin_p(msg.sender),
                 "error: must be admin or author to change station metadata");
         station_metadata = newmetadata;
+        emit StationMetadataChange("metadata-change");
         return true;
     }
 
@@ -533,14 +537,16 @@ contract Stations {
         require(is_admin_p(msg.sender),
                 "error: must be admin or author to change station metadata");
         station_name = newname;
+        emit StationMetadataChange("name-change");
         return true;
     }
 
     function replace_station_description(string memory newdescription)
-                                             public returns (bool){
+                                                    public returns (bool){
         require(is_admin_p(msg.sender),
                 "error: must be admin or author to change station metadata");
         station_description = newdescription;
+        emit StationMetadataChange("description-change");
         return true;
     }
 
@@ -550,6 +556,8 @@ contract Stations {
         require(user_already_in_station_p(who),
                 "error: user not in station");
         all_users_of_station[user_exist_map[who]].user_metadata = newmetadata;
+        emit UserMetadataChange("metadata-change",
+                                all_users_of_station[user_exist_map[who]]);
         return true;
     }
 
@@ -599,5 +607,6 @@ contract Stations {
     /* ------------------------------------------------------ */
 
 }
+
 
 
