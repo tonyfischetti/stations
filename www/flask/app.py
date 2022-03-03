@@ -55,23 +55,18 @@ def current_den6():
     debug_p     = request.args.get('debug', default="false", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
-                           contract="0xd63b063df87e53a60feca6001375977d66f54083",
+                           # contract="0xd63b063df87e53a60feca6001375977d66f54083",
+                           contract="0x1a7c04d9932f3FF7Fe0a9835A936D538968818f6",
                            debug=debug_p, scrollto=scrollto)
 
-@app.route('/next-den', methods=['GET'])
-def next_den8():
-    debug_p     = request.args.get('debug', default="false", type=str)
-    scrollto    = request.args.get('scrollto', default=None, type=str)
-    return render_template("microblog.html", chain="harmony",
-                           contract="0x3BA24Fa4F6C04d07FADB1df75CCEE688B2975940",
-                           debug=debug_p, scrollto=scrollto)
 
 @app.route('/stations-updates', methods=['GET'])
 def station_updates():
     debug_p     = request.args.get('debug', default="false", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
-    return render_template("microblog.html", chain="polygon",
-                           contract="0xC016d44bd9189244e2F16b072dcb5a256469abEa",
+    return render_template("microblog.html", chain="harmony",
+                           # contract="0xC016d44bd9189244e2F16b072dcb5a256469abEa", # polygon
+                           contract="0xfF6e4B0149628463bCF958709c964ae884dcaF6a",
                            debug=debug_p, scrollto=scrollto)
 
 @app.route('/the-lotus-eaters', methods=['GET'])
@@ -79,7 +74,8 @@ def the_lotus_eaters():
     debug_p     = request.args.get('debug', default="false", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
-                           contract="0x28512558CdA1C66c80Eb994Cb2F6b97Adbb7f4d3",
+                           # contract="0x28512558CdA1C66c80Eb994Cb2F6b97Adbb7f4d3",
+                           contract="0x9E0A88b325776c82C3E33a867d7C654439346636",
                            debug=debug_p, scrollto=scrollto)
 
 
@@ -87,16 +83,9 @@ def the_lotus_eaters():
 def bikini_atoll():
     debug_p     = request.args.get('debug', default="true", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
-    return render_template("microblog.html", chain="harmony",
-                           contract="0x1b1f9e1227aae2a67f03955f222d7642e2ba1720",
-                           debug=debug_p, scrollto=scrollto)
-
-@app.route('/bikini-atoll-import', methods=['GET'])
-def bikini_atoll_import():
-    debug_p     = request.args.get('debug', default="true", type=str)
-    scrollto    = request.args.get('scrollto', default=None, type=str)
-    return render_template("microblog.html", chain="harmony",
-                           contract="0xD47cd25ef74C908A96bF8647893D14B97636b0B4",
+    return render_template("microblog.html", chain="polygon",
+                           # contract="0x1b1f9e1227aae2a67f03955f222d7642e2ba1720", # harmony?
+                           contract="0x921262b4e1eb955163E259940d3A96D670704DF6",
                            debug=debug_p, scrollto=scrollto)
 
 
@@ -105,15 +94,18 @@ def arsenic_pinned():
     debug_p     = request.args.get('debug', default="false", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
-                           contract="0x82419640d0fcc1bedaf4c3875b29be202bf0cce3",
+                           # contract="0x82419640d0fcc1bedaf4c3875b29be202bf0cce3",
+                           contract="0x460B9aDea3B0Bf5b81e087bc9F6271f99F814Cbb",
                            debug=debug_p, scrollto=scrollto)
+
 
 @app.route('/coldbrew-princess', methods=['GET'])
 def coldbrew_princess():
     debug_p     = request.args.get('debug', default="false", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
-                           contract="0xf457F1dfa200d84D40b2aB41937a02accd4689a9",
+                           # contract="0xf457F1dfa200d84D40b2aB41937a02accd4689a9",
+                           contract="0x136F09ae688455e8B9f9649BaE8A51010638E1f6",
                            debug=debug_p, scrollto=scrollto)
 
 

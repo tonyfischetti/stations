@@ -18,7 +18,7 @@ stationState.clientInfo.currentRPC    = RPC_URL_MAP[stationState.contract.chain]
 stationState.clientInfo.debug_p       = getDocAttr(document, "debug");
 
 const SCROLL_TO                       = getDocAttr(document, "scrollto");
-const BASE_ABI_VERSION                = "v6";
+const BASE_ABI_VERSION                = "v9";
 let   _DEBUG;                           // global debug function
 let   web3;
 let   myContract;
@@ -194,7 +194,7 @@ const beginReply = async (anid) => {
     _DEBUG("attempting to reply to broadcast: " + anid +
            " with signature: " + sig);
     let rawXact = myContract.methods.do_broadcast(toBroadcast, sig, anid,
-                                                  "0x0000", "0x0000", "");
+                                                  "0x0000", "0x0000", "", 0);
     rawXact.send(
       { from: window.ethereum.selectedAddress },
       function(error, result){
@@ -346,18 +346,21 @@ function fillStationInfoOnDOM(){
 }
 
 function getStationInfo(error, objFromChain){
-  if (error){ alert("UNHANDLED ERROR:\n" + error); return; }
+  if (error){ alert("!UNHANDLED ERROR:\n" + error); return; }
 
   stationState.stationInfo = {
     stationName:          objFromChain["0"],
     stationFrequency:     objFromChain["1"],
     stationDescription:   objFromChain["2"],
     stationVersion:       objFromChain["3"],
-    creator:              objFromChain["4"],
-    createdOn:            objFromChain["5"],
-    stationType:          objFromChain["6"],
-    stationFlags:         objFromChain["7"],
-    stationMetadata:      objFromChain["8"],
+    stationMinorVersion:  objFromChain["4"],
+    creator:              objFromChain["5"],
+    createdOn:            objFromChain["6"],
+    stationType:          objFromChain["7"],
+    stationFlags:         objFromChain["8"],
+    stationMetadata:      objFromChain["9"],
+    stationNumUsers:      objFromChain["10"],
+    stationNumBroadcasts: objFromChain["11"],
   };
 
   fillStationInfoOnDOM();
@@ -389,10 +392,10 @@ const formatTimestamp = (atimestamp) => {
 }
 
 const makeBroadcastPrettier = (bcast) => {
-  const [broadcastID, unixTimestamp, author, content, signature,
-    parent, broadcastType, broadcastFlags, broadcastMetadata] = bcast;
-  return {broadcastID, unixTimestamp, author, content, signature,
-    parent, broadcastType, broadcastFlags, broadcastMetadata};
+  const [broadcastID, unixTimestamp, author, content, signature, parent,
+    reference_count, broadcastType, broadcastFlags, broadcastMetadata] = bcast;
+  return {broadcastID, unixTimestamp, author, content, signature, parent,
+    reference_count, broadcastType, broadcastFlags, broadcastMetadata};
 };
 
 /* get and display all broadcasts */
@@ -515,8 +518,8 @@ const makeRawHTMLBroadcast = async () => {
   _DEBUG("attempting to broadcast: " + toBroadcast +
          " with signature: " + sig);
   let rawXact =
-    myContract.methods.make_broadcast_simple(toBroadcast, sig, "0x0000",
-                                             "0x0000", "");
+    myContract.methods.do_broadcast(toBroadcast, sig, 0, "0x0000",
+                                             "0x0000", "", 0);
   // console.log(rawXact.estimateGas({ from: window.ethereum.selectedAddress }));
   rawXact.send(
     { from: window.ethereum.selectedAddress },
@@ -646,7 +649,6 @@ const firstTryImport = () => {
                                         bcast.author,
                                         bcast.content,
                                         bcast.signature,
-                                        bcast.parent,
                                         bcast.broadcastType,
                                         bcast.broadcastFlags,
                                         bcast.broadcastMetadata);
