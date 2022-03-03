@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.8.7;
+pragma solidity ^0.8.12;
 pragma experimental ABIEncoderV2;
 
 
@@ -100,10 +100,10 @@ contract Stations {
     bytes2  immutable station_flags;
     string            station_metadata = "";
 
-    uint256      current_broadcast_id = 0;
-    uint256      current_user_index   = 0;
-    User      [] all_users_of_station;
-    Broadcast [] all_broadcasts;
+    uint256           current_broadcast_id = 0;
+    uint256           current_user_index   = 0;
+    User      []      all_users_of_station;
+    Broadcast []      all_broadcasts;
 
     mapping(address => uint) user_exist_map;
     mapping(string  => bool) username_exist_map;
