@@ -88,6 +88,14 @@ def bikini_atoll():
                            contract="0x921262b4e1eb955163E259940d3A96D670704DF6",
                            debug=debug_p, scrollto=scrollto)
 
+@app.route('/trinity-nm', methods=['GET'])
+def trinity_nm():
+    debug_p     = request.args.get('debug', default="true", type=str)
+    scrollto    = request.args.get('scrollto', default=None, type=str)
+    return render_template("microblog.html", chain="harmony",
+                           contract="0xf125Add65d96B6568974f7a5C76086b1ab529E36",
+                           debug=debug_p, scrollto=scrollto)
+
 
 @app.route('/arsenic!', methods=['GET'])
 def arsenic_pinned():

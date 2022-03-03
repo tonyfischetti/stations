@@ -114,6 +114,18 @@ hr {
     max-width: 100%;
 }
 
+.reply.broadcast {
+    width: 90%;
+    margin-left: auto;
+    padding: 0px;
+    /* margin-top: 0px; */
+    /* margin-bottom: 0px; */
+}
+
+.reply.broadcastFooter {
+    visibility: hidden;
+}
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */

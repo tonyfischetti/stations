@@ -586,7 +586,7 @@ const insertBroadcast = (bcast) => {
     _DEBUG(`[insertion] broadcastID ${bcast.broadcastID} - skipped (deleted)`);
     return;
   }
-  else if(spec_bcastCheckSystem(+bcast.broadcastFlags)){
+  else if (spec_bcastCheckSystem(+bcast.broadcastFlags)){
     _DEBUG(`[insertion] broadcastID ${bcast.broadcastID} - skipped (system)`);
     return;
   }
@@ -595,33 +595,51 @@ const insertBroadcast = (bcast) => {
 
 const insertBroadcast_Delegator = (bcast) => {
   // TODO: dispatch based on type
-  insertBroadcast_HTML(bcast);
+  if (bcast.parent != 0){
+    insertBroadcast_HTML_reply(bcast);
+  } else {
+    insertBroadcast_HTML(bcast);
+  }
 }
+
+const makeHTMLString_HTML = (bcast, customClass="") => {
+  return `
+        <div id=bid${bcast.broadcastID} class="broadcast ${customClass}">
+          <div class="broadcastHeader ${customClass}">
+            <div class="username ${customClass}">
+              ${stationState.allUsers[bcast.author].username}
+            </div>
+            <div class="broadcastTimestamp ${customClass}">
+              ${formatTimestamp(bcast.unixTimestamp)}
+            </div>
+          </div>
+          <div class="broadcastContentContainer ${customClass}">
+            <label class="broadcastContent ${customClass}">${bcast.content}</label>
+          </div>
+          <div class="broadcastActionsContainer ${customClass}">
+            <button bid="${bcast.broadcastID}"
+            class="bcast-action bcast-action-edit ${customClass}">edit</button>
+          </div>
+          <div class="broadcastFooter ${customClass}"></div>
+        </div>`;
+};
 
 
 // TODO: does the templating make this unsafe?
 const insertBroadcast_HTML = (bcast) => {
   let containerElement = document.getElementById("broadcastsHolder");
-  const htmlString = `
-        <div id=${bcast.broadcastID} class="broadcast">
-          <div class="broadcastHeader">
-            <div class="username">
-              ${stationState.allUsers[bcast.author].username}
-            </div>
-            <div class="broadcastTimestamp">
-              ${formatTimestamp(bcast.unixTimestamp)}
-            </div>
-          </div>
-          <div class="broadcastContentContainer">
-            <label class="broadcastContent">${bcast.content}</label>
-          </div>
-          <div class="broadcastActionsContainer">
-            <button bid="${bcast.broadcastID}" class="bcast-action bcast-action-edit">edit</button>
-          </div>
-          <div class="broadcastFooter"></div>
-        </div>`;
+  let htmlString = makeHTMLString_HTML(bcast);
   containerElement.insertAdjacentHTML("afterbegin", htmlString);
 };
+
+// TODO: make this "dry"-er
+const insertBroadcast_HTML_reply = (bcast) => {
+    // let containerElement = document.getElementById(`${bcast.parent}`);
+  let containerElement = document.querySelector(`#bid${bcast.parent}>.broadcastActionsContainer`);
+  let htmlString = makeHTMLString_HTML(bcast, "reply");
+  containerElement.insertAdjacentHTML("afterend", htmlString);
+};
+
 
 // --------------------------------------------------------------- //
 
