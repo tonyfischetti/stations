@@ -63,6 +63,7 @@ const startDapp = async () => {
   /* now that we know the stations version, we can use the correct ABI */
   reconstructMyContractVar(`v${stationState.stationInfo.stationVersion}`,
                            stationState.contract.address);
+  // TODO: dynamically load correct JS here (microblog.js)
   _DEBUG("recontructed myContract var with correct station version");
   await myContract.methods.get_all_users().call({}, getUserInfo);
   await getAllBroadcasts();
@@ -85,7 +86,13 @@ const startDapp = async () => {
     }
 
     if(event.target.classList.contains("bcast-action-edit")){
-      beginEdit(+event.target.attributes.bid.value);
+      beginEdit(+(event.target.attributes.bid.value.replace(/^bid/, "")));
+    }
+    if(event.target.classList.contains("bcast-action-reply")){
+      beginReply(+(event.target.attributes.bid.value.replace(/^bid/, "")));
+    }
+    if(event.target.classList.contains("bcast-action-delete")){
+      beginDelete(+(event.target.attributes.bid.value.replace(/^bid/, "")));
     }
     console.dir(+event.target.attributes.bid.value);
   });
@@ -207,6 +214,20 @@ const beginReply = async (anid) => {
   };
 };
 
+const beginDelete = async (anid) => {
+  _DEBUG("attempting to delete broadcast " + anid);
+  let rawXact = myContract.methods.delete_broadcast(anid);
+  rawXact.send(
+    { from: window.ethereum.selectedAddress },
+    function(error, result){
+      if (error){
+        alert("!UNHANDLED ERROR:\n" + error);
+        return;
+      }
+      console.log(result);
+    });
+};
+
 
 
 
@@ -226,6 +247,37 @@ const MetaMaskClientCheck = () => {
     connectButton.onclick = connectButtonClicked_Connect;
     connectButton.disabled = false;
   }
+};
+
+const ADD_ACTIONS = () => {
+  // TODO: PUT SOMEWERE ELSE
+  // TODO: maybe add broadcast actions here?
+  // TODO: check permissions before adding
+  // TODO: PERMISSIONS, YO!
+  let allBroadcastEls = document.getElementsByClassName("broadcast");
+  allBroadcastEls = [].slice.call(allBroadcastEls);
+  allBroadcastEls = Array.from(document.getElementsByClassName("broadcast"));
+  console.log(allBroadcastEls);
+  allBroadcastEls.map((it) => {
+    console.log(`> ${it.id}`);
+    // TODO: if allowed
+    let tmp = it.getElementsByClassName("broadcastActionsContainer")[0];
+    tmp.insertAdjacentHTML("afterbegin",
+      `<button bid="${it.id}"
+               class="bcast-action bcast-action-edit">
+         edit
+        </button>`);
+    tmp.insertAdjacentHTML("afterbegin",
+      `<button bid="${it.id}"
+               class="bcast-action bcast-action-reply">
+         reply
+        </button>`);
+    tmp.insertAdjacentHTML("afterbegin",
+      `<button bid="${it.id}"
+               class="bcast-action bcast-action-delete">
+         delete
+        </button>`);
+  });
 };
 
 const setUpLoggedInElements = () => {
@@ -254,13 +306,8 @@ const setUpLoggedInElements = () => {
   specifiedButton = document.getElementById("image_broadcastButton");
   specifiedButton.onclick = makeImageBroadcast;
 
-  // TODO: maybe add broadcast actions here?
-  //
-  // Array.from(document.getElementsByClassName("broadcast")).map((it) => {
-  //   console.log(it.id);
-  //   let tmp = it.getElementsByClassName("broadcastActionsContainer")[0];
-  //   tmp.insertAdjacentHTML("afterbegin", "HII");
-  // });
+  ADD_ACTIONS();
+
 };
 
 const replaceWeb3andMyContractAfterLogin = () => {
@@ -289,7 +336,7 @@ const connectButtonClicked_Connect = async () => {
     if(PROVIDER_PARAMS[stationState.contract.chain].chainName===detectedChain){
       _DEBUG("we appear to be on the right blockchain");
       ret = true;
-      setUpLoggedInElements();
+      // setUpLoggedInElements();
     } else {
       let ermes = makeWrongChainMessage(currentChainId, detectedChain,
         PROVIDER_PARAMS[stationState.contract.chain].chainName);
@@ -510,8 +557,6 @@ function callAttentionToElement(id){
 /* broadcast functions for different types
  * (see TODO in html template)             */
 
-// TODO: replace `make_broadcast_simple`, etc... to non-deprecated one
-
 const makeRawHTMLBroadcast = async () => {
   let toBroadcast = document.getElementById("rawHTML_compositionArea").value;
   let sig = await getSignature(toBroadcast);
@@ -602,31 +647,32 @@ const insertBroadcast_Delegator = (bcast) => {
   }
 }
 
+// TODO
+// TODO
+// TODO
+//   the actions should be added in a different step
+
 const makeHTMLString_HTML = (bcast, customClasses="") => {
   return `
-        <div id=bid${bcast.broadcastID}
-             class="broadcast ${customClasses}">
-          <div class="broadcastHeader ${customClasses}">
-            <div class="username ${customClasses}">
-              ${stationState.allUsers[bcast.author].username}
-            </div>
-            <div class="broadcastTimestamp ${customClasses}">
-              ${formatTimestamp(bcast.unixTimestamp)}
-            </div>
-          </div>
-          <div class="broadcastContentContainer ${customClasses}">
-            <label class="broadcastContent ${customClasses}">
-              ${bcast.content}
-            </label>
-          </div>
-          <div class="broadcastActionsContainer ${customClasses}">
-            <button bid="${bcast.broadcastID}"
-                    class="bcast-action bcast-action-edit ${customClasses}">
-              edit
-            </button>
-          </div>
-          <div class="broadcastFooter ${customClasses}"></div>
-        </div>`;
+    <div id=bid${bcast.broadcastID}
+         class="broadcast ${customClasses}">
+      <div class="broadcastHeader ${customClasses}">
+        <div class="username ${customClasses}">
+          ${stationState.allUsers[bcast.author].username}
+        </div>
+        <div class="broadcastTimestamp ${customClasses}">
+          ${formatTimestamp(bcast.unixTimestamp)}
+        </div>
+      </div>
+      <div class="broadcastContentContainer ${customClasses}">
+        <label class="broadcastContent ${customClasses}">
+          ${bcast.content}
+        </label>
+      </div>
+      <div class="broadcastActionsContainer ${customClasses}">
+      </div>
+      <div class="broadcastFooter ${customClasses}"></div>
+    </div>`;
 };
 
 
@@ -640,9 +686,12 @@ const insertBroadcast_HTML = (bcast) => {
 // TODO: make this "dry"-er
 const insertBroadcast_HTML_reply = (bcast) => {
     // let containerElement = document.getElementById(`${bcast.parent}`);
-  let containerElement = document.querySelector(`#bid${bcast.parent}>.broadcastActionsContainer`);
+  // let containerElement = document.querySelector(`#bid${bcast.parent}>.broadcastActionsContainer`);
+  let containerElement =
+    document.querySelector(`#bid${bcast.parent}>.broadcastFooter`);
   let htmlString = makeHTMLString_HTML(bcast, "reply");
-  containerElement.insertAdjacentHTML("afterend", htmlString);
+  // containerElement.insertAdjacentHTML("afterend", htmlString);
+  containerElement.insertAdjacentHTML("beforebegin", htmlString);
 };
 
 

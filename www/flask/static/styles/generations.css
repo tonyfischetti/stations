@@ -118,8 +118,8 @@ hr {
     width: 90%;
     margin-left: auto;
     padding: 0px;
-    /* margin-top: 0px; */
-    /* margin-bottom: 0px; */
+    margin-top: 48px;
+    margin-bottom: 0px;
 }
 
 .reply.broadcastFooter {
@@ -246,17 +246,20 @@ details {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    visibility: hidden;
+    /* visibility: hidden; */
 }
 
 .broadcastFooter {
     height: 1px;
     /* background-color: #850101b8; */
     background-color: #e6e0dc;
+    margin-top: 14px;
 }
 
-.bcast-action{
+.bcast-action {
     border: none;
+    margin-left: 5px;
+    font-size: .7em;
 }
 
 .modal-title {
