@@ -602,25 +602,30 @@ const insertBroadcast_Delegator = (bcast) => {
   }
 }
 
-const makeHTMLString_HTML = (bcast, customClass="") => {
+const makeHTMLString_HTML = (bcast, customClasses="") => {
   return `
-        <div id=bid${bcast.broadcastID} class="broadcast ${customClass}">
-          <div class="broadcastHeader ${customClass}">
-            <div class="username ${customClass}">
+        <div id=bid${bcast.broadcastID}
+             class="broadcast ${customClasses}">
+          <div class="broadcastHeader ${customClasses}">
+            <div class="username ${customClasses}">
               ${stationState.allUsers[bcast.author].username}
             </div>
-            <div class="broadcastTimestamp ${customClass}">
+            <div class="broadcastTimestamp ${customClasses}">
               ${formatTimestamp(bcast.unixTimestamp)}
             </div>
           </div>
-          <div class="broadcastContentContainer ${customClass}">
-            <label class="broadcastContent ${customClass}">${bcast.content}</label>
+          <div class="broadcastContentContainer ${customClasses}">
+            <label class="broadcastContent ${customClasses}">
+              ${bcast.content}
+            </label>
           </div>
-          <div class="broadcastActionsContainer ${customClass}">
+          <div class="broadcastActionsContainer ${customClasses}">
             <button bid="${bcast.broadcastID}"
-            class="bcast-action bcast-action-edit ${customClass}">edit</button>
+                    class="bcast-action bcast-action-edit ${customClasses}">
+              edit
+            </button>
           </div>
-          <div class="broadcastFooter ${customClass}"></div>
+          <div class="broadcastFooter ${customClasses}"></div>
         </div>`;
 };
 
