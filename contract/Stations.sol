@@ -50,9 +50,10 @@ pragma experimental ABIEncoderV2;
  *     4: apocryphal date (1)                                 - 0x0800
  *     5: encrypted (1)                                       - 0x0400
  *
- *   broadcast_type (starting from left-most bit)
+ *   broadcast_type
  *     0x0000 = raw HTML
  *     0x0001 = plain text
+ *     0x0002 = music video with lyrics
  *
  */
 
@@ -607,6 +608,5 @@ contract Stations {
     /* ------------------------------------------------------ */
 
 }
-
 
 

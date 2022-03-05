@@ -94,7 +94,6 @@ const startDapp = async () => {
     if(event.target.classList.contains("bcast-action-delete")){
       beginDelete(+(event.target.attributes.bid.value.replace(/^bid/, "")));
     }
-    console.dir(+event.target.attributes.bid.value);
   });
 
 
@@ -151,7 +150,6 @@ const startDapp = async () => {
   };
 
 
-
   if (SCROLL_TO !== "None"){
     waitForElement(SCROLL_TO, () => {
       scrollToBroadcastID(SCROLL_TO);
@@ -202,6 +200,8 @@ const beginReply = async (anid) => {
            " with signature: " + sig);
     let rawXact = myContract.methods.do_broadcast(toBroadcast, sig, anid,
                                                   "0x0000", "0x0000", "", 0);
+    // console.log(rawXact);
+    // rawXact.estimateGas( { from: window.ethereum.selectedAddress } );
     rawXact.send(
       { from: window.ethereum.selectedAddress },
       function(error, result){
@@ -217,6 +217,8 @@ const beginReply = async (anid) => {
 const beginDelete = async (anid) => {
   _DEBUG("attempting to delete broadcast " + anid);
   let rawXact = myContract.methods.delete_broadcast(anid);
+  // console.log(rawXact);
+  // rawXact.estimateGas( { from: window.ethereum.selectedAddress } );
   rawXact.send(
     { from: window.ethereum.selectedAddress },
     function(error, result){
@@ -298,11 +300,8 @@ const setUpLoggedInElements = () => {
   let specifiedButton = document.getElementById("rawHTML_broadcastButton");
   specifiedButton.onclick = makeRawHTMLBroadcast;
 
-  specifiedButton = document.getElementById("rawHTMLForgedTimestamp_broadcastButton");
-  specifiedButton.onclick = makeRawHTMLForgedDateBroadcast;
-
-  specifiedButton = document.getElementById("image_broadcastButton");
-  specifiedButton.onclick = makeImageBroadcast;
+  specifiedButton = document.getElementById("jam_broadcastButton");
+  specifiedButton.onclick = makeJamBroadcast;
 
   ADD_ACTIONS();
 
@@ -575,38 +574,28 @@ const makeRawHTMLBroadcast = async () => {
     });
 };
 
-const makeRawHTMLForgedDateBroadcast = async () => {
-  console.log("making forgery!");
-  let toBroadcast = document.getElementById("rawHTMLForgedTimestamp_compositionArea").value;
-  let forgedTime = document.getElementById("forgedTimeArea").value;
-  let sig = await getSignature(toBroadcast);
-  _DEBUG("attempting to broadcast: '" + toBroadcast + "' for timestamp: " +
-    forgedTime + " with signature: " + sig);
-  myContract.methods._make_broadcast_forge_timestamp(toBroadcast,
-                                                     forgedTime,
-                                                     sig, "0x0000",
-                                                     "0x0000", "").send(
-    { from: window.ethereum.selectedAddress },
-    function(error, result){
-      if (error){ alert("UNHANDLED ERROR:\n" + error); return; }
-      console.log(result);
-    });
-};
+const makeJamBroadcast = async () => {
+  console.log("posting jam");
+  let artist = document.getElementById("artist").value;
+  let title = document.getElementById("songtitle").value;
+  let youtubelink = document.getElementById("youtubelink").value;
+  let lyrics = document.getElementById("lyrics").value;
 
-const makeImageBroadcast = async () => {
-  console.log("posting image");
-  let imageURL = document.getElementById("imageURL").value;
-  let altText = document.getElementById("altText").value;
-  let imageCaption = document.getElementById("imageCaption").value;
-
-  let toBroadcast = `<figure><img src="${imageURL}" alt="${altText}">
-                     <figcaption>${imageCaption}</figcaption></figure>`;
+  // TODO: needs to be escaped!
+  // TODO: needs to be escaped!
+  let toBroadcast =
+    JSON.stringify({artist: artist, title: title,
+    youtubelink: youtubelink, lyrics: lyrics}, null, 2);
 
   let sig = await getSignature(toBroadcast);
   _DEBUG("attempting to broadcast: " + toBroadcast +
          " with signature: " + sig);
-  myContract.methods.make_broadcast_simple(toBroadcast, sig, "0x0000",
-                                           "0x0000", "").send(
+
+  let rawXact =
+    myContract.methods.do_broadcast(toBroadcast, sig, 0, "0x0010",
+                                             "0x0000", "", 0);
+  // console.log(rawXact.estimateGas({ from: window.ethereum.selectedAddress }));
+  rawXact.send(
     { from: window.ethereum.selectedAddress },
     function(error, result){
       if (error){
@@ -638,10 +627,19 @@ const insertBroadcast = (bcast) => {
 
 const insertBroadcast_Delegator = (bcast) => {
   // TODO: dispatch based on type
-  if (bcast.parent != 0){
-    insertBroadcast_HTML_reply(bcast);
-  } else {
-    insertBroadcast_HTML(bcast);
+  console.log(bcast.broadcastType);
+  switch (bcast.broadcastType) {
+    case "0x0010":
+      console.log("JAM");
+      insertBroadcast_ThatsMyJam(bcast);
+      break;
+    case "0x0000":
+      if (bcast.parent != 0){
+        insertBroadcast_HTML_reply(bcast);
+      } else {
+        insertBroadcast_HTML(bcast);
+      }
+      break;
   }
 }
 
@@ -649,6 +647,39 @@ const insertBroadcast_Delegator = (bcast) => {
 // TODO
 // TODO
 //   the actions should be added in a different step
+
+
+const makeHTMLString_ThatsMyJam = (bcast, customClasses="") => {
+  let theJSON = JSON.parse(bcast.content);
+  let videoSlug = theJSON.youtubelink.match(/v=(\w+)\W*.*$/)[1]
+  let embedLink = `https://www.youtube.com/embed/${videoSlug}`;
+  return `
+    <div id=bid${bcast.broadcastID}
+         class="broadcast ${customClasses}">
+      <div class="broadcastHeader ${customClasses}">
+        <div class="username ${customClasses}">
+          ${stationState.allUsers[bcast.author].username}
+        </div>
+        <div class="broadcastTimestamp ${customClasses}">
+          ${formatTimestamp(bcast.unixTimestamp)}
+        </div>
+      </div>
+      <div class="broadcastContentContainer ${customClasses}">
+        <label class="broadcastContent ${customClasses}">
+          <blockquote class="thats-my-jam-lyrics">
+            ${theJSON.lyrics}
+          </blockquote>
+          <object data="${embedLink}" class="thats-my-jam-video">
+          </object>
+          <b>${theJSON.artist}</b> - ${theJSON.title}
+        </label>
+      </div>
+      <div class="broadcastActionsContainer ${customClasses}">
+      </div>
+      <div class="broadcastFooter ${customClasses}"></div>
+    </div>`;
+};
+
 
 const makeHTMLString_HTML = (bcast, customClasses="") => {
   return `
@@ -678,6 +709,12 @@ const makeHTMLString_HTML = (bcast, customClasses="") => {
 const insertBroadcast_HTML = (bcast) => {
   let containerElement = document.getElementById("broadcastsHolder");
   let htmlString = makeHTMLString_HTML(bcast);
+  containerElement.insertAdjacentHTML("afterbegin", htmlString);
+};
+
+const insertBroadcast_ThatsMyJam = (bcast) => {
+  let containerElement = document.getElementById("broadcastsHolder");
+  let htmlString = makeHTMLString_ThatsMyJam(bcast);
   containerElement.insertAdjacentHTML("afterbegin", htmlString);
 };
 

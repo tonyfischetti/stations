@@ -25,7 +25,6 @@ const makeFlagSetClosure = (flagPosition) => {
   return tmpFun;
 };
 
-
 /*****************************************************/
 /***********    Broadcast related flags    ***********/
 
@@ -35,3 +34,5 @@ const spec_bcastSetSystem = makeFlagSetClosure(15);
 const spec_bcastCheckDeleted = makeFlagTestClosure(14);
 const spec_bcastSetDeleted = makeFlagSetClosure(14);
 
+
+const spec_bcastCheckThatsMyJam = makeFlagTestClosure(2);

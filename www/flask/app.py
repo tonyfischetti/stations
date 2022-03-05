@@ -20,19 +20,6 @@ def debug_info():
                            user_agent=request.headers.get('User-Agent'),
                            all_headers=request.headers)
 
-# @app.route('/thats-my-jam', methods=['GET'])
-# def currentjam5():
-#     chain       = request.args.get('chain', default="fantom", type=str)
-#     con_address = request.args.get('address', type=str,
-#                                    default="0xaCA49a698Fd9Ae5721b4781a7C03382639a88688")
-#     sver        = request.args.get('version', default="v5", type=str)
-#     debug_p     = request.args.get('debug', default="false", type=str)
-#     return render_template("microblog-5.html",
-#                            chain=chain,
-#                            contract=con_address,
-#                            version=sver,
-#                            debug=debug_p)
-
 DEFAULT_CHAIN = "harmony"
 DEFAULT_CONTRACT = "0xd63b063df87e53a60feca6001375977d66f54083"
 
@@ -57,6 +44,14 @@ def current_den6():
     return render_template("microblog.html", chain="harmony",
                            # contract="0xd63b063df87e53a60feca6001375977d66f54083",
                            contract="0x1a7c04d9932f3FF7Fe0a9835A936D538968818f6",
+                           debug=debug_p, scrollto=scrollto)
+
+@app.route('/thats-my-jam', methods=['GET'])
+def current_jam():
+    debug_p     = request.args.get('debug', default="false", type=str)
+    scrollto    = request.args.get('scrollto', default=None, type=str)
+    return render_template("microblog.html", chain="harmony",
+                           contract="0x28Fa4CA4f56C3ea1d0b33918e863baA694862aAD",
                            debug=debug_p, scrollto=scrollto)
 
 
