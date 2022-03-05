@@ -254,12 +254,8 @@ const ADD_ACTIONS = () => {
   // TODO: maybe add broadcast actions here?
   // TODO: check permissions before adding
   // TODO: PERMISSIONS, YO!
-  let allBroadcastEls = document.getElementsByClassName("broadcast");
-  allBroadcastEls = [].slice.call(allBroadcastEls);
-  allBroadcastEls = Array.from(document.getElementsByClassName("broadcast"));
-  console.log(allBroadcastEls);
+  let allBroadcastEls = Array.from(document.getElementsByClassName("broadcast"));
   allBroadcastEls.map((it) => {
-    console.log(`> ${it.id}`);
     // TODO: if allowed
     let tmp = it.getElementsByClassName("broadcastActionsContainer")[0];
     tmp.insertAdjacentHTML("afterbegin",
@@ -282,20 +278,22 @@ const ADD_ACTIONS = () => {
 
 const setUpLoggedInElements = () => {
   let connectButton = document.getElementById("connectButton");
-  connectButton.innerText = "logged in as " +
-  window.ethereum.selectedAddress.substring(0, 7) + "...";
-  connectButton.onclick = connectButtonClicked_Info;
+  let address = window.ethereum.selectedAddress;
+  connectButton.innerText =
+    `log out  (${address.substring(0, 7)}...${address.substring(39)})`;
+  // TODO: this is better done as a tear-down script
+  connectButton.onclick = () => { window.location.reload(); };
 
-  // TODO do i need? (tmp todo)
-  let doImportButton = document.getElementById("doImportButton");
-  doImportButton.onclick = firstTryImport;
+  // // TODO do i need? (tmp todo)
+  // let doImportButton = document.getElementById("doImportButton");
+  // doImportButton.onclick = firstTryImport;
 
   /* have to use metamask provider now--so we'll change the web3 var */
   replaceWeb3andMyContractAfterLogin();
 
-  console.log("supposed to make compose visible now");
-  toggleElementVisibility("#composeButton", "inline");
-  toggleElementVisibility("#importButton", "inline");
+  // console.log("supposed to make compose visible now");
+  document.getElementById("composeButton").style.display = "inline";
+  // document.getElementById("importButton").style.display = "inline";
 
   let specifiedButton = document.getElementById("rawHTML_broadcastButton");
   specifiedButton.onclick = makeRawHTMLBroadcast;
