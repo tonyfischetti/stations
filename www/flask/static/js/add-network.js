@@ -5,6 +5,9 @@ const LANG              = document.documentElement.getAttribute("lang");
 
 
 const init = () => {
+  // const ethnet = document.getElementById("addEthereum");
+  // ethnet.onclick = () => addOrSwitchNetwork("ethereum");
+
   const poly = document.getElementById("addPolygon");
   poly.onclick = () => addOrSwitchNetwork("polygon");
 

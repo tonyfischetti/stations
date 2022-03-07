@@ -51,7 +51,7 @@ def current_jam():
     debug_p     = request.args.get('debug', default="false", type=str)
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
-                           contract="0x28Fa4CA4f56C3ea1d0b33918e863baA694862aAD",
+                           contract="0x9766E541938d8a64c60804ea56d0F419c0E9c013",
                            debug=debug_p, scrollto=scrollto)
 
 
@@ -70,7 +70,8 @@ def the_lotus_eaters():
     scrollto    = request.args.get('scrollto', default=None, type=str)
     return render_template("microblog.html", chain="harmony",
                            # contract="0x28512558CdA1C66c80Eb994Cb2F6b97Adbb7f4d3",
-                           contract="0x9E0A88b325776c82C3E33a867d7C654439346636",
+                           # contract="0x9E0A88b325776c82C3E33a867d7C654439346636",
+                           contract="0x066BF361DDcB8b2E35A2a9eb973CDb0EF138220A",
                            debug=debug_p, scrollto=scrollto)
 
 

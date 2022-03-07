@@ -2,6 +2,17 @@
 'use strict';
 
 const PROVIDER_PARAMS = {
+  // ethereum: {
+  //   chainId: '0x01',
+  //   chainName: 'Ethereum Mainnet [pokt]',
+  //   nativeCurrency: {
+  //       name: 'ETH',
+  //       symbol: 'ETH',
+  //       decimals: 18
+  //   },
+  //   rpcUrls: ['https://eth-rpc.gateway.pokt.network'],
+  //   blockExplorerUrls: ['https://etherscan.io']
+  // },
   polygon: {
     chainId: '0x89',
     chainName: 'Polygon Mainnet',
@@ -10,7 +21,7 @@ const PROVIDER_PARAMS = {
         symbol: 'MATIC',
         decimals: 18
     },
-    rpcUrls: ['https://polygon-rpc.com'],
+    rpcUrls: ['https://poly-rpc.gateway.pokt.network/'],
     blockExplorerUrls: ['https://www.polygonscan.com']
   },
   avalanche: {
@@ -43,19 +54,20 @@ const PROVIDER_PARAMS = {
       symbol: 'ONE',
       decimals: 18
     },
-    // rpcUrls: ['https://api.harmony.one'],
+    rpcUrls: ['https://harmony-0.gateway.pokt.network/v1/lb/621dadf54e140e003a31cd1f'],
     blockExplorerUrls: ['https://explorer.harmony.one/']
   }
 };
 
 
 const RPC_URL_MAP = {
-  polygon: "https://rpc-mainnet.maticvigil.com/v1/a383485c02d70e19b2660c539983b17e9566a297",
+  ethereum: "https://eth-rpc.gateway.pokt.network",
+  polygon: "https://poly-rpc.gateway.pokt.network/",
   avalanche: "https://rpc.ankr.com/avalanche",
   fantom: "https://rpc.ftm.tools",
   // harmony: "https://api.harmony.one"
-  harmony: "https://rpc.hermesdefi.io"
-  // harmony: "https://harmony-0.gateway.pokt.network/v1/lb/621dadf54e140e003a31cd1f"
+  // harmony: "https://rpc.hermesdefi.io"
+  harmony: "https://harmony-0.gateway.pokt.network/v1/lb/621dadf54e140e003a31cd1f"
 };
 
 // TODO: return unsuccessful if not on chain

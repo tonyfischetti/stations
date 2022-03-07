@@ -287,8 +287,8 @@ const setUpLoggedInElements = () => {
   connectButton.onclick = () => { window.location.reload(); };
 
   // // TODO do i need? (tmp todo)
-  // let doImportButton = document.getElementById("doImportButton");
-  // doImportButton.onclick = firstTryImport;
+  let doImportButton = document.getElementById("doImportButton");
+  doImportButton.onclick = firstTryImport;
 
   /* have to use metamask provider now--so we'll change the web3 var */
   replaceWeb3andMyContractAfterLogin();
@@ -416,12 +416,18 @@ function getUserInfo(error, objFromChain){
 
   objFromChain.map(it => {
     if(it[1]!=="uncaused-cause"){
-      let tmpaddress =  it[0];
+      let tmpaddress =  it[0]; // .toUpperCase();
       stationState.allUsers[tmpaddress] = {
         username:       it[1],
         time_joined:    it[2],
-        user_metadata:  it[3]
+        // user_metadata:  it[3]
       };
+      try {
+        stationState.allUsers[tmpaddress].user_metadata =
+          JSON.parse(it[3]);
+      } catch (error) {
+        stationState.allUsers[tmpaddress].user_metadata = it[3];
+      }
     }
   });
   _DEBUG("got user info");
@@ -649,15 +655,22 @@ const insertBroadcast_Delegator = (bcast) => {
 //   the actions should be added in a different step
 
 
+// TODO: verify that it's sane (and throw error if not)
 const makeHTMLString_ThatsMyJam = (bcast, customClasses="") => {
   let theJSON = JSON.parse(bcast.content);
-  let videoSlug = theJSON.youtubelink.match(/v=(\w+)\W*.*$/)[1]
+  let videoSlug = theJSON.youtubelink.match(/v=([\w\-]+)\W*.*$/)[1]
   let embedLink = `https://www.youtube.com/embed/${videoSlug}`;
   return `
     <div id=bid${bcast.broadcastID}
          class="broadcast ${customClasses}">
       <div class="broadcastHeader ${customClasses}">
-        <div class="username ${customClasses}">
+        <div class="username ${customClasses}"
+             style="background-color:
+                    ${stationState.allUsers[bcast.author]?.
+                      user_metadata?.
+                      themeSettings?.
+                      generations?.
+                      usernameBoxColor ?? "darkcyan"}">
           ${stationState.allUsers[bcast.author].username}
         </div>
         <div class="broadcastTimestamp ${customClasses}">
@@ -686,7 +699,13 @@ const makeHTMLString_HTML = (bcast, customClasses="") => {
     <div id=bid${bcast.broadcastID}
          class="broadcast ${customClasses}">
       <div class="broadcastHeader ${customClasses}">
-        <div class="username ${customClasses}">
+        <div class="username ${customClasses}"
+             style="background-color:
+                    ${stationState.allUsers[bcast.author]?.
+                      user_metadata?.
+                      themeSettings?.
+                      generations?.
+                      usernameBoxColor ?? "darkcyan"}">
           ${stationState.allUsers[bcast.author].username}
         </div>
         <div class="broadcastTimestamp ${customClasses}">

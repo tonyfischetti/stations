@@ -94,7 +94,7 @@ contract Stations {
     string            station_frequency;
     string            station_description;
     uint256 constant  stations_version = 9;
-    uint256 constant  stations_minor_version = 0;
+    uint256 constant  stations_minor_version = 1;
     address immutable creator;
     uint256 immutable created_on;
     bytes2  immutable station_type;
@@ -237,6 +237,7 @@ contract Stations {
         user_exist_map[who] = current_user_index;
         username_exist_map[username] = true;
         all_users_of_station.push(tmp2);
+        current_user_index += 1;
         return true;
     }
 
