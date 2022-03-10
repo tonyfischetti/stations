@@ -9,11 +9,9 @@
   <link  href="{{ url_for('static', filename='styles/add-network.css') }}" rel="stylesheet">
 {% endblock %}
 
-{% block body %}
-  {{ super() }}
-{% endblock %}
-
-{% block div_outerWay %}
+{% block containsbody %}
+  <body>
+    <div id="outerWay">
     <div id="veryTempBigText">stations.network</div>
     <h1>Add supported chains to Metamask</h1>
     {# <button id="addEthereum">Ethereum</button><br/> #}
@@ -21,4 +19,6 @@
     <button id="addAvalanche">Avalanche</button><br/>
     <button id="addFantom">Fantom</button><br/>
     <button id="addHarmony">Harmony</button><br/>
+    </div>
+  </body>
 {% endblock %}
