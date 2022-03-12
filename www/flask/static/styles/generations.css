@@ -1,11 +1,15 @@
 
+:root {
+    --BackgroundColor: black;
+    --BroadcastBackgroundColor: white;
+}
+
 * {
     font-family: Commissioner, Helvetica, Arial, sans-serif;
 }
 
 html, body {
-    /* margin:  0px; */
-    /* padding: 0px; */
+    background: var(--BackgroundColor);
 }
 
 #debugArea {
@@ -30,25 +34,25 @@ html, body {
 
 #stationName {
     font-size: 3em;
-    /* margin-top: 20px; */
     margin-bottom: 14px;
+    color: white;
+}
+
+#stationDescription {
+    color: white;
 }
 
 #outerWay {
-    background: white;
+    background: var(--BackgroundColor);
     max-width: 700px;
     margin: auto;
 }
 
 #middleWay {
-    background: white;
-    width: 90%;
+    background: var(--BackgroundColor);
     margin: auto;
 }
 
-.piece {
-    padding: 30px;
-}
 
 hr {
     background-color: #850101b8;
@@ -58,22 +62,17 @@ hr {
 }
 
 #broadcastsHolder {
-    background-color: white;
+    background: var(--BackgroundColor);
     display: flex;
     flex-direction: column;
 }
 
 .username {
-    /* background-color: darkcyan; */
-    /* background-color: #1C1676; */
-    background-color: #000000;
     color: white;
     font-weight: bold;
     padding: 5px;
     padding-right: 10px;
     padding-left: 10px;
-    /* border-radius: 25px; */
-    /* float: left; */
 }
 
 .broadcastTimestamp {
@@ -82,18 +81,18 @@ hr {
     font-size: .8em;
     width: 100%;
     padding-right: 10px;
-    /* border-radius: 10px; */
-    /* float: right; */
     height: 0%;
 }
 
 .broadcast {
-    /* background-color: white; */
+    background: var(--BroadcastBackgroundColor);
     margin-bottom: 20px;
     margin-top: 20px;
-    padding: 0px;
+    padding-left: 13px;
+    padding-right: 13px;
     padding-top: 30px;
     padding-bottom: 30px;
+    border-radius: 10px;
 }
 
 @media screen and (min-width: 450px) {
