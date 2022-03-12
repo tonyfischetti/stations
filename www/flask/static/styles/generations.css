@@ -1,7 +1,8 @@
 
 :root {
-    --BackgroundColor: black;
+    --BackgroundColor: white;
     --BroadcastBackgroundColor: white;
+    --OuterWayWidth: 744px;
 }
 
 * {
@@ -35,22 +36,23 @@ html, body {
 #stationName {
     font-size: 3em;
     margin-bottom: 14px;
-    color: white;
+    color: black;
 }
 
 #stationDescription {
-    color: white;
+    color: black;
 }
 
 #outerWay {
     background: var(--BackgroundColor);
-    max-width: 700px;
+    max-width: var(--OuterWayWidth);
     margin: auto;
 }
 
 #middleWay {
     background: var(--BackgroundColor);
     margin: auto;
+    max-width: 95%;
 }
 
 
@@ -287,12 +289,14 @@ details {
 }
 
 #stationHeader {
-    margin-top: 30px;
-    /* margin-bottom: 40px; */
+    padding: 10px;
+    border-radius: 10px;
 }
 
 #stationActions {
-    margin-bottom: 30px;
+    /* margin-bottom: 10px; */
+    /* margin-top: 10px; */
+    padding: 10px;
 }
 
 .thats-my-jam-video {
