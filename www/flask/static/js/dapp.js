@@ -189,7 +189,7 @@ const beginReply = async (anid) => {
   replyModal.style.display = "block";
 
   // hist is what?
-  document.getElementById("replyArea").value =
+  document.getElementById("replyArea").placeholder =
     `response to: "${stationState.allBroadcasts[anid].content}"`;
   const replyButton = document.getElementById("replyButton");
 
