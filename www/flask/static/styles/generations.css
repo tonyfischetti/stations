@@ -3,7 +3,7 @@
     --BackgroundColor: white;
     /* --BackgroundColor: lightgrey; */
     --BroadcastBackgroundColor: white;
-    --OuterWayWidth: 1200px;
+    --OuterWayWidth: 900px;
     --LightColor: #e6e0dc;
     --MainColor: #007C7E;
     --SecondaryColor: #850101b8;
@@ -25,18 +25,22 @@ i, em {
     font-weight: 300;
 }
 
+#station-button-container {
+    flex-shrink: 0;
+}
+
 #between-strips {
     display: flex;
     flex-direction: row;
 }
 
 #left-gutter {
-    background: green;
+    background: var(--BackgroundColor);
     flex-grow: 1;
 }
 
 #right-gutter {
-    background: green;
+    background: var(--BackgroundColor);
     flex-grow: 1;
 }
 
@@ -58,7 +62,8 @@ i, em {
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
+    justify-content: flex-end;
 }
 
 #below-header {
@@ -70,14 +75,14 @@ i, em {
 
 #stage-left {
     width: 6px;
-    background: var(--LightColor);
+    background: var(--BackgroundColor);
 }
 
 #stage-right {
     display: flex;
     flex-direction: column;
     width: 555px;
-    background: var(--LightColor);
+    background: var(--BackgroundColor);
 }
 
 @media only screen and (max-width: 900px) {
@@ -88,13 +93,11 @@ i, em {
 
 
 #very-top-strip {
-    height: 30px;
-    background: blue;
+    background: var(--BackgroundColor);
 }
 
 #very-bottom-strip {
-    height: 30px;
-    background: blue;
+    background: var(--BackgroundColor);
 }
 
 
