@@ -17,7 +17,7 @@ html, body {
     /* font-size: 1rem; */
 }
 
-#outerWay {
+#outer-way {
     /* max-width: 750px; */
     max-width: 1161px;
     margin: auto;
@@ -34,7 +34,7 @@ html, body {
     font-size: 0.8rem;
 }
 
-#veryTempBigText {
+#very-temp-big-text {
     font-weight: 200;
     font-size: 6rem;
     display: flex;
@@ -52,7 +52,7 @@ html, body {
     font-family: Commissioner, Helvetica, Arial, sans-serif;
 }
 
-#homeContent {
+#home-content {
     display: flex;
     flex-direction: column;
     padding: 50px;

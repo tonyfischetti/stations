@@ -5,19 +5,19 @@ const LANG              = document.documentElement.getAttribute("lang");
 
 
 const init = () => {
-  // const ethnet = document.getElementById("addEthereum");
+  // const ethnet = document.getElementById("add-ethereum");
   // ethnet.onclick = () => addOrSwitchNetwork("ethereum");
 
-  const poly = document.getElementById("addPolygon");
+  const poly = document.getElementById("add-polygon");
   poly.onclick = () => addOrSwitchNetwork("polygon");
 
-  const ava = document.getElementById("addAvalanche");
+  const ava = document.getElementById("add-avalanche");
   ava.onclick = () => addOrSwitchNetwork("avalanche");
 
-  const fantom = document.getElementById("addFantom");
+  const fantom = document.getElementById("add-fantom");
   fantom.onclick = () => addOrSwitchNetwork("fantom");
 
-  const harmony = document.getElementById("addHarmony");
+  const harmony = document.getElementById("add-harmony");
   harmony.onclick = () => addOrSwitchNetwork("harmony");
 };
 

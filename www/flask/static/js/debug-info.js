@@ -7,7 +7,7 @@ const begin = () => {
 };
 
 const fillMobileOrDesktop = () => {
-  const target = document.getElementById("isMobileOrDesktopDiv");
+  const target = document.getElementById("is-mobile-or-desktop-div");
   target.innerHTML = `is mobile: ${IS_MOBILE_P}`;
 };
 

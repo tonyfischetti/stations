@@ -4,6 +4,11 @@
 
 {% block title %} Add supported networks {% endblock %}
 
+{% block javascript_imports %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='js/add-network.js') }}"></script>
+{% endblock %}
+
 {% block css_imports %}
   {{ super() }}
   <link  href="{{ url_for('static', filename='styles/add-network.css') }}" rel="stylesheet">
@@ -11,14 +16,14 @@
 
 {% block containsbody %}
   <body>
-    <div id="outerWay">
-    <div id="veryTempBigText">stations.network</div>
+    <div id="outer-way">
+    <div id="very-temp-big-text">stations.network</div>
     <h1>Add supported chains to Metamask</h1>
-    {# <button id="addEthereum">Ethereum</button><br/> #}
-    <button id="addPolygon">Polygon</button><br/>
-    <button id="addAvalanche">Avalanche</button><br/>
-    <button id="addFantom">Fantom</button><br/>
-    <button id="addHarmony">Harmony</button><br/>
+    {# <button id="add-ethereum">Ethereum</button><br/> #}
+    <button id="add-polygon">Polygon</button><br/>
+    <button id="add-avalanche">Avalanche</button><br/>
+    <button id="add-fantom">Fantom</button><br/>
+    <button id="add-harmony">Harmony</button><br/>
     </div>
   </body>
 {% endblock %}

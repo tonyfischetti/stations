@@ -2,7 +2,7 @@
 :root {
     --BackgroundColor: white;
     --BroadcastBackgroundColor: white;
-    --OuterWayWidth: 744px;
+    --OuterWayWidth: 1000px;
 }
 
 html, body {
@@ -19,47 +19,55 @@ i, em {
     font-weight: 300;
 }
 
-#station-button {
-    position: absolute;
+#name-and-description {
+    flex-grow: 1;
 }
 
-#debugArea {
+#inside-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+
+
+#debug-area {
     font-family: monospace;
 }
 
-#debugContainer {
+#debug-container {
     display: none;
 }
 
-#debugConsoleButton {
+#debug-console-button {
     display: none;
 }
 
-#composeButton {
+#compose-button {
     display: none;
 }
 
-#importButton {
+#import-button {
     display: none;
 }
 
-#stationName {
+#station-name {
     font-size: 3.5em;
     margin-bottom: 14px;
     color: black;
 }
 
-#stationDescription {
+#station-description {
     color: black;
 }
 
-#outerWay {
+#outer-way {
     background: var(--BackgroundColor);
     max-width: var(--OuterWayWidth);
     margin: auto;
 }
 
-#middleWay {
+#middle-way {
     background: var(--BackgroundColor);
     margin: auto;
     max-width: 95%;
@@ -73,7 +81,7 @@ hr {
     height: 1px;
 }
 
-#broadcastsHolder {
+#broadcasts-holder {
     background: var(--BackgroundColor);
     display: flex;
     flex-direction: column;
@@ -87,7 +95,7 @@ hr {
     padding-left: 10px;
 }
 
-.broadcastTimestamp {
+.broadcast-timestamp {
     background-color: #e6e0dc;
     text-align: right;
     font-size: .8em;
@@ -114,7 +122,7 @@ hr {
     }
 }
 
-.broadcastContentContainer {
+.broadcast-content-container {
     /* background-color: white; */
     /* margin: 20px; */
     padding-left: 20px;
@@ -123,11 +131,11 @@ hr {
     margin-bottom: 10px;
 }
 
-.broadcastContent {
+.broadcast-content {
     font-weight: 300 !important;
 }
 
-.broadcastContent audio, img, video {
+.broadcast-content audio, img, video {
     max-width: 100%;
 }
 
@@ -185,7 +193,6 @@ hr {
     to {top:0; opacity:1}
 }
 
-/* The Close Button */
 .modal-close {
     color: white;
     float: right;
@@ -253,20 +260,20 @@ details {
     margin: 15px;
 }
 
-.broadcastHeader {
+.broadcast-header {
     display: flex;
     flex-direction: row;
     margin-bottom: 20px;
 }
 
-.broadcastActionsContainer {
+.broadcast-actions-container {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     /* visibility: hidden; */
 }
 
-.broadcastFooter {
+.broadcast-footer {
     height: 1px;
     /* background-color: #850101b8; */
     background-color: #e6e0dc;
@@ -298,12 +305,12 @@ details {
     border-top-right-radius: 10px;
 }
 
-#stationHeader {
+#station-header {
     padding: 10px;
     border-radius: 10px;
 }
 
-#stationActions {
+#station-actions {
     /* margin-bottom: 10px; */
     /* margin-top: 10px; */
     padding: 10px;

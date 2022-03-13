@@ -4,32 +4,38 @@
 
   <body>
 
-    {# <div draggable="true" id="station-button-div"> #}
-      <img id="station-button"
-           src="{{ url_for('static', filename='assets/logo-circle.svg') }}"
-           width="77"
-           height="77"/>
-    {# </div> #}
 
-    <div id="outerWay">
+    <div id="outer-way">
 
-      <div id="stationHeader">
+      <div id="station-header">
         <hr/>
-        <div id="stationName">tuning</div>
-        <div id="stationDescription"></div>
+        <div id="inside-header">
+          <div id="name-and-description">
+            <div id="station-name">tuning</div>
+            <div id="station-description"></div>
+          </div>
+          <div id="station-image-container">
+          </div>
+          <div id="station-button-container">
+            <img id="station-button"
+                 src="{{ url_for('static', filename='assets/logo-circle.svg') }}"
+                 width="77"
+                 height="77"/>
+          </div>
+        </div>
         <hr/>
       </div>
 
-      <div id="stationActions">
-        <button id="connectButton"></button>
-        <button id="exportButton" disabled>Export broadcasts</button>
-        <button id="debugConsoleButton">Debug console</button>
-        <button id="importButton">Import</button>
-        <button id="composeButton">Compose</button>
+      <div id="station-actions">
+        <button id="connect-button"></button>
+        <button id="export-button" disabled>Export broadcasts</button>
+        <button id="debug-console-button">Debug console</button>
+        <button id="import-button">Import</button>
+        <button id="compose-button">Compose</button>
       </div>
 
-      <div id="middleWay">
-        <div id="broadcastsHolder">
+      <div id="middle-way">
+        <div id="broadcasts-holder">
         </div>
       </div>
     </div>
@@ -45,53 +51,18 @@
         <div class="modal-body">
 
           <details>
-            <summary class="broadcastTypeForm">Raw HTML broadcast</summary>
-            <textarea id="rawHTML_compositionArea" class="compositionArea"
+            <summary class="broadcast-type-form">Raw HTML broadcast</summary>
+            <textarea id="rawHTML_composition-area" class="composition-area"
                       rows="5" placeholder="content"></textarea>
             <br/><br/>
-            <button id="rawHTML_broadcastButton">Broadcast</button>
+            <button id="rawHTML_broadcast-button">Broadcast</button>
             <br/><br/>
           </details>
 
-          <!--
-          <details>
-            <summary class="broadcastTypeForm">Raw HTML broadcast (forged timestamp)</summary>
-            <textarea id="forgedTimeArea" rows="1" placeholder="forged timestamp"></textarea>
-            <br/><br/>
-            <textarea id="rawHTMLForgedTimestamp_compositionArea"
-                      class="compositionArea" rows="5"
-                      placeholder="content"></textarea>
-            <br/><br/>
-            <button id="rawHTMLForgedTimestamp_broadcastButton">Broadcast</button>
-            <br/><br/>
-          </details>
-          -->
-
-          <!-- TODO: the javascript doesn't specify different broadcast types.
-                     Right now, it converts it all into raw HTML.
-                     Eventually, they'll be separate `render...` function
-                     for the different broadcast types and the "content" will
-                     simply be JSON -->
-
-          <!-- TODO: this is terrible! no escaping! -->
-
-          <!--
-          <details>
-            <summary class="broadcastTypeForm">Image</summary>
-            <textarea id="imageURL" rows="1" placeholder="URL to image"></textarea>
-            <br/><br/>
-            <textarea id="altText" rows="1" placeholder="alt text"></textarea>
-            <br/><br/>
-            <textarea id="imageCaption" rows="1" placeholder="image caption"></textarea>
-            <br/><br/>
-            <button id="image_broadcastButton">Broadcast</button>
-            <br/>
-          </details>
-          -->
 
           <!-- TODO: needs to be escaped -->
           <details>
-            <summary class="broadcastTypeForm">Song</summary>
+            <summary class="broadcast-type-form">Song</summary>
             <textarea id="artist" rows="1" placeholder="name of artist"></textarea>
             <br/><br/>
             <textarea id="songtitle" rows="1" placeholder="song title"></textarea>
@@ -100,7 +71,7 @@
             <br/><br/>
             <textarea id="lyrics" rows="5" placeholder="lyrics"></textarea>
             <br/><br/>
-            <button id="jam_broadcastButton">Broadcast</button>
+            <button id="jam_broadcast-button">Broadcast</button>
             <br/><br/>
           </details>
 
@@ -117,8 +88,8 @@
           <span id="debug-console-modal-close" class="modal-close">&#9679;</span>
         </div>
         <div class="modal-body">
-          <div id="debugContainer">
-            <textarea class="debug-related" readonly rows="20" id="debugArea">
+          <div id="debug-container">
+            <textarea class="debug-related" readonly rows="20" id="debug-area">
             </textarea>
           </div>
         </div>
@@ -133,9 +104,9 @@
           <span id="edit-modal-close" class="modal-close">&#9679;</span>
         </div>
         <div class="modal-body">
-          <textarea id="editArea" rows="5"></textarea>
+          <textarea id="edit-area" rows="5"></textarea>
           <br/><br/>
-          <button id="editButton">Submit edit</button>
+          <button id="edit-button">Submit edit</button>
           <br/><br/>
         </div>
       </div>
@@ -148,9 +119,9 @@
           <span id="reply-modal-close" class="modal-close">&#9679;</span>
         </div>
         <div class="modal-body">
-          <textarea id="replyArea" rows="5"></textarea>
+          <textarea id="reply-area" rows="5"></textarea>
           <br/><br/>
-          <button id="replyButton">Reply</button>
+          <button id="reply-button">Reply</button>
           <br/><br/>
         </div>
       </div>
@@ -163,9 +134,9 @@
           <span id="import-modal-close" class="modal-close">&#9679;</span>
         </div>
         <div class="modal-body">
-          <textarea id="importArea" rows="5" placeholder="copy and paste JSON from a station export here"></textarea>
+          <textarea id="import-area" rows="5" placeholder="copy and paste JSON from a station export here"></textarea>
           <br/><br/>
-          <button id="doImportButton">Import</button>
+          <button id="do-import-button">Import</button>
           <br/><br/>
         </div>
       </div>

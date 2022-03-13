@@ -50,8 +50,6 @@ const startDapp = async () => {
   _DEBUG("contract address: " + stationState.contract.address);
   _DEBUG("");
 
-  const connectButton = document.getElementById("connectButton");
-
   MetaMaskClientCheck();
 
   web3 = new Web3(stationState.clientInfo.currentRPC);
@@ -69,7 +67,7 @@ const startDapp = async () => {
   await getAllBroadcasts();
 
   /* _now_ we can enable the export button */
-  let exportButton = document.getElementById("exportButton");
+  let exportButton = document.getElementById("export-button");
   exportButton.disabled = false;
   exportButton.onclick = exportBroadcasts;
 
@@ -79,7 +77,7 @@ const startDapp = async () => {
   window.ethereum.on('accountsChanged', handleBigMetamaskChange);
   window.ethereum.on('chainChanged', handleBigMetamaskChange);
 
-  const bcastHolder = document.getElementById('broadcastsHolder');
+  const bcastHolder = document.getElementById('broadcasts-holder');
   bcastHolder.addEventListener('click', (event) => {
     if(event.target.nodeName !== 'BUTTON'){
       return;
@@ -103,7 +101,7 @@ const startDapp = async () => {
 
   /* composition modal things */
   const compositionModal = document.getElementById("composition-modal");
-  const composeButton = document.getElementById("composeButton");
+  const composeButton = document.getElementById("compose-button");
   const compositionModalClose = document.getElementById("composition-modal-close");
   composeButton.onclick = () => {
     compositionModal.style.display = "block";
@@ -122,14 +120,14 @@ const startDapp = async () => {
 
   /* debug modal things */
   const debugConsoleModal = document.getElementById("debug-console-modal");
-  const debugConsoleButton = document.getElementById("debugConsoleButton");
+  const debugConsoleButton = document.getElementById("debug-console-button");
   const debugConsoleModalClose = document.getElementById("debug-console-modal-close");
   debugConsoleButton.onclick = () => { debugConsoleModal.style.display = "block"; };
   debugConsoleModalClose.onclick = () => { debugConsoleModal.style.display = "none"; };
 
   /* import modal things */
   const importModal = document.getElementById("import-modal");
-  const importButton = document.getElementById("importButton");
+  const importButton = document.getElementById("import-button");
   const importModalClose = document.getElementById("import-modal-close");
   importButton.onclick = () => { importModal.style.display = "block"; };
   importModalClose.onclick = () => { importModal.style.display = "none"; };
@@ -165,10 +163,10 @@ const startDapp = async () => {
 const beginEdit = async (anid) => {
   const editModal = document.getElementById("edit-modal");
   editModal.style.display = "block";
-  document.getElementById("editArea").value = stationState.allBroadcasts[anid].content
-  const editButton = document.getElementById("editButton");
+  document.getElementById("edit-area").value = stationState.allBroadcasts[anid].content
+  const editButton = document.getElementById("edit-button");
   editButton.onclick = async () => {
-    let toBroadcast = document.getElementById("editArea").value;
+    let toBroadcast = document.getElementById("edit-area").value;
     let sig = await getSignature(toBroadcast);
     _DEBUG("attempting to edit broadcast: " + anid +
            " with new signature: " + sig);
@@ -189,12 +187,12 @@ const beginReply = async (anid) => {
   replyModal.style.display = "block";
 
   // hist is what?
-  document.getElementById("replyArea").placeholder =
+  document.getElementById("reply-area").placeholder =
     `response to: "${stationState.allBroadcasts[anid].content}"`;
-  const replyButton = document.getElementById("replyButton");
+  const replyButton = document.getElementById("reply-button");
 
   replyButton.onclick = async () => {
-    let toBroadcast = document.getElementById("replyArea").value;
+    let toBroadcast = document.getElementById("reply-area").value;
     let sig = await getSignature(toBroadcast);
     _DEBUG("attempting to reply to broadcast: " + anid +
            " with signature: " + sig);
@@ -238,6 +236,7 @@ const isMetaMaskInstalled = () => {
 };
 
 const MetaMaskClientCheck = () => {
+  const connectButton = document.getElementById("connect-button");
   _DEBUG("checking for metamask client");
   if (!isMetaMaskInstalled()) {
     _DEBUG("metamask not found");
@@ -259,7 +258,7 @@ const ADD_ACTIONS = () => {
   let allBroadcastEls = Array.from(document.getElementsByClassName("broadcast"));
   allBroadcastEls.map((it) => {
     // TODO: if allowed
-    let tmp = it.getElementsByClassName("broadcastActionsContainer")[0];
+    let tmp = it.getElementsByClassName("broadcast-actions-container")[0];
     tmp.insertAdjacentHTML("afterbegin",
       `<button bid="${it.id}"
                class="bcast-action bcast-action-edit">
@@ -279,7 +278,7 @@ const ADD_ACTIONS = () => {
 };
 
 const setUpLoggedInElements = () => {
-  let connectButton = document.getElementById("connectButton");
+  let connectButton = document.getElementById("connect-button");
   let address = window.ethereum.selectedAddress;
   connectButton.innerText =
     `log out  (${address.substring(0, 7)}...${address.substring(39)})`;
@@ -287,20 +286,20 @@ const setUpLoggedInElements = () => {
   connectButton.onclick = () => { window.location.reload(); };
 
   // // TODO do i need? (tmp todo)
-  let doImportButton = document.getElementById("doImportButton");
+  let doImportButton = document.getElementById("do-import-button");
   doImportButton.onclick = firstTryImport;
 
   /* have to use metamask provider now--so we'll change the web3 var */
   replaceWeb3andMyContractAfterLogin();
 
   // console.log("supposed to make compose visible now");
-  document.getElementById("composeButton").style.display = "inline";
+  document.getElementById("compose-button").style.display = "inline";
   // document.getElementById("importButton").style.display = "inline";
 
-  let specifiedButton = document.getElementById("rawHTML_broadcastButton");
+  let specifiedButton = document.getElementById("rawHTML_broadcast-button");
   specifiedButton.onclick = makeRawHTMLBroadcast;
 
-  specifiedButton = document.getElementById("jam_broadcastButton");
+  specifiedButton = document.getElementById("jam_broadcast-button");
   specifiedButton.onclick = makeJamBroadcast;
 
   ADD_ACTIONS();
@@ -324,7 +323,7 @@ const connectButtonClicked_Connect = async () => {
   let ret = false;
   try {
     _DEBUG("\nattempting to connect to metamask client");
-    let connectButton = document.getElementById("connectButton");
+    let connectButton = document.getElementById("connect-button");
     await ethereum.request({ method: 'eth_requestAccounts' });
     let currentChainId = ethereum.networkVersion;
     let detectedChain = CHAIN_ID_MAPPING[currentChainId];
@@ -365,9 +364,9 @@ const connectButtonClicked_Onboard = () => {
 const makeDebugFunction = () => {
   /* if debug is true, this constructs the a working _DEBUG
    * function. If not, it's a no-op function */
-  let tmp = document.getElementById("debugContainer");
+  let tmp = document.getElementById("debug-container");
   tmp.style.display = "block";
-  let area = document.getElementById("debugArea");
+  let area = document.getElementById("debug-area");
   if(stationState.clientInfo.debug_p==="true"){
     console.log("debug is true");
     area.value = "";
@@ -383,8 +382,8 @@ const makeDebugFunction = () => {
 
 function fillStationInfoOnDOM(){
   document.title = "[stations.network] " + stationState.stationInfo.stationName;
-  const elStationName           = document.getElementById("stationName");
-  const elStationDescription    = document.getElementById("stationDescription");
+  const elStationName           = document.getElementById("station-name");
+  const elStationDescription    = document.getElementById("station-description");
   elStationName.textContent = stationState.stationInfo.stationName;
   elStationDescription.textContent = stationState.stationInfo.stationDescription;
 }
@@ -561,7 +560,7 @@ function callAttentionToElement(id){
  * (see TODO in html template)             */
 
 const makeRawHTMLBroadcast = async () => {
-  let toBroadcast = document.getElementById("rawHTML_compositionArea").value;
+  let toBroadcast = document.getElementById("rawHTML_composition-area").value;
   let sig = await getSignature(toBroadcast);
   _DEBUG("attempting to broadcast: " + toBroadcast +
          " with signature: " + sig);
@@ -663,7 +662,7 @@ const makeHTMLString_ThatsMyJam = (bcast, customClasses="") => {
   return `
     <div id=bid${bcast.broadcastID}
          class="broadcast ${customClasses}">
-      <div class="broadcastHeader ${customClasses}">
+      <div class="broadcast-header ${customClasses}">
         <div class="username ${customClasses}"
              style="background-color:
                     ${stationState.allUsers[bcast.author]?.
@@ -673,12 +672,12 @@ const makeHTMLString_ThatsMyJam = (bcast, customClasses="") => {
                       usernameBoxColor ?? "darkcyan"}">
           ${stationState.allUsers[bcast.author].username}
         </div>
-        <div class="broadcastTimestamp ${customClasses}">
+        <div class="broadcast-timestamp ${customClasses}">
           ${formatTimestamp(bcast.unixTimestamp)}
         </div>
       </div>
-      <div class="broadcastContentContainer ${customClasses}">
-        <label class="broadcastContent ${customClasses}">
+      <div class="broadcast-content-container ${customClasses}">
+        <label class="broadcast-content ${customClasses}">
           <blockquote class="thats-my-jam-lyrics">
             ${theJSON.lyrics}
           </blockquote>
@@ -687,9 +686,9 @@ const makeHTMLString_ThatsMyJam = (bcast, customClasses="") => {
           <b>${theJSON.artist}</b> - ${theJSON.title}
         </label>
       </div>
-      <div class="broadcastActionsContainer ${customClasses}">
+      <div class="broadcast-actions-container ${customClasses}">
       </div>
-      <div class="broadcastFooter ${customClasses}"></div>
+      <div class="broadcast-footer ${customClasses}"></div>
     </div>`;
 };
 
@@ -698,7 +697,7 @@ const makeHTMLString_HTML = (bcast, customClasses="") => {
   return `
     <div id=bid${bcast.broadcastID}
          class="broadcast ${customClasses}">
-      <div class="broadcastHeader ${customClasses}">
+      <div class="broadcast-header ${customClasses}">
         <div class="username ${customClasses}"
              style="background-color:
                     ${stationState.allUsers[bcast.author]?.
@@ -708,31 +707,31 @@ const makeHTMLString_HTML = (bcast, customClasses="") => {
                       usernameBoxColor ?? "darkcyan"}">
           ${stationState.allUsers[bcast.author].username}
         </div>
-        <div class="broadcastTimestamp ${customClasses}">
+        <div class="broadcast-timestamp ${customClasses}">
           ${formatTimestamp(bcast.unixTimestamp)}
         </div>
       </div>
-      <div class="broadcastContentContainer ${customClasses}">
-        <label class="broadcastContent ${customClasses}">
+      <div class="broadcast-content-container ${customClasses}">
+        <label class="broadcast-content ${customClasses}">
           ${bcast.content}
         </label>
       </div>
-      <div class="broadcastActionsContainer ${customClasses}">
+      <div class="broadcast-actions-container ${customClasses}">
       </div>
-      <div class="broadcastFooter ${customClasses}"></div>
+      <div class="broadcast-footer ${customClasses}"></div>
     </div>`;
 };
 
 
 // TODO: does the templating make this unsafe?
 const insertBroadcast_HTML = (bcast) => {
-  let containerElement = document.getElementById("broadcastsHolder");
+  let containerElement = document.getElementById("broadcasts-holder");
   let htmlString = makeHTMLString_HTML(bcast);
   containerElement.insertAdjacentHTML("afterbegin", htmlString);
 };
 
 const insertBroadcast_ThatsMyJam = (bcast) => {
-  let containerElement = document.getElementById("broadcastsHolder");
+  let containerElement = document.getElementById("broadcasts-holder");
   let htmlString = makeHTMLString_ThatsMyJam(bcast);
   containerElement.insertAdjacentHTML("afterbegin", htmlString);
 };
@@ -742,7 +741,7 @@ const insertBroadcast_HTML_reply = (bcast) => {
     // let containerElement = document.getElementById(`${bcast.parent}`);
   // let containerElement = document.querySelector(`#bid${bcast.parent}>.broadcastActionsContainer`);
   let containerElement =
-    document.querySelector(`#bid${bcast.parent}>.broadcastFooter`);
+    document.querySelector(`#bid${bcast.parent}>.broadcast-footer`);
   let htmlString = makeHTMLString_HTML(bcast, "reply");
   // containerElement.insertAdjacentHTML("afterend", htmlString);
   containerElement.insertAdjacentHTML("beforebegin", htmlString);
@@ -756,7 +755,7 @@ const insertBroadcast_HTML_reply = (bcast) => {
 // TODO: restructure so that it's its own page
 //
 const firstTryImport = () => {
-  let rawJson = document.getElementById("importArea").value;
+  let rawJson = document.getElementById("import-area").value;
   let parsedJson = JSON.parse(rawJson);
 
   parsedJson.allBroadcasts.map((bcast) => {
