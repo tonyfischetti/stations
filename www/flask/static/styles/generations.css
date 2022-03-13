@@ -5,12 +5,18 @@
     --OuterWayWidth: 744px;
 }
 
-* {
-    font-family: Commissioner, Helvetica, Arial, sans-serif;
-}
-
 html, body {
     background: var(--BackgroundColor);
+}
+
+* {
+    font-family: "Commissioner", Helvetica, Arial, sans-serif;
+}
+
+i, em {
+    font-family: "Commissioner Italic", Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-weight: 300;
 }
 
 #debugArea {

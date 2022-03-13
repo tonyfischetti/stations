@@ -9,97 +9,96 @@
   <link  href="{{ url_for('static', filename='styles/instructions.css') }}" rel="stylesheet">
 {% endblock %}
 
-{% block body %}
-  {% if htmllang=="en" %}
-    <div class="notice">
-      These are temporary instructions for usage just for my παρέα.<br/>
-      In time, the instructions will be fleshed out and will not include
-      the option to get in touch will me to send you some skrilla.<br/>Oh,
-      also, this is in very early development, but all the most important
-      features are right around the corner.
+{% block containsbody %}
+  <body>
+    {% if htmllang=="en" %}
+      <div class="notice">
+        These are temporary instructions for usage just for my παρέα.<br/>
+        In time, the instructions will be fleshed out and will not include
+        the option to get in touch will me to send you some skrilla.<br/>Oh,
+        also, this is in very early development, but all the most important
+        features are right around the corner.
+      </div>
+    {% else %}
+      <div class="notice">language not supported... defaulting to English</div>
+    {% endif %}
+    <div id="outerWay">
+
+      <div id="veryTempBigText">stations.network</div>
+      <h1>Instructions to get up and running for helping me test Stations</h1>
+      <br/>
+      <ul>
+        <li>
+          Download the
+          <a href="https://metamask.io/download/">official Metamask extension</a>.
+        </li>
+        <li>
+          Follow the Metamask instructions. Make sure you write down and save
+          your seed phrase.
+        </li>
+        <li>
+          We'll be using the Harmony network for our test stations.
+          Navigate to <a href="https://stations.network/add-network">https://stations.network/add-network</a>
+          and click on the Harmony button. It should automatically configure
+          metamask to use the right network for you.
+        </li>
+        <li>
+          When you open Metamask, near the top there should be something that
+          says "Account 1" and, under that, an abbreviated hexidecimal address.
+          This is your Ethereum address. Clicking on that element of the
+          extension will copy your address to the system clipboard.
+        </li>
+        <li>
+          Send me a text with your address and I'll send you some ONE (the
+          currency used to pay for the (nearly free) transaction fees on
+          Harmony.
+        </li>
+        <li>
+          Monitor your account balance and, when the ONE comes in, confirm
+          receipt.
+        </li>
+        <li>
+          I haven't added a friendly UI to join a station so send me your
+          desired screenname (this can always be changed) and I'll add you
+          to "The Lotus Eaters".
+        </li>
+      </ul>
+      <br/><br/>
+      <h1>Using "The Lotus Eaters" station</h1>
+      <i><small>
+         The instructions for usage are invariant of which particular station
+         you're on but, since "The Lotus Eaters" will be our first/primary
+         multi-user test stations, let's make it concrete, shall we?
+      </small></i>
+      <br/><br/>
+      When you visit <a href="https://stations.network/the-lotus-eaters">
+        "the lotus eaters" station page</a>, click the "Connect" button. If,
+      successful, it should make a "Compose" button appear. It should bring
+      up a pop-up modal where you can enter a broadcast. Upon hitting the
+      "broadcast" button, Metamask will pop up asking you to (a) sign the
+      content of the broadcast, and then (b) accept the transaction. Just
+      hit "ok" (or whatever) for both.<br/><br/>
+      Assuming everything went ok, within 5 seconds you should get a popup
+      from Metamask saying the transaction was confirmed. Asynchronous station
+      updates aren't implemented, yet (very soon, tho!), so you have to refresh
+      the page in order to view our broadcast.
+      <br/><br/>
+      <h1>THERE'S MORE</h1>
+      The stations pages (not the info pages) are responsive and it work
+      quite well on mobile. In order to use stations on mobile (something
+      I highly encourage), download the official Metamask Android or iOS app
+      and put in your seed phrase. All the ONE from your desktop Metamask
+      extension should be in there. Hit the hamburger (three horizontal lines)
+      menu in the top left, and tap on "Browser". Then you can navigate to
+      whatever station you'd like, connect, and compose broadcasts!
+      <br/><br/>
+      <h1>MORE?!</h1>
+      Keep your seed phrase a secret; it's the secret key in order to spend
+      your ONE. Though, if it falls into the wrong hands, the financial impact
+      is negligible (we're talking losing a few cents), with your seed phrase
+      or private key, someone can impersonate you on a stations and say bad
+      things. Keep it safe.<br/><br/>
+
     </div>
-  {% else %}
-    <div class="notice">language not supported... defaulting to English</div>
-  {% endif %}
-
-  {{ super() }}
+  </body>
 {% endblock %}
-
-{% block div_outerWay %}
-    <div id="veryTempBigText">stations.network</div>
-    <h1>Instructions to get up and running for helping me test Stations</h1>
-    <br/>
-    <ul>
-      <li>
-        Download the
-        <a href="https://metamask.io/download/">official Metamask extension</a>.
-      </li>
-      <li>
-        Follow the Metamask instructions. Make sure you write down and save
-        your seed phrase.
-      </li>
-      <li>
-        We'll be using the Harmony network for our test stations.
-        Navigate to <a href="https://stations.network/add-network">https://stations.network/add-network</a>
-        and click on the Harmony button. It should automatically configure
-        metamask to use the right network for you.
-      </li>
-      <li>
-        When you open Metamask, near the top there should be something that
-        says "Account 1" and, under that, an abbreviated hexidecimal address.
-        This is your Ethereum address. Clicking on that element of the
-        extension will copy your address to the system clipboard.
-      </li>
-      <li>
-        Send me a text with your address and I'll send you some ONE (the
-        currency used to pay for the (nearly free) transaction fees on
-        Harmony.
-      </li>
-      <li>
-        Monitor your account balance and, when the ONE comes in, confirm
-        receipt.
-      </li>
-      <li>
-        I haven't added a friendly UI to join a station so send me your
-        desired screenname (this can always be changed) and I'll add you
-        to "The Lotus Eaters".
-      </li>
-    </ul>
-    <br/><br/>
-    <h1>Using "The Lotus Eaters" station</h1>
-    <i><small>
-       The instructions for usage are invariant of which particular station
-       you're on but, since "The Lotus Eaters" will be our first/primary
-       multi-user test stations, let's make it concrete, shall we?
-    </small></i>
-    <br/><br/>
-    When you visit <a href="https://stations.network/the-lotus-eaters">
-      "the lotus eaters" station page</a>, click the "Connect" button. If,
-    successful, it should make a "Compose" button appear. It should bring
-    up a pop-up modal where you can enter a broadcast. Upon hitting the
-    "broadcast" button, Metamask will pop up asking you to (a) sign the
-    content of the broadcast, and then (b) accept the transaction. Just
-    hit "ok" (or whatever) for both.<br/><br/>
-    Assuming everything went ok, within 5 seconds you should get a popup
-    from Metamask saying the transaction was confirmed. Asynchronous station
-    updates aren't implemented, yet (very soon, tho!), so you have to refresh
-    the page in order to view our broadcast.
-    <br/><br/>
-    <h1>THERE'S MORE</h1>
-    The stations pages (not the info pages) are responsive and it work
-    quite well on mobile. In order to use stations on mobile (something
-    I highly encourage), download the official Metamask Android or iOS app
-    and put in your seed phrase. All the ONE from your desktop Metamask
-    extension should be in there. Hit the hamburger (three horizontal lines)
-    menu in the top left, and tap on "Browser". Then you can navigate to
-    whatever station you'd like, connect, and compose broadcasts!
-    <br/><br/>
-    <h1>MORE?!</h1>
-    Keep your seed phrase a secret; it's the secret key in order to spend
-    your ONE. Though, if it falls into the wrong hands, the financial impact
-    is negligible (we're talking losing a few cents), with your seed phrase
-    or private key, someone can impersonate you on a stations and say bad
-    things. Keep it safe.<br/><br/>
-{% endblock %}
-
-

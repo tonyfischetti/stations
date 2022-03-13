@@ -13,6 +13,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" sizes="180x180"
+          href="{{ url_for('static', filename='assets/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32"
+          href="{{ url_for('static', filename='assets/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16"
+          href="{{ url_for('static', filename='assets/favicon-16x16.png') }}">
+    <link rel="manifest"
+          href="{{ url_for('static', filename='assets/site.webmanifest') }}">
+    <link rel="mask-icon" color="#5bbad5"
+          href="{{ url_for('static', filename='assets/safari-pinned-tab.svg') }}">
+    <link rel="shortcut icon"
+          href="{{ url_for('static', filename='assets/favicon.ico') }}">
+    <meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="msapplication-config"
+          content="{{ url_for('static', filename='assets/browserconfig.xml') }}">
+    <meta name="theme-color" content="#ffffff">
     {% endblock %} <!-- ends metatags -->
 
     <title>[stations.network] - {% block title %} {% endblock %}</title>
@@ -40,11 +57,14 @@
 
   </head>
   {% endblock %} <!-- ends head -->
-  <body>
-    {% block body %}
-    <div id="outerWay">
-      {% block div_outerWay %} {% endblock %}
-    </div>
-    {% endblock %}
-  </body>
+
+  {% block containsbody %}
+  {# <body> #}
+  {#   {% block body %} #}
+  {#   <div id="outerWay"> #}
+  {#     {% block div_outerWay %} {% endblock %} #}
+  {#   </div> #}
+  {#   {% endblock %} #}
+  {# </body> #}
+  {% endblock %}
 </html>
