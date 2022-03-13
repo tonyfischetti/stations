@@ -27,9 +27,25 @@ i, em {
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+#below-header {
+    display: flex;
+    flex-direction: row;
 }
 
 
+/* TODO: THIS GOES AWAY AT SMALL ENOUGH VP SIZES */
+#stage-right {
+    width: 996px;
+}
+
+@media only screen and (max-width: 900px) {
+  #stage-right {
+    width: 0px;
+  }
+}
 
 #debug-area {
     font-family: monospace;
@@ -71,6 +87,7 @@ i, em {
     background: var(--BackgroundColor);
     margin: auto;
     max-width: 95%;
+    flex-grow: 1;
 }
 
 
