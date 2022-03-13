@@ -19,6 +19,10 @@ i, em {
     font-weight: 300;
 }
 
+#station-button {
+    position: absolute;
+}
+
 #debugArea {
     font-family: monospace;
 }

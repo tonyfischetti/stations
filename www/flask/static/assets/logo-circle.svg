@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="210" height="210" viewBox="0, 0, 210, 210">
+  <defs>
+    <clipPath id="Clip_1">
+      <path d="M-1,-3 L211,-3 L211,213 L-1,213 z M105,5 C49.772,5 5,49.772 5,105 C5,160.228 49.772,205 105,205 C160.228,205 205,160.228 205,105 C205,49.772 160.228,5 105,5 z"/>
+    </clipPath>
+    <filter id="Shadow_2">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.5"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000"/>
+      <feComposite in2="offsetblur" operator="in"/>
+    </filter>
+  </defs>
+  <g id="Layer_1">
+    <g>
+      <path d="M105,5 C160.228,5 205,49.772 205,105 C205,160.228 160.228,205 105,205 C49.772,205 5,160.228 5,105 C5,49.772 49.772,5 105,5 z" clip-path="url(#Clip_1)" filter="url(#Shadow_2)" fill="rgba(0,0,0,0.75)"/>
+      <path d="M105,205 C49.772,205 5,160.228 5,105 C5,49.772 49.772,5 105,5 C160.228,5 205,49.772 205,105 C205,160.228 160.228,205 105,205 z" fill="#007C7E"/>
+    </g>
+    <g id="Layer_1">
+      <path d="M73.19,151.344 L177.533,52.22" fill-opacity="0" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round" id="path53"/>
+      <path d="M55.099,74.911 L59.743,148.867" fill-opacity="0" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round" id="path60"/>
+      <path d="M83.805,98.797 L66.069,149.221" fill-opacity="0" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round" id="path67"/>
+      <path d="M75.313,159.438 C75.313,161.473 74.782,163.463 73.765,165.233 C72.747,167.002 71.244,168.506 69.474,169.523 C67.705,170.54 65.715,171.071 63.68,171.071 C61.601,171.071 59.61,170.54 57.841,169.523 C56.072,168.506 54.568,167.002 53.551,165.233 C52.533,163.463 52.003,161.473 52.003,159.438 C52.003,157.36 52.533,155.369 53.551,153.6 C54.568,151.831 56.072,150.326 57.841,149.309 C59.61,148.292 61.601,147.761 63.68,147.761 C65.715,147.761 67.705,148.292 69.474,149.309 C71.244,150.326 72.747,151.831 73.765,153.6 C74.782,155.369 75.313,157.36 75.313,159.438 z" fill-opacity="0" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round" id="path74"/>
+    </g>
+  </g>
+</svg>
