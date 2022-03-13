@@ -4,47 +4,67 @@
 
   <body>
 
+    <div id="entire-page">
 
-    <div id="outer-way">
+      <div id="very-top-strip">
+      </div>
 
-      <div id="station-header">
-        <hr/>
-        <div id="inside-header">
-          <div id="first-inside-header">
-          </div>
-          <div id="name-and-description">
-            <div id="station-name">tuning</div>
-            <div id="station-description"></div>
-          </div>
-          <div id="station-image-container">
-          </div>
-          <div id="station-button-container">
-            <img id="station-button"
-                 src="{{ url_for('static', filename='assets/logo-circle.svg') }}"
-                 width="77"
-                 height="77"/>
-          </div>
+      <div id="between-strips">
+
+        <div id="left-gutter">
         </div>
-        <hr/>
 
-        <div id="station-actions">
-          <button id="connect-button"></button>
-          <button id="export-button" disabled>Export broadcasts</button>
-          <button id="debug-console-button">Debug console</button>
-          <button id="import-button">Import</button>
-          <button id="compose-button">Compose</button>
+        <div id="outer-way">
+
+          <div id="station-header">
+
+            <hr/>
+            <div id="inside-header">
+              <div id="first-inside-header">
+              </div>
+              <div id="name-and-description">
+                <div id="station-name">tuning</div>
+                <div id="station-description"></div>
+              </div>
+              <div id="station-image-container">
+              </div>
+              <div id="station-button-container">
+                <img id="station-button"
+                     src="{{ url_for('static', filename='assets/logo-circle.svg') }}"
+                     width="77"
+                     height="77"/>
+              </div>
+            </div>
+            <hr/>
+
+            <div id="under-header">
+              <div id="station-actions">
+                <button id="connect-button"></button>
+                <button id="export-button" disabled>Export broadcasts</button>
+                <button id="debug-console-button">Debug console</button>
+                <button id="import-button">Import</button>
+                <button id="compose-button">Compose</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div id="below-header">
+            <div id="stage-left"> </div>
+            <div id="middle-way">
+              <div id="broadcasts-holder"> </div>
+            </div> 
+            <div id="stage-right"> </div>
+          </div>
+
+        </div>
+
+        <div id="right-gutter">
         </div>
 
       </div>
 
-      <div id="below-header">
-        <div id="stage-left">
-        </div>
-        <div id="middle-way">
-          <div id="broadcasts-holder"> </div>
-        </div>
-        <div id="stage-right">
-        </div>
+      <div id="very-bottom-strip">
       </div>
 
     </div>

@@ -1,12 +1,18 @@
 
 :root {
     --BackgroundColor: white;
+    /* --BackgroundColor: lightgrey; */
     --BroadcastBackgroundColor: white;
-    --OuterWayWidth: 1000px;
+    --OuterWayWidth: 1200px;
+    --LightColor: #e6e0dc;
+    --MainColor: #007C7E;
+    --SecondaryColor: #850101b8;
 }
 
 html, body {
     background: var(--BackgroundColor);
+    margin:  0px;
+    padding: 0px;
 }
 
 * {
@@ -17,6 +23,31 @@ i, em {
     font-family: "Commissioner Italic", Helvetica, Arial, sans-serif;
     font-style: italic;
     font-weight: 300;
+}
+
+#between-strips {
+    display: flex;
+    flex-direction: row;
+}
+
+#left-gutter {
+    background: green;
+    flex-grow: 1;
+}
+
+#right-gutter {
+    background: green;
+    flex-grow: 1;
+}
+
+#entire-page {
+    display: flex;
+    flex-direction: column;
+}
+
+#under-header {
+    display: flex;
+    flex-direction: row;
 }
 
 #name-and-description {
@@ -36,9 +67,17 @@ i, em {
 }
 
 
-/* TODO: THIS GOES AWAY AT SMALL ENOUGH VP SIZES */
+
+#stage-left {
+    width: 6px;
+    background: var(--LightColor);
+}
+
 #stage-right {
-    width: 996px;
+    display: flex;
+    flex-direction: column;
+    width: 555px;
+    background: var(--LightColor);
 }
 
 @media only screen and (max-width: 900px) {
@@ -46,6 +85,18 @@ i, em {
     width: 0px;
   }
 }
+
+
+#very-top-strip {
+    height: 30px;
+    background: blue;
+}
+
+#very-bottom-strip {
+    height: 30px;
+    background: blue;
+}
+
 
 #debug-area {
     font-family: monospace;
@@ -84,6 +135,8 @@ i, em {
 }
 
 #middle-way {
+    display: flex;
+    flex-direction: column;
     background: var(--BackgroundColor);
     margin: auto;
     max-width: 95%;
@@ -92,7 +145,7 @@ i, em {
 
 
 hr {
-    background-color: #850101b8;
+    background-color: var(--SecondaryColor);
     width: 100%;
     border: none;
     height: 1px;
@@ -102,6 +155,7 @@ hr {
     background: var(--BackgroundColor);
     display: flex;
     flex-direction: column;
+    gap: 50px;
 }
 
 .username {
@@ -110,10 +164,11 @@ hr {
     padding: 5px;
     padding-right: 10px;
     padding-left: 10px;
+    background: var(--MainColor);
 }
 
 .broadcast-timestamp {
-    background-color: #e6e0dc;
+    background: var(--LightColor);
     text-align: right;
     font-size: .8em;
     width: 100%;
@@ -123,19 +178,19 @@ hr {
 
 .broadcast {
     background: var(--BroadcastBackgroundColor);
-    margin-bottom: 20px;
-    margin-top: 20px;
+    /* margin-bottom: 20px; */
+    /* margin-top: 20px; */
     padding-left: 13px;
     padding-right: 13px;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    /* padding-top: 30px; */
+    /* padding-bottom: 30px; */
     border-radius: 10px;
 }
 
 @media screen and (min-width: 450px) {
     .broadcast {
-        padding-top: 40px;
-        padding-bottom: 40px;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 }
 
@@ -254,7 +309,7 @@ hr {
 }
 
 
-summary.broadcastTypeForm {
+summary.broadcast-type-form {
     text-align: left;
     margin-bottom: 12px;
     color: white;
@@ -292,8 +347,7 @@ details {
 
 .broadcast-footer {
     height: 1px;
-    /* background-color: #850101b8; */
-    background-color: #e6e0dc;
+    background: var(--LightColor);
     margin-top: 14px;
 }
 
@@ -328,9 +382,9 @@ details {
 }
 
 #station-actions {
-    /* margin-bottom: 10px; */
+    margin-bottom: 27px;
     /* margin-top: 10px; */
-    padding: 10px;
+    padding: 21px;
 }
 
 .thats-my-jam-video {
