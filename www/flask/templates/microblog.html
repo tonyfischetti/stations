@@ -44,6 +44,7 @@
                 <button id="debug-console-button">Debug console</button>
                 <button id="import-button">Import</button>
                 <button id="compose-button">Compose</button>
+                <button id="change-user-metadata-button">Change user metadata</button>
               </div>
             </div>
 
@@ -53,7 +54,7 @@
             <div id="stage-left"> </div>
             <div id="middle-way">
               <div id="broadcasts-holder"> </div>
-            </div> 
+            </div>
             <div id="stage-right"> </div>
           </div>
 
@@ -82,7 +83,8 @@
           <details>
             <summary class="broadcast-type-form">Raw HTML broadcast</summary>
             <textarea id="rawHTML_composition-area" class="composition-area"
-                      rows="5" placeholder="content"></textarea>
+                      rows="5" placeholder="content"
+                      spellcheck="true"></textarea>
             <br/><br/>
             <button id="rawHTML_broadcast-button">Broadcast</button>
             <br/><br/>
@@ -166,6 +168,21 @@
           <textarea id="import-area" rows="5" placeholder="copy and paste JSON from a station export here"></textarea>
           <br/><br/>
           <button id="do-import-button">Import</button>
+          <br/><br/>
+        </div>
+      </div>
+    </div>     <!-- end import modal -->
+
+    <div id="change-user-metadata-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">Change user metadata</div>
+          <span id="change-user-metadata-modal-close" class="modal-close">&#9679;</span>
+        </div>
+        <div class="modal-body">
+          <textarea id="user-metadata-area" rows="5" placeholder="JSON"></textarea>
+          <br/><br/>
+          <button id="do-change-user-metadata-button">Change metadata</button>
           <br/><br/>
         </div>
       </div>

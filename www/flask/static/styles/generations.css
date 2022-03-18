@@ -1,4 +1,6 @@
 
+/* ------------------------------------------- */
+
 :root {
     --BackgroundColor: white;
     /* --BackgroundColor: lightgrey; */
@@ -14,6 +16,14 @@ html, body {
     margin:  0px;
     padding: 0px;
 }
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* ------------------------------------------- */
 
 * {
     font-family: "Commissioner", Helvetica, Arial, sans-serif;
@@ -62,7 +72,7 @@ i, em {
     display: flex;
     flex-direction: row;
     align-items: center;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
     justify-content: flex-end;
 }
 
@@ -121,6 +131,10 @@ i, em {
     display: none;
 }
 
+#change-user-metadata-button {
+    display: none;
+}
+
 #station-name {
     font-size: 3.5em;
     margin-bottom: 14px;
@@ -142,8 +156,9 @@ i, em {
     flex-direction: column;
     background: var(--BackgroundColor);
     margin: auto;
-    max-width: 95%;
+    /* max-width: 95%; */
     flex-grow: 1;
+    max-width: 720px;
 }
 
 
@@ -248,7 +263,7 @@ hr {
     margin: auto;
     padding: 0;
     width: 80%;
-    /* height: 80%; */
+    max-width: 900px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
@@ -322,6 +337,8 @@ textarea {
     /* width: 95%; */
     width: 99%;
     border-radius: 7px;
+    padding: 8px;
+    font-size: 1rem;
 }
 
 textarea.debug-related {

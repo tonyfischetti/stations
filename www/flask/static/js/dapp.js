@@ -132,18 +132,32 @@ const startDapp = async () => {
   importButton.onclick = () => { importModal.style.display = "block"; };
   importModalClose.onclick = () => { importModal.style.display = "none"; };
 
+  /* change user metadata modal things */
+  const changeUserMetadataModal =
+    document.getElementById("change-user-metadata-modal");
+  const changeUserMetadataButton =
+    document.getElementById("change-user-metadata-button");
+  const changeUserMetadataModalClose =
+    document.getElementById("change-user-metadata-modal-close");
+  changeUserMetadataButton.onclick = () =>
+    { changeUserMetadataModal.style.display = "block"; };
+  changeUserMetadataModalClose.onclick = () =>
+    { changeUserMetadataModal.style.display = "none"; };
+
   window.onclick = (event) => {
     _DEBUG(`[window click event] target: ${event.target}`);
     if (event.target == debugConsoleModal ||
         event.target == compositionModal ||
         event.target == editModal ||
         event.target == replyModal ||
-        event.target == importModal) {
+        event.target == importModal ||
+        event.target == changeUserMetadataModal) {
       debugConsoleModal.style.display = "none";
       compositionModal.style.display = "none";
       editModal.style.display = "none";
       replyModal.style.display = "none";
       importModal.style.display = "none";
+      changeUserMetadataModal.style.display = "none";
     }
   };
 
@@ -159,6 +173,31 @@ const startDapp = async () => {
 
 /* ---------------------------------------------------------------- */
 
+
+// TODO: make sure the JSON parses!
+// TODO: this is bad. The textarea should be set beforehand
+const beginChangeUserMetadata = async () => {
+  console.log("HERE");
+  let address = window.ethereum.selectedAddress;
+  try {
+    document.getElementById("user-metadata-area").value =
+      JSON.stringify(stationState.allUsers[address].user_metadata);
+  } catch {
+  }
+
+  let toBroadcast = document.getElementById("user-metadata-area").value;
+  let rawXact = myContract.methods.replace_user_metadata(toBroadcast);
+  // rawXact.estimateGas( { from: window.ethereum.selectedAddress } );
+  rawXact.send(
+    { from: window.ethereum.selectedAddress },
+    function(error, result){
+      if (error){
+        alert("!UNHANDLED ERROR:\n" + error);
+        return;
+      }
+      console.log(result);
+  });
+};
 
 const beginEdit = async (anid) => {
   const editModal = document.getElementById("edit-modal");
@@ -288,12 +327,17 @@ const setUpLoggedInElements = () => {
   // // TODO do i need? (tmp todo)
   let doImportButton = document.getElementById("do-import-button");
   doImportButton.onclick = firstTryImport;
+  let doChangeUserMetdataButton =
+    document.getElementById("do-change-user-metadata-button");
+  console.log("button: " + doChangeUserMetdataButton);
+  doChangeUserMetdataButton.onclick = beginChangeUserMetadata;
 
   /* have to use metamask provider now--so we'll change the web3 var */
   replaceWeb3andMyContractAfterLogin();
 
   // console.log("supposed to make compose visible now");
   document.getElementById("compose-button").style.display = "inline";
+  document.getElementById("change-user-metadata-button").style.display = "inline";
   // document.getElementById("importButton").style.display = "inline";
 
   let specifiedButton = document.getElementById("rawHTML_broadcast-button");
