@@ -54,7 +54,8 @@ const PROVIDER_PARAMS = {
       symbol: 'ONE',
       decimals: 18
     },
-    rpcUrls: ['https://harmony-0.gateway.pokt.network/v1/lb/621dadf54e140e003a31cd1f'],
+    // rpcUrls: ['https://harmony-0.gateway.pokt.network/v1/lb/621dadf54e140e003a31cd1f'],
+    rpcUrls: ['https://rpc.hermesdefi.io'],
     blockExplorerUrls: ['https://explorer.harmony.one/']
   }
 };
@@ -66,8 +67,8 @@ const RPC_URL_MAP = {
   avalanche: "https://rpc.ankr.com/avalanche",
   fantom: "https://rpc.ftm.tools",
   // harmony: "https://api.harmony.one"
-  // harmony: "https://rpc.hermesdefi.io"
-  harmony: "https://harmony-0.gateway.pokt.network/v1/lb/621dadf54e140e003a31cd1f"
+  harmony: "https://rpc.hermesdefi.io"
+  // harmony: "https://harmony-0.gateway.pokt.network/v1/lb/621dadf54e140e003a31cd1f"
 };
 
 // TODO: return unsuccessful if not on chain

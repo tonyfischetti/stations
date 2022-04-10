@@ -100,11 +100,19 @@ const startDapp = async () => {
   /****************/
 
   /* composition modal things */
-  const compositionModal = document.getElementById("composition-modal");
   const composeButton = document.getElementById("compose-button");
+  composeButton.addEventListener("click", () => {
+    toggleBlock("station-operation-popup");
+    toggleBlock("station-button-popup")
+  });
+
+  const compositionModal = document.getElementById("composition-modal");
+  const oldComposeButton = document.getElementById("old-compose-button");
   const compositionModalClose = document.getElementById("composition-modal-close");
-  composeButton.onclick = () => {
+  oldComposeButton.onclick = () => {
+    // toggleBlock("composition-modal");
     compositionModal.style.display = "block";
+    toggleBlock("station-button-popup")
   };
   compositionModalClose.onclick = () => { compositionModal.style.display = "none"; };
 
@@ -169,9 +177,51 @@ const startDapp = async () => {
     }, 1000, 30000);
   }
 
+  // toggleBlock("station-button-container");
+
+  const stationButton = document.getElementById("station-button");
+  stationButton.addEventListener("click", () => {
+    toggleBlock("station-button-popup")
+  });
+
+  document.getElementById("action-cancel-button").addEventListener("click", () => {
+    hideBlock("station-operation-popup");
+  });
+
 };
 
 /* ---------------------------------------------------------------- */
+
+//// ONCLICK ACTIONS
+
+const toggleBlock = (anid) => {
+  const el = document.getElementById(anid);
+  if(el.style.display==="block"){
+    el.style.display = "none";
+  } else {
+    el.style.display = "block";
+  }
+};
+
+const showBlock = (anid) => {
+  const el = document.getElementById(anid);
+  el.style.display = "block";
+};
+
+const hideBlock = (anid) => {
+  const el = document.getElementById(anid);
+  el.style.display = "none";
+};
+
+const exportBroadcasts = () => {
+  let expFileName =
+    `${stationState.stationInfo.stationFrequency}-export-${Date.now()}.json`;
+  // TODO: check for errors
+  download(expFileName, JSON.stringify(stationState, null, 2));
+  toggleStationButtonPopup();
+};
+
+
 
 
 // TODO: make sure the JSON parses!
@@ -320,7 +370,7 @@ const setUpLoggedInElements = () => {
   let connectButton = document.getElementById("connect-button");
   let address = window.ethereum.selectedAddress;
   connectButton.innerText =
-    `log out  (${address.substring(0, 7)}...${address.substring(39)})`;
+    `log out  (${make_smaller_address(address)})`;
   // TODO: this is better done as a tear-down script
   connectButton.onclick = () => { window.location.reload(); };
 
@@ -338,13 +388,13 @@ const setUpLoggedInElements = () => {
   // console.log("supposed to make compose visible now");
   document.getElementById("compose-button").style.display = "inline";
   document.getElementById("change-user-metadata-button").style.display = "inline";
-  // document.getElementById("importButton").style.display = "inline";
+  document.getElementById("import-button").style.display = "inline";
 
   let specifiedButton = document.getElementById("rawHTML_broadcast-button");
   specifiedButton.onclick = makeRawHTMLBroadcast;
 
-  specifiedButton = document.getElementById("jam_broadcast-button");
-  specifiedButton.onclick = makeJamBroadcast;
+  // specifiedButton = document.getElementById("jam_broadcast-button");
+  // specifiedButton.onclick = makeJamBroadcast;
 
   ADD_ACTIONS();
 
@@ -498,7 +548,7 @@ async function getAllBroadcasts(){
       if (error){ alert("UNHANDLED ERROR:\n" + error); return; }
       console.log(result);
       stationState.allBroadcasts = result.map(makeBroadcastPrettier);
-      stationState.allBroadcasts.map(bcast => {
+      stationState.allBroadcasts.forEach(bcast => {
         try{
           insertBroadcast(bcast);
         } catch (error){
@@ -506,6 +556,8 @@ async function getAllBroadcasts(){
         }
       });
   });
+  toggleBlock("station-button-container");
+  console.log("got all broadcasts");
   _DEBUG("got all broadcasts\n");
 }
 
@@ -520,12 +572,6 @@ const download = (filename, text) => {
     document.body.removeChild(element);
 }
 
-const exportBroadcasts = () => {
-  let expFileName =
-    `${stationState.stationInfo.stationFrequency}-export-${Date.now()}.json`;
-  // TODO: check for errors
-  download(expFileName, JSON.stringify(stationState, null, 2));
-};
 
 
 
@@ -662,6 +708,10 @@ const makeJamBroadcast = async () => {
 /* display rules for different broadcast Types */
 
 const insertBroadcast = (bcast) => {
+    // if(+(bcast.broadcastID.replace("bid", "")) > 149)
+    //   return;
+  if(+(bcast.broadcastID.replace("bid", "")) === 150)
+    return;
   // TODO: write this better
   if(spec_bcastCheckDeleted(+bcast.broadcastFlags)){
     _DEBUG(`[insertion] broadcastID ${bcast.broadcastID} - skipped (deleted)`);
@@ -698,15 +748,19 @@ const insertBroadcast_Delegator = (bcast) => {
 //   the actions should be added in a different step
 
 
-// TODO: verify that it's sane (and throw error if not)
-const makeHTMLString_ThatsMyJam = (bcast, customClasses="") => {
-  let theJSON = JSON.parse(bcast.content);
-  let videoSlug = theJSON.youtubelink.match(/v=([\w\-]+)\W*.*$/)[1]
-  let embedLink = `https://www.youtube.com/embed/${videoSlug}`;
+const makeHTMLString_common_top = (bcast, customClasses="") => {
+
+  let pfp_p = stationState.allUsers[bcast.author]?.user_metadata?.profilePic;
+  console.log(`>>> ${pfp_p}`);
+  pfp_p = pfp_p ?  `<div class="bcast-profile-pic-container"> <img class="bcast-profile-pic" src="${pfp_p}"> </div>` : ``;
+
+  let handle = stationState.allUsers[bcast.author]?.username ?? make_smaller_address(bcast.author);
+
   return `
     <div id=bid${bcast.broadcastID}
          class="broadcast ${customClasses}">
       <div class="broadcast-header ${customClasses}">
+        ${pfp_p}
         <div class="username ${customClasses}"
              style="background-color:
                     ${stationState.allUsers[bcast.author]?.
@@ -714,12 +768,40 @@ const makeHTMLString_ThatsMyJam = (bcast, customClasses="") => {
                       themeSettings?.
                       generations?.
                       usernameBoxColor ?? "darkcyan"}">
-          ${stationState.allUsers[bcast.author].username}
+          ${handle}
         </div>
         <div class="broadcast-timestamp ${customClasses}">
           ${formatTimestamp(bcast.unixTimestamp)}
         </div>
+      </div>`;
+};
+
+const makeHTMLString_common_bottom = (bcast, customClasses="") => {
+  return `
+      <div class="broadcast-actions-container ${customClasses}">
       </div>
+      <div class="broadcast-footer ${customClasses}"></div>
+    </div>`;
+};
+
+const makeHTMLString_HTML = (bcast, customClasses="") => {
+  return `
+    ${makeHTMLString_common_top(bcast, customClasses)}
+      <div class="broadcast-content-container ${customClasses}">
+        <label class="broadcast-content ${customClasses}">
+          ${bcast.content}
+        </label>
+      </div>
+    ${makeHTMLString_common_bottom(bcast, customClasses)}`;
+};
+
+// TODO: verify that it's sane (and throw error if not)
+const makeHTMLString_ThatsMyJam = (bcast, customClasses="") => {
+  let theJSON = JSON.parse(bcast.content);
+  let videoSlug = theJSON.youtubelink.match(/v=([\w\-]+)\W*.*$/)[1]
+  let embedLink = `https://www.youtube.com/embed/${videoSlug}`;
+  return `
+    ${makeHTMLString_common_top(bcast, customClasses)}
       <div class="broadcast-content-container ${customClasses}">
         <label class="broadcast-content ${customClasses}">
           <blockquote class="thats-my-jam-lyrics">
@@ -730,40 +812,7 @@ const makeHTMLString_ThatsMyJam = (bcast, customClasses="") => {
           <b>${theJSON.artist}</b> - ${theJSON.title}
         </label>
       </div>
-      <div class="broadcast-actions-container ${customClasses}">
-      </div>
-      <div class="broadcast-footer ${customClasses}"></div>
-    </div>`;
-};
-
-
-const makeHTMLString_HTML = (bcast, customClasses="") => {
-  return `
-    <div id=bid${bcast.broadcastID}
-         class="broadcast ${customClasses}">
-      <div class="broadcast-header ${customClasses}">
-        <div class="username ${customClasses}"
-             style="background-color:
-                    ${stationState.allUsers[bcast.author]?.
-                      user_metadata?.
-                      themeSettings?.
-                      generations?.
-                      usernameBoxColor ?? "darkcyan"}">
-          ${stationState.allUsers[bcast.author].username}
-        </div>
-        <div class="broadcast-timestamp ${customClasses}">
-          ${formatTimestamp(bcast.unixTimestamp)}
-        </div>
-      </div>
-      <div class="broadcast-content-container ${customClasses}">
-        <label class="broadcast-content ${customClasses}">
-          ${bcast.content}
-        </label>
-      </div>
-      <div class="broadcast-actions-container ${customClasses}">
-      </div>
-      <div class="broadcast-footer ${customClasses}"></div>
-    </div>`;
+    ${makeHTMLString_common_bottom(bcast, customClasses)}`;
 };
 
 
@@ -838,3 +887,10 @@ const firstTryImport = () => {
 };
 
 
+
+
+
+const make_smaller_address = (anaddress) => {
+  // return `${anaddress.substring(0, 6)}...${anaddress.substring(36, 39)}`;
+  return `${anaddress.substring(0, 6)}...${anaddress.substring(39, 42)}`;
+};

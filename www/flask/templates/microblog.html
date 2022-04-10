@@ -4,6 +4,81 @@
 
   <body>
 
+    <div id="station-button-container">
+      <img id="station-button"
+           src="{{ url_for('static', filename='assets/logo-circle.svg') }}"
+           width="77"
+           height="77"/>
+    </div>
+
+    <div id="station-button-popup">
+      <div id="station-button-popup-container">
+        <button id="connect-button" class="station-button-popup-button veridian-button">
+        </button>
+        <button id="export-button" class="station-button-popup-button"
+          disabled>Export broadcasts</button>
+
+        <button id="debug-console-button" class="station-button-popup-button">Debug console</button>
+        <button id="import-button" class="station-button-popup-button">Import</button>
+        <button id="compose-button" class="station-button-popup-button">Compose</button>
+        <button id="old-compose-button" class="station-button-popup-button">Old compose</button>
+        <button id="change-user-metadata-button" class="station-button-popup-button">Change user metadata</button>
+      </div>
+    </div>
+
+    <div id="station-operation-popup" class="modal">
+      <div id="composition-modal" class="action-modal-content">
+        <div class="action-modal-header">
+          <div class="action-modal-title">Compose broadcast</div>
+        </div>
+        <div class="action-modal-body">
+          <textarea id="rawHTML_composition-area" class="composition-area"
+                    rows="11"
+                    placeholder="content"
+                    spellcheck="true"></textarea>
+          <div class="spacer"></div>
+          <button id="rawHTML_broadcast-button"
+            class="station-action-popup-button veridian-button">
+            Broadcast
+          </button>
+          <button id="action-cancel-button"
+                  class="station-action-popup-button">
+            Cancel
+          </button>
+        </div>
+        {# <div class="modal-header"> #}
+        {#   <div class="modal-title">Compose broadcast</div> #}
+        {#   <div id="composition-modal-close" class="modal-close">&#9679;</div> #}
+        {# </div> #}
+        {# <div class="modal-body"> #}
+        {#   <details> #}
+        {#     <summary class="broadcast-type-form">Raw HTML broadcast</summary> #}
+        {#     <textarea id="rawHTML_composition-area" class="composition-area" #}
+        {#               rows="11" placeholder="content" #}
+        {#               spellcheck="true"></textarea> #}
+        {#     <br/><br/> #}
+        {#     <button id="rawHTML_broadcast-button">Broadcast</button> #}
+        {#     <br/><br/> #}
+        {#   </details> #}
+        {#   <!-- TODO: needs to be escaped --> #}
+        {#   <details> #}
+        {#     <summary class="broadcast-type-form">Song</summary> #}
+        {#     <textarea id="artist" rows="1" placeholder="name of artist"></textarea> #}
+        {#     <br/><br/> #}
+        {#     <textarea id="songtitle" rows="1" placeholder="song title"></textarea> #}
+        {#     <br/><br/> #}
+        {#     <textarea id="youtubelink" rows="1" placeholder="link to video on youtube"></textarea> #}
+        {#     <br/><br/> #}
+        {#     <textarea id="lyrics" rows="11" placeholder="lyrics"></textarea> #}
+        {#     <br/><br/> #}
+        {#     <button id="jam_broadcast-button">Broadcast</button> #}
+        {#     <br/><br/> #}
+        {#   </details> #}
+        {# </div> #}
+      </div>
+
+    </div>
+
     <div id="entire-page">
 
       <div id="very-top-strip">
@@ -28,26 +103,8 @@
               </div>
               <div id="station-image-container">
               </div>
-              <div id="station-button-container">
-                <img id="station-button"
-                     src="{{ url_for('static', filename='assets/logo-circle.svg') }}"
-                     width="77"
-                     height="77"/>
-              </div>
             </div>
             <hr/>
-
-            <div id="under-header">
-              <div id="station-actions">
-                <button id="connect-button"></button>
-                <button id="export-button" disabled>Export broadcasts</button>
-                <button id="debug-console-button">Debug console</button>
-                <button id="import-button">Import</button>
-                <button id="compose-button">Compose</button>
-                <button id="change-user-metadata-button">Change user metadata</button>
-              </div>
-            </div>
-
           </div>
 
           <div id="below-header">
@@ -79,34 +136,17 @@
           <div id="composition-modal-close" class="modal-close">&#9679;</div>
         </div>
         <div class="modal-body">
-
-          <details>
-            <summary class="broadcast-type-form">Raw HTML broadcast</summary>
-            <textarea id="rawHTML_composition-area" class="composition-area"
-                      rows="5" placeholder="content"
-                      spellcheck="true"></textarea>
-            <br/><br/>
-            <button id="rawHTML_broadcast-button">Broadcast</button>
-            <br/><br/>
-          </details>
-
-
-          <!-- TODO: needs to be escaped -->
-          <details>
-            <summary class="broadcast-type-form">Song</summary>
-            <textarea id="artist" rows="1" placeholder="name of artist"></textarea>
-            <br/><br/>
-            <textarea id="songtitle" rows="1" placeholder="song title"></textarea>
-            <br/><br/>
-            <textarea id="youtubelink" rows="1" placeholder="link to video on youtube"></textarea>
-            <br/><br/>
-            <textarea id="lyrics" rows="5" placeholder="lyrics"></textarea>
-            <br/><br/>
-            <button id="jam_broadcast-button">Broadcast</button>
-            <br/><br/>
-          </details>
-
-
+          <summary class="broadcast-type-form">Song</summary>
+          <textarea id="artist" rows="1" placeholder="name of artist"></textarea>
+          <br/><br/>
+          <textarea id="songtitle" rows="1" placeholder="song title"></textarea>
+          <br/><br/>
+          <textarea id="youtubelink" rows="1" placeholder="link to video on youtube"></textarea>
+          <br/><br/>
+          <textarea id="lyrics" rows="11" placeholder="lyrics"></textarea>
+          <br/><br/>
+          <button id="jam_broadcast-button">Broadcast</button>
+          <br/><br/>
         </div>
       </div>
     </div>     <!-- end composition modal -->
@@ -135,7 +175,7 @@
           <span id="edit-modal-close" class="modal-close">&#9679;</span>
         </div>
         <div class="modal-body">
-          <textarea id="edit-area" rows="5"></textarea>
+          <textarea id="edit-area" rows="11"></textarea>
           <br/><br/>
           <button id="edit-button">Submit edit</button>
           <br/><br/>
@@ -150,7 +190,7 @@
           <span id="reply-modal-close" class="modal-close">&#9679;</span>
         </div>
         <div class="modal-body">
-          <textarea id="reply-area" rows="5"></textarea>
+          <textarea id="reply-area" rows="11"></textarea>
           <br/><br/>
           <button id="reply-button">Reply</button>
           <br/><br/>
@@ -165,7 +205,7 @@
           <span id="import-modal-close" class="modal-close">&#9679;</span>
         </div>
         <div class="modal-body">
-          <textarea id="import-area" rows="5" placeholder="copy and paste JSON from a station export here"></textarea>
+          <textarea id="import-area" rows="11" placeholder="copy and paste JSON from a station export here"></textarea>
           <br/><br/>
           <button id="do-import-button">Import</button>
           <br/><br/>
@@ -180,7 +220,7 @@
           <span id="change-user-metadata-modal-close" class="modal-close">&#9679;</span>
         </div>
         <div class="modal-body">
-          <textarea id="user-metadata-area" rows="5" placeholder="JSON"></textarea>
+          <textarea id="user-metadata-area" rows="11" placeholder="JSON"></textarea>
           <br/><br/>
           <button id="do-change-user-metadata-button">Change metadata</button>
           <br/><br/>
