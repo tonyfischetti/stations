@@ -120,19 +120,19 @@ export const setUpLoggedIn = (provider, signer, myContract, stationState) => {
 
 export const convertToReply = (anid, parent) => {
   document.querySelector(`#${anid} > .make-change`).innerText = "Reply";
-  document.querySelector(`#${anid} > .action-modal-header > .action-modal-title`).innerText = `Reply to broadcast #${parent}`;
+  document.querySelector(`#${anid} > .operation-modal-header > .operation-modal-title`).innerText = `Reply to broadcast #${parent}`;
   document.querySelector(`#${anid} > .hidden-info`).setAttribute("parent", parent);
 };
 
 export const convertToEdit = (anid, parent) => {
   document.querySelector(`#${anid} > .make-change`).innerText = "Submit edit";
-  document.querySelector(`#${anid} > .action-modal-header > .action-modal-title`).innerText = `Edit broadcast #${parent}`;
+  document.querySelector(`#${anid} > .operation-modal-header > .operation-modal-title`).innerText = `Edit broadcast #${parent}`;
   document.querySelector(`#${anid} > .hidden-info`).setAttribute("parent", parent);
 };
 
 export const revertToNonEditOrReply = (anid) => {
   document.querySelector(`#${anid} > .make-change`).innerText = "Broadcast";
-  document.querySelector(`#${anid} > .action-modal-header > .action-modal-title`).innerText = "Compose broadcast";
+  document.querySelector(`#${anid} > .operation-modal-header > .operation-modal-title`).innerText = "Compose broadcast";
   document.querySelector(`#${anid} > .hidden-info`).setAttribute("parent", 0);
 };
 

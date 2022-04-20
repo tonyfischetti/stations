@@ -4,6 +4,7 @@
 import { PROVIDER_PARAMS, RPC_URL_MAP, CHAIN_ID_MAPPING,
          STATION_ABIS } from './chain-info.js';
 
+import * as ethers from '../dependencies/ethers-5.2.esm.min.js';
 
 
 export const isMetaMaskInstalled = () => {
