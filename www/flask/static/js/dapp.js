@@ -13,6 +13,14 @@ import * as crypto from './support-dapp/cryptography-things.js';
 import * as ethers from './dependencies/ethers-5.2.esm.min.js';
 
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/service-worker.js').
+      then((registration) => {
+        console.log('SW registered! Scope is:', registration.scope);
+      });
+  });
+}
 
 
 let stationState                      = {};

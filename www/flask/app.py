@@ -1,7 +1,14 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Response
 
 
 app = Flask(__name__)
+
+
+DEFAULT_CHAIN = "harmony"
+DEFAULT_CONTRACT = "0xd63b063df87e53a60feca6001375977d66f54083"
+
+
+
 
 @app.route('/')
 def index():
@@ -20,8 +27,18 @@ def debug_info():
                            user_agent=request.headers.get('User-Agent'),
                            all_headers=request.headers)
 
-DEFAULT_CHAIN = "harmony"
-DEFAULT_CONTRACT = "0xd63b063df87e53a60feca6001375977d66f54083"
+
+@app.route('/service-worker.js')
+def dapp_service_worker():
+    content = "this should be replaced"
+    with open("./static/service-worker.js") as fh:
+        content = fh.read()
+    r = Response(response=content,
+                 status=200,
+                 mimetype="text/javascript")
+    r.headers["Content-Type"] = "text/javascript; charset=utf-8"
+    return r
+
 
 @app.route('/tune', methods=['GET'])
 def tune():

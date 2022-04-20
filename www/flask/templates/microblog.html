@@ -4,6 +4,10 @@
 tuning
 {% endblock %}
 
+{% block manifest %}
+  <link rel="manifest"
+    href="{{ url_for('static', filename='manifests/site.webmanifest') }}">
+{% endblock %}
 
 {% block javascript_imports %}
   {{ super() }}
