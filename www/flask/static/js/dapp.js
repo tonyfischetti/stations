@@ -7,6 +7,7 @@ import * as bc from './support-dapp/broadcast-things.js';
 import * as wallets from './support-dapp/wallet-things.js';
 import * as crypto from './support-dapp/cryptography-things.js';
 
+import * as ethers from './dependencies/ethers-5.2.esm.min.js';
 
 
 
@@ -14,16 +15,16 @@ import * as crypto from './support-dapp/cryptography-things.js';
 let stationState                      = {};
 stationState["stationInfo"]           = {};
 stationState.contract                 = {};
-stationState.contract.chain           = getDocAttr(document, "chain");
-stationState.contract.address         = getDocAttr(document, "contract");
+stationState.contract.chain           = utils.getDocAttr(document, "chain");
+stationState.contract.address         = utils.getDocAttr(document, "contract");
 stationState["allUsers"]              = {};
 stationState["allBroadcasts"]         = [];
 stationState["clientInfo"]            = {};
 stationState.clientInfo.clientVersion = 0.9;
 stationState.clientInfo.currentRPC    = RPC_URL_MAP[stationState.contract.chain];
-stationState.clientInfo.debug_p       = getDocAttr(document, "debug");
+stationState.clientInfo.debug_p       = utils.getDocAttr(document, "debug");
 
-const SCROLL_TO                       = getDocAttr(document, "scrollto");
+const SCROLL_TO                       = utils.getDocAttr(document, "scrollto");
 const BASE_ABI_VERSION                = "v9";
 var   _DEBUG;                           // global debug function
 

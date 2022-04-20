@@ -1,5 +1,7 @@
 'use strict';
 
+import * as ethers from '../dependencies/ethers-5.2.esm.min.js';
+
 
 export const getContract = (address, version, provider) => {
   return new ethers.Contract(address, STATION_ABIS[version], provider);

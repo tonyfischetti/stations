@@ -2,6 +2,12 @@
 
 import * as dom from './dom-things.js';
 
+
+export const getDocAttr = (doc, at) => {
+  return doc.documentElement.getAttribute(at);
+};
+
+
 export const makeDebugFunction = (debug_p) => {
   /* if debug is true, this constructs the a working _DEBUG
    * function. If not, it's a no-op function */
