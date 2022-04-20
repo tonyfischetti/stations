@@ -4,35 +4,32 @@
 // TODO uses string literals and parse it
 // it's supposed to be faster
 
-export const PROVIDER_PARAMS = JSON.parse(`{"polygon":{"chainId":"0x89","chainName":"Polygon Mainnet","nativeCurrency":{"name":"MATIC","symbol":"MATIC","decimals":18},"rpcUrls":["https://poly-rpc.gateway.pokt.network/"],"blockExplorerUrls":["https://www.polygonscan.com"]},"avalanche":{"chainId":"0xA86A","chainName":"Avalanche Mainnet C-Chain","nativeCurrency":{"name":"Avalanche","symbol":"AVAX","decimals":18},"rpcUrls":["https://api.avax.network/ext/bc/C/rpc"],"blockExplorerUrls":["https://snowtrace.io/"]},"fantom":{"chainId":"0xFA","chainName":"Fantom Opera","nativeCurrency":{"name":"FTM","symbol":"FTM","decimals":18},"rpcUrls":["https://rpc.ftm.tools"],"blockExplorerUrls":["https://ftmscan.com/"]},"harmony":{"chainId":"0x63564C40","chainName":"Harmony Mainnet","nativeCurrency":{"name":"ONE","symbol":"ONE","decimals":18},"rpcUrls":["https://rpc.hermesdefi.io"],"blockExplorerUrls":["https://explorer.harmony.one/"]}}`);
-
+export const PROVIDER_PARAMS = JSON.parse('{"polygon":{"chainId":"0x89","chainName":"Polygon Mainnet","nativeCurrency":{"name":"MATIC","symbol":"MATIC","decimals":18},"rpcUrls":["https://poly-rpc.gateway.pokt.network/"],"blockExplorerUrls":["https://www.polygonscan.com"]},"avalanche":{"chainId":"0xA86A","chainName":"Avalanche Mainnet C-Chain","nativeCurrency":{"name":"Avalanche","symbol":"AVAX","decimals":18},"rpcUrls":["https://api.avax.network/ext/bc/C/rpc"],"blockExplorerUrls":["https://snowtrace.io/"]},"fantom":{"chainId":"0xFA","chainName":"Fantom Opera","nativeCurrency":{"name":"FTM","symbol":"FTM","decimals":18},"rpcUrls":["https://rpc.ftm.tools"],"blockExplorerUrls":["https://ftmscan.com/"]},"harmony":{"chainId":"0x63564C40","chainName":"Harmony Mainnet","nativeCurrency":{"name":"ONE","symbol":"ONE","decimals":18},"rpcUrls":["https://rpc.hermesdefi.io"],"blockExplorerUrls":["https://explorer.harmony.one/"]}}');
 
 export const RPC_URL_MAP = {
-  ethereum: "https://eth-rpc.gateway.pokt.network",
-  polygon: "https://poly-rpc.gateway.pokt.network/",
-  avalanche: "https://rpc.ankr.com/avalanche",
-  fantom: "https://rpc.ftm.tools",
+  ethereum: 'https://eth-rpc.gateway.pokt.network',
+  polygon: 'https://poly-rpc.gateway.pokt.network/',
+  avalanche: 'https://rpc.ankr.com/avalanche',
+  fantom: 'https://rpc.ftm.tools',
   // harmony: "https://api.harmony.one"
-  harmony: "https://rpc.hermesdefi.io"
+  harmony: 'https://rpc.hermesdefi.io'
   // harmony: "https://harmony-0.gateway.pokt.network/v1/lb/621dadf54e140e003a31cd1f"
 };
 
-
 // TODO: complete with this data: https://chainlist.org/
 export const CHAIN_ID_MAPPING = {
-  "1":          "Ethereum Mainnet",
-  "3":          "Ropsten",
-  "4":          "Rinkeby",
-  "5":          "Görli",
-  "42":         "Kovan",
-  "137":        "Polygon Mainnet",
-  "250":        "Fantom Opera",
-  "4002":       "Fantom Testnet",
-  "43113":      "Avalanche Fuji Testnet",
-  "43114":      "Avalanche Mainnet C-Chain",
-  "1666600000":	"Harmony Mainnet"
+  1: 'Ethereum Mainnet',
+  3: 'Ropsten',
+  4: 'Rinkeby',
+  5: 'Görli',
+  42: 'Kovan',
+  137: 'Polygon Mainnet',
+  250: 'Fantom Opera',
+  4002: 'Fantom Testnet',
+  43113: 'Avalanche Fuji Testnet',
+  43114: 'Avalanche Mainnet C-Chain',
+  1666600000: 'Harmony Mainnet'
 };
-
 
 export const STATION_ABIS =
   JSON.parse(`
