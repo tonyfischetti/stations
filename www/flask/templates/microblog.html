@@ -11,89 +11,197 @@
            height="77"/>
     </div>
 
+
+    <!-- -------------------------------------------------------- -->
+
     <div id="station-button-popup">
-      <div id="station-button-popup-container">
-        <button id="connect-button" class="station-button-popup-button veridian-button">
+
+      <div id="main_station-button-popup-container" class="station-button-popup-container">
+        <button id="connect-button" class="station-button-popup-button thesis-button">Connect</button>
+        <div id="top-wedge" class="wedge"></div>
+        <button id="export-button" class="station-button-popup-button regular-button" disabled>Export broadcasts</button>
+
+        <button id="change-user-metadata-button" class="station-button-popup-button regular-button">Change user metadata</button>
+
+        {# <button id="import-button" class="station-button-popup-button">Import</button> #}
+
+        <button id="compose-button" class="station-button-popup-button thesis-button">Compose</button>
+
+        <div id="bottom-wedge" class="wedge"></div>
+        <button id="disconnect-button" class="station-button-popup-button antithesis-button">Log Out</button>
+      </div>
+
+      <div id="connect_station-button-popup-container" class="station-button-popup-container">
+        <button id="metamask-connect-button" class="station-button-popup-button thesis-button">Connect with Metamask</button>
+        <button id="enc-wallet-connect-button" class="station-button-popup-button thesis-button">Connect with encrypted wallet</button>
+        <button id="other-connect-button" class="station-button-popup-button regular-button" disabled>Connect (other)</button>
+        <div class="wedge"></div>
+        <button id="back-from-connect-pane-button" class="station-button-popup-button antithesis-button">&lt; back</button>
+      </div>
+
+      <div id="compose_station-button-popup-container" class="station-button-popup-container">
+        <button id="raw-html-compose-button" class="station-button-popup-button regular-button">Raw HTML</button>
+        <button id="jam-compose-button" class="station-button-popup-button regular-button">That's My Jam</button>
+        <div class="wedge"></div>
+        <button id="back-from-compose-pane-button" class="station-button-popup-button antithesis-button">&lt; back</button>
+      </div>
+
+      <div id="change_user_metadata_station-button-popup-container" class="station-button-popup-container">
+          <button id="change-username-button" class="station-button-popup-button regular-button">Change username</button>
+          <button id="change-pfp-button" class="station-button-popup-button regular-button">Change profile photo</button>
+          <button id="change-theme-button" class="station-button-popup-button regular-button" disabled>Change theme</button>
+          <button id="change-raw-metadata-button" class="station-button-popup-button regular-button">Change raw metadata (expert)</button>
+        <div class="wedge"></div>
+        <button id="back-from-change-user-metadata-pane-button" class="station-button-popup-button antithesis-button">&lt; back</button>
+      </div>
+
+      <div id="change-pfp-button-popup-container" class="station-button-popup-container">
+          <button id="change-pfp-via-link-button" class="station-button-popup-button regular-button">Provide a link to new profile photo</button>
+          <button id="change-pfp-via-upload-button" class="station-button-popup-button regular-button" disabled>Upload new profile photo</button>
+        <div class="wedge"></div>
+        <button id="back-from-change-pfp-pane-button" class="station-button-popup-button antithesis-button">&lt; back</button>
+      </div>
+
+    </div>
+
+    <!-- -------------------------------------------------------- -->
+
+
+    <!-- -------------------------------------------------------- -->
+
+    <div id="operation-popup" class="modal">
+
+      <div id="raw-html-composition-container" class="operation-modal-content">
+        <div class="operation-modal-header">
+          <div class="operation-modal-title">Compose broadcast</div>
+        </div>
+        <div id="raw-html-hidden-info" class="hidden-info" parent=0></div>
+        <textarea id="raw-html-composition-area" class="operation-text-area"
+                  rows="7"
+                  placeholder="content"
+                  spellcheck="true"></textarea>
+        <button id="raw-html-broadcast-button"
+          class="station-operation-popup-button thesis-button make-change">
+          Broadcast
         </button>
-        <button id="export-button" class="station-button-popup-button"
-          disabled>Export broadcasts</button>
-
-        <button id="debug-console-button" class="station-button-popup-button">Debug console</button>
-        <button id="import-button" class="station-button-popup-button">Import</button>
-        <button id="compose-button" class="station-button-popup-button">Compose</button>
-        <button id="old-compose-button" class="station-button-popup-button">Old compose</button>
-        <button id="change-user-metadata-button" class="station-button-popup-button">Change user metadata</button>
-      </div>
-    </div>
-
-    <div id="station-operation-popup" class="modal">
-      <div id="composition-modal" class="action-modal-content">
-        <div class="action-modal-header">
-          <div class="action-modal-title">Compose broadcast</div>
-        </div>
-        <div class="action-modal-body">
-          <textarea id="rawHTML_composition-area" class="composition-area"
-                    rows="11"
-                    placeholder="content"
-                    spellcheck="true"></textarea>
-          <div class="spacer"></div>
-          <button id="rawHTML_broadcast-button"
-            class="station-action-popup-button veridian-button">
-            Broadcast
-          </button>
-          <button id="action-cancel-button"
-                  class="station-action-popup-button">
-            Cancel
-          </button>
-        </div>
-        {# <div class="modal-header"> #}
-        {#   <div class="modal-title">Compose broadcast</div> #}
-        {#   <div id="composition-modal-close" class="modal-close">&#9679;</div> #}
-        {# </div> #}
-        {# <div class="modal-body"> #}
-        {#   <details> #}
-        {#     <summary class="broadcast-type-form">Raw HTML broadcast</summary> #}
-        {#     <textarea id="rawHTML_composition-area" class="composition-area" #}
-        {#               rows="11" placeholder="content" #}
-        {#               spellcheck="true"></textarea> #}
-        {#     <br/><br/> #}
-        {#     <button id="rawHTML_broadcast-button">Broadcast</button> #}
-        {#     <br/><br/> #}
-        {#   </details> #}
-        {#   <!-- TODO: needs to be escaped --> #}
-        {#   <details> #}
-        {#     <summary class="broadcast-type-form">Song</summary> #}
-        {#     <textarea id="artist" rows="1" placeholder="name of artist"></textarea> #}
-        {#     <br/><br/> #}
-        {#     <textarea id="songtitle" rows="1" placeholder="song title"></textarea> #}
-        {#     <br/><br/> #}
-        {#     <textarea id="youtubelink" rows="1" placeholder="link to video on youtube"></textarea> #}
-        {#     <br/><br/> #}
-        {#     <textarea id="lyrics" rows="11" placeholder="lyrics"></textarea> #}
-        {#     <br/><br/> #}
-        {#     <button id="jam_broadcast-button">Broadcast</button> #}
-        {#     <br/><br/> #}
-        {#   </details> #}
-        {# </div> #}
+        <button id="raw-html-cancel-button"
+          class="station-operation-popup-button antithesis-button">
+          Cancel
+        </button>
       </div>
 
+      <div id="jam-composition-container" class="operation-modal-content">
+        <div class="operation-modal-header">
+          <div class="operation-modal-title">Compose broadcast</div>
+        </div>
+        <textarea id="jam-artist" class="operation-text-area" rows="1" placeholder="name of artist"></textarea>
+        <textarea id="jam-songtitle" class="operation-text-area" rows="1" placeholder="song title"></textarea>
+        <textarea id="jam-youtubelink" class="operation-text-area" rows="1" placeholder="link to video on youtube"></textarea>
+        <textarea id="jam-lyrics" class="operation-text-area"
+                  rows="7"
+                  placeholder="lyrics"
+                  spellcheck="true"></textarea>
+        <button id="jam-broadcast-button"
+          class="station-operation-popup-button thesis-button">
+          Broadcast
+        </button>
+        <button id="jam-cancel-button"
+          class="station-operation-popup-button antithesis-button">
+          Cancel
+        </button>
+      </div>
+
+      <div id="change-username-container" class="operation-modal-content">
+        <div class="operation-modal-header">
+          <div class="operation-modal-title">Change username</div>
+        </div>
+        <input type="text" id="new-username-field" class="operation-input" placeholder="new username"></input>
+        <button id="new-username-submit-button"
+          class="station-operation-popup-button thesis-button">
+          Submit
+        </button>
+        <button id="new-username-cancel-button"
+          class="station-operation-popup-button antithesis-button">
+          Cancel
+        </button>
+      </div>
+
+      <div id="change-pfp-link-container" class="operation-modal-content">
+        <div class="operation-modal-header">
+          <div class="operation-modal-title">Change profile photo</div>
+        </div>
+        <input id="new-pfp-link-field" type="text" class="operation-input" placeholder="link to new profile photo"></input>
+        <!-- TODO: maybe fetch and render it? -->
+        <button id="new-pfp-link-submit-button"
+          class="station-operation-popup-button thesis-button">
+          Submit
+        </button>
+        <button id="new-pfp-link-cancel-button"
+          class="station-operation-popup-button antithesis-button">
+          Cancel
+        </button>
+      </div>
+
+      <div id="change-raw-metadata-container" class="operation-modal-content">
+        <div class="operation-modal-header">
+          <div class="operation-modal-title">Change raw user metadata</div>
+        </div>
+        <textarea id="raw-metadata-area" class="operation-text-area"
+                  rows="7"
+                  placeholder="raw metdata"></textarea>
+        <button id="new-raw-metadata-submit-button"
+          class="station-operation-popup-button thesis-button">
+          Submit
+        </button>
+        <button id="new-raw-metadata-cancel-button"
+          class="station-operation-popup-button antithesis-button">
+          Cancel
+        </button>
+      </div>
+
+      <!-- experimental -->
+      <div id="enc-wallet-connect-operation-container" class="operation-modal-content">
+        <div class="operation-modal-header">
+          <div class="operation-modal-title">Connect with encrypted JSON wallet</div>
+        </div>
+        <textarea id="enc-wallet-connect-operation-area" class="operation-text-area"
+                  rows="7"
+                  placeholder="copy and paste JSON wallet here"></textarea>
+        {# <input id="enc-wallet-connect-operation-file-upload" type="file" class="operation-input" placeholder="password"></input> #}
+        <input id="enc-wallet-connect-operation-password-input" type="password" class="operation-input" placeholder="password"></input>
+        <button id="enc-wallet-connect-operation-button"
+          class="station-operation-popup-button thesis-button">
+          Connect
+        </button>
+        <button id="enc-wallet-connect-operation-cancel-button"
+          class="station-operation-popup-button antithesis-button">
+          Cancel
+        </button>
+      </div>
+
+
+
     </div>
 
+    <!-- -------------------------------------------------------- -->
+
+
+
+    <!-- -------------------------------------------------------- -->
     <div id="entire-page">
 
-      <div id="very-top-strip">
-      </div>
+      <div id="very-top-strip"> </div>
 
       <div id="between-strips">
 
-        <div id="left-gutter">
-        </div>
+        <div id="left-gutter"> </div>
 
         <div id="outer-way">
 
           <div id="station-header">
 
             <hr/>
+
             <div id="inside-header">
               <div id="first-inside-header">
               </div>
@@ -126,77 +234,16 @@
       </div>
 
     </div>
+    <!-- -------------------------------------------------------- -->
 
 
-    <!-- TODO -->
-    <div id="composition-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-title">Compose broadcast</div>
-          <div id="composition-modal-close" class="modal-close">&#9679;</div>
-        </div>
-        <div class="modal-body">
-          <summary class="broadcast-type-form">Song</summary>
-          <textarea id="artist" rows="1" placeholder="name of artist"></textarea>
-          <br/><br/>
-          <textarea id="songtitle" rows="1" placeholder="song title"></textarea>
-          <br/><br/>
-          <textarea id="youtubelink" rows="1" placeholder="link to video on youtube"></textarea>
-          <br/><br/>
-          <textarea id="lyrics" rows="11" placeholder="lyrics"></textarea>
-          <br/><br/>
-          <button id="jam_broadcast-button">Broadcast</button>
-          <br/><br/>
-        </div>
+    <div id="debug-console">
+      <div id="debug-container">
+        <textarea readonly rows="20" id="debug-area">
+        </textarea>
       </div>
-    </div>     <!-- end composition modal -->
+    </div>
 
-
-    <div id="debug-console-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-title">Debug console</div>
-          <span id="debug-console-modal-close" class="modal-close">&#9679;</span>
-        </div>
-        <div class="modal-body">
-          <div id="debug-container">
-            <textarea class="debug-related" readonly rows="20" id="debug-area">
-            </textarea>
-          </div>
-        </div>
-      </div>
-    </div>     <!-- end debug console modal -->
-
-
-    <div id="edit-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-title">Edit broadcast</div>
-          <span id="edit-modal-close" class="modal-close">&#9679;</span>
-        </div>
-        <div class="modal-body">
-          <textarea id="edit-area" rows="11"></textarea>
-          <br/><br/>
-          <button id="edit-button">Submit edit</button>
-          <br/><br/>
-        </div>
-      </div>
-    </div>     <!-- end edit modal -->
-
-    <div id="reply-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-title">Reply to broadcast</div>
-          <span id="reply-modal-close" class="modal-close">&#9679;</span>
-        </div>
-        <div class="modal-body">
-          <textarea id="reply-area" rows="11"></textarea>
-          <br/><br/>
-          <button id="reply-button">Reply</button>
-          <br/><br/>
-        </div>
-      </div>
-    </div>     <!-- end reply modal -->
 
     <div id="import-modal" class="modal">
       <div class="modal-content">
@@ -205,24 +252,9 @@
           <span id="import-modal-close" class="modal-close">&#9679;</span>
         </div>
         <div class="modal-body">
-          <textarea id="import-area" rows="11" placeholder="copy and paste JSON from a station export here"></textarea>
+          <textarea id="import-area" class="operation-text-area" rows="7" placeholder="copy and paste JSON from a station export here"></textarea>
           <br/><br/>
           <button id="do-import-button">Import</button>
-          <br/><br/>
-        </div>
-      </div>
-    </div>     <!-- end import modal -->
-
-    <div id="change-user-metadata-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="modal-title">Change user metadata</div>
-          <span id="change-user-metadata-modal-close" class="modal-close">&#9679;</span>
-        </div>
-        <div class="modal-body">
-          <textarea id="user-metadata-area" rows="11" placeholder="JSON"></textarea>
-          <br/><br/>
-          <button id="do-change-user-metadata-button">Change metadata</button>
           <br/><br/>
         </div>
       </div>

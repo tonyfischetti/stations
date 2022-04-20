@@ -6,8 +6,7 @@ tuning
 
 {% block javascript_imports %}
   {{ super() }}
-    <script src="{{ url_for('static', filename='js/dapp.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/microblog.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dapp.js') }}" type="module"></script>
 {% endblock %}
 
 {% block css_imports %}
