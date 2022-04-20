@@ -1,8 +1,22 @@
+
 'use strict';
+
+import { PROVIDER_PARAMS, RPC_URL_MAP, CHAIN_ID_MAPPING,
+         STATION_ABIS } from './chain-info.js';
+
+
 
 export const isMetaMaskInstalled = () => {
     return Boolean(window.ethereum && window.ethereum.isMetaMask);
 };
+
+//
+// TODO: return unsuccessful if not on chain
+export const addOrSwitchNetwork = async (chain) => {
+  await window.ethereum.request({ method: 'wallet_addEthereumChain',
+    params: [ PROVIDER_PARAMS[chain] ] });
+};
+
 
 export const connectToMetaMask = async (stationState) => {
   window._DEBUG("connecting to metamask");

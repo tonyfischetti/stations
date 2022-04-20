@@ -1,5 +1,8 @@
 'use strict';
 
+import { PROVIDER_PARAMS, RPC_URL_MAP, CHAIN_ID_MAPPING,
+         STATION_ABIS } from './support-dapp/chain-info.js';
+
 import * as utils from './support-dapp/utils.js';
 import * as contract from './support-dapp/contract-things.js';
 import * as dom from './support-dapp/dom-things.js';

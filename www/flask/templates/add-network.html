@@ -1,4 +1,4 @@
-{% extends 'web3-base.html' %}
+{% extends 'base.html' %}
 
 {% block html_language %} {{ htmllang }} {% endblock %}
 
@@ -6,7 +6,7 @@
 
 {% block javascript_imports %}
   {{ super() }}
-  <script src="{{ url_for('static', filename='js/add-network.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/add-network.js') }}" type="module"></script>
 {% endblock %}
 
 {% block css_imports %}

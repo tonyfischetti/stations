@@ -1,7 +1,10 @@
 
 'use strict';
 
-const PROVIDER_PARAMS = {
+// TODO uses string literals and parse it
+// it's supposed to be faster
+
+export const PROVIDER_PARAMS = {
   // ethereum: {
   //   chainId: '0x01',
   //   chainName: 'Ethereum Mainnet [pokt]',
@@ -61,7 +64,7 @@ const PROVIDER_PARAMS = {
 };
 
 
-const RPC_URL_MAP = {
+export const RPC_URL_MAP = {
   ethereum: "https://eth-rpc.gateway.pokt.network",
   polygon: "https://poly-rpc.gateway.pokt.network/",
   avalanche: "https://rpc.ankr.com/avalanche",
@@ -71,15 +74,9 @@ const RPC_URL_MAP = {
   // harmony: "https://harmony-0.gateway.pokt.network/v1/lb/621dadf54e140e003a31cd1f"
 };
 
-// TODO: return unsuccessful if not on chain
-const addOrSwitchNetwork = async (chain) => {
-  await window.ethereum.request({ method: 'wallet_addEthereumChain',
-    params: [ PROVIDER_PARAMS[chain] ] });
-};
-
 
 // TODO: complete with this data: https://chainlist.org/
-const CHAIN_ID_MAPPING = {
+export const CHAIN_ID_MAPPING = {
   "1":          "Ethereum Mainnet",
   "3":          "Ropsten",
   "4":          "Rinkeby",
@@ -94,19 +91,7 @@ const CHAIN_ID_MAPPING = {
 };
 
 
-const makeWrongChainMessage = (currentChainId, detectedChain, correctChain) => {
-  let mes = `Your metamask is connected to chain ID ${currentChainId} ` +
-    (detectedChain ? `(${detectedChain})` : "(unrecognized blockchain)") +
-    ` but this station is on ${correctChain}.\n` +
-    `\nWould you like to switch to the correct network?\n\n` +
-    `After you switch, the page will reload, and you can click "Connect"` +
-    ` again to finish connecting.`;
-  console.log(mes);
-  return mes;
-};
-
-
-const STATION_ABIS = {
+export const STATION_ABIS = {
   v9: [
 	{
 		"inputs": [

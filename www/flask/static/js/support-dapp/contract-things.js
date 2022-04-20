@@ -2,6 +2,10 @@
 
 import * as ethers from '../dependencies/ethers-5.2.esm.min.js';
 
+import { PROVIDER_PARAMS, RPC_URL_MAP, CHAIN_ID_MAPPING,
+         STATION_ABIS } from './chain-info.js';
+
+
 
 export const getContract = (address, version, provider) => {
   return new ethers.Contract(address, STATION_ABIS[version], provider);
