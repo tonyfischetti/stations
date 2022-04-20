@@ -6,8 +6,7 @@
 
 {% block javascript_imports %}
   {{ super() }}
-    <script src="{{ url_for('static', filename='js/detect-if-mobile.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/debug-info.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/non-dapp/debug-info.js') }}" type="module"></script>
 {% endblock %}
 
 {% block body %}
@@ -28,17 +27,15 @@
     <br/> <br/>
     <div id="viewport-dimensions">
     </div>
-    <div id="is-mobile-or-desktop-div">
-    </div>
+    <span id="is-mobile-or-desktop-span"></span>
     <br/> <br/>
     <div id="all-headers">
       {{ all_headers }}
     </div>
     <br/> <br/>
     <div>
-      <span id="date-now">
+      <span id="date-now"></span>
     </div>
-
   </div>
 </body>
 {% endblock %}
