@@ -1,5 +1,22 @@
-{% extends 'tune-head.html' %}
+{% extends 'base.html' %}
 
+{% block title %}
+tuning
+{% endblock %}
+
+
+{% block javascript_imports %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='js/chains.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/dapp.js') }}" type="module"></script>
+{% endblock %}
+
+{% block css_imports %}
+  {{ super() }}
+    <link  href="{{ url_for('static', filename='styles/generations.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block containsbody %}
 {% block microblog %}
 
   <body>
@@ -263,5 +280,6 @@
 
   </body>
 
+{% endblock %}
 {% endblock %}
 
