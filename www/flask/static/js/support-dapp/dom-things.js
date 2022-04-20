@@ -94,9 +94,10 @@ export const setUpLoggedIn = (provider, signer, myContract, stationState) => {
   toggleBlock('change-user-metadata-button');
 
   document.getElementById('connect-button').style.display = 'none';
-  toggleBlock('station-button-popup');
+  hide('station-button-popup');
   switchStationButtonPopupPane('main_station-button-popup-container');
 
+  console.log("ADD ACTIONS WAS CALLED!");
   addActions(stationState);
 };
 

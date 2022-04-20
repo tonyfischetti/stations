@@ -232,7 +232,8 @@ const startDapp = async () => {
         dom.toggleFlex("operation-popup");
         dom.switchStationButtonPopupPane("main_station-button-popup-container");
         dom.switchOperationPopupPane("enc-wallet-connect-operation-container", true);
-        dom.toggleBlock("station-button-popup");
+        // dom.toggleBlock("station-button-popup");
+        dom.hide("station-button-popup");
 
       });
 
@@ -244,9 +245,7 @@ const startDapp = async () => {
 
       utils.attachEventCallback("enc-wallet-connect-operation-button", () => {
         let rawjson = document.getElementById("enc-wallet-connect-operation-area").value;
-        console.log(`raw json: ${rawjson}`);
         let passwd = document.getElementById("enc-wallet-connect-operation-password-input").value;
-        console.log(`passwd: ${passwd}`);
 
         wallets.connectToEncJSONWallet(provider, rawjson, passwd).
           then(({_signer, _myAddress}) => {
@@ -268,30 +267,6 @@ const startDapp = async () => {
       });
 
 
-      utils.attachEventCallback("enc-wallet-connect-operation-button", () => {
-        let rawjson = document.getElementById("enc-wallet-connect-operation-area").value;
-        console.log(`raw json: ${rawjson}`);
-        let passwd = document.getElementById("enc-wallet-connect-operation-password-input").value;
-        console.log(`passwd: ${passwd}`);
-
-        wallets.connectToEncJSONWallet(provider, rawjson, passwd).
-          then(({_signer, _myAddress}) => {
-            signer = _signer;
-            myAddress = _myAddress;
-
-            myContract = myContract.connect(signer);
-
-            console.log(JSON.stringify(signer));
-          }).
-          then(() => {
-            dom.toggleFlex("operation-popup");
-          }).
-          then(() => {
-            _DEBUG(`address: ${myAddress}`);
-            loginSuccessful(myContract, provider, signer);
-          }).
-          catch((error) => alert("Failed to connect to encrypted wallet:\n" + error));
-      });
 
 
 
