@@ -48,12 +48,13 @@ tuning
         <button id="compose-button" class="station-button-popup-button thesis-button">Compose</button>
 
         <div id="bottom-wedge" class="wedge"></div>
+        <!-- TODO: logout should remove private key from cache -->
         <button id="disconnect-button" class="station-button-popup-button antithesis-button">Log Out</button>
       </div>
 
       <div id="connect_station-button-popup-container" class="station-button-popup-container">
         <button id="metamask-connect-button" class="station-button-popup-button thesis-button">Connect with Metamask</button>
-        <button id="enc-wallet-connect-button" class="station-button-popup-button thesis-button">Connect with encrypted wallet</button>
+        <button id="priv-key-connect-button" class="station-button-popup-button thesis-button">Connect with private key</button>
         <button id="other-connect-button" class="station-button-popup-button regular-button" disabled>Connect (other)</button>
         <div class="wedge"></div>
         <button id="back-from-connect-pane-button" class="station-button-popup-button antithesis-button">&lt; back</button>
@@ -96,7 +97,7 @@ tuning
           <div class="operation-modal-title">Compose broadcast</div>
         </div>
         <div id="raw-html-hidden-info" class="hidden-info" parent=0></div>
-        <textarea id="raw-html-composition-area" class="operation-text-area"
+        <textarea id="raw-html-composition-area" class="operation-text-area clearable"
                   rows="7"
                   placeholder="content"
                   spellcheck="true"></textarea>
@@ -119,7 +120,7 @@ tuning
         <textarea id="jam-youtubelink" class="operation-text-area" rows="1" placeholder="link to video on youtube"></textarea>
         <textarea id="jam-lyrics" class="operation-text-area"
                   rows="7"
-                  placeholder="lyrics"
+                  placeholder="an excerpt of lyrics... or your thoughts"
                   spellcheck="true"></textarea>
         <button id="jam-broadcast-button"
           class="station-operation-popup-button thesis-button">
@@ -179,21 +180,16 @@ tuning
         </button>
       </div>
 
-      <!-- experimental -->
-      <div id="enc-wallet-connect-operation-container" class="operation-modal-content">
+      <div id="priv-key-connect-operation-container" class="operation-modal-content">
         <div class="operation-modal-header">
-          <div class="operation-modal-title">Connect with encrypted JSON wallet</div>
+          <div class="operation-modal-title">Connect with private key</div>
         </div>
-        <textarea id="enc-wallet-connect-operation-area" class="operation-text-area"
-                  rows="7"
-                  placeholder="copy and paste JSON wallet here"></textarea>
-        {# <input id="enc-wallet-connect-operation-file-upload" type="file" class="operation-input" placeholder="password"></input> #}
-        <input id="enc-wallet-connect-operation-password-input" type="password" class="operation-input" placeholder="password"></input>
-        <button id="enc-wallet-connect-operation-button"
+        <input id="priv-key-connect-operation-input" type="password" class="operation-input clearable" placeholder="private key"></input>
+        <button id="priv-key-connect-operation-button"
           class="station-operation-popup-button thesis-button">
           Connect
         </button>
-        <button id="enc-wallet-connect-operation-cancel-button"
+        <button id="priv-key-connect-operation-cancel-button"
           class="station-operation-popup-button antithesis-button">
           Cancel
         </button>
@@ -286,3 +282,24 @@ tuning
 {% endblock %}
 {% endblock %}
 
+
+        {# <button id="enc-wallet-connect-button" class="station-button-popup-button thesis-button">Connect with encrypted wallet</button> #}
+
+      {# <!-- experimental --> #}
+      {# <div id="enc-wallet-connect-operation-container" class="operation-modal-content"> #}
+      {#   <div class="operation-modal-header"> #}
+      {#     <div class="operation-modal-title">Connect with encrypted JSON wallet</div> #}
+      {#   </div> #}
+      {#   <textarea id="enc-wallet-connect-operation-area" class="operation-text-area" #}
+      {#             rows="7" #}
+      {#             placeholder="copy and paste JSON wallet here"></textarea> #}
+      {#   <input id="enc-wallet-connect-operation-password-input" type="password" class="operation-input" placeholder="password"></input> #}
+      {#   <button id="enc-wallet-connect-operation-button" #}
+      {#     class="station-operation-popup-button thesis-button"> #}
+      {#     Connect #}
+      {#   </button> #}
+      {#   <button id="enc-wallet-connect-operation-cancel-button" #}
+      {#     class="station-operation-popup-button antithesis-button"> #}
+      {#     Cancel #}
+      {#   </button> #}
+      {# </div> #}

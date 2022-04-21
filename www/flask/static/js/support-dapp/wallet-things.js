@@ -7,6 +7,8 @@ import {
 
 import * as ethers from '../dependencies/ethers-5.2.esm.min.js';
 
+/* ----------------------------------------------------------- */
+
 export const isMetaMaskInstalled = () => {
   return Boolean(window.ethereum && window.ethereum.isMetaMask);
 };
@@ -20,12 +22,11 @@ export const addOrSwitchNetwork = async (chain) => {
 };
 
 export const connectToMetaMask = async (stationState) => {
-  window._DEBUG('connecting to metamask');
+  window._DEBUG('attempting connecting to metamask');
   return new Promise(async (resolve, reject) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
     let signer;
     let myAddress;
-
     try {
       await provider.send('eth_requestAccounts', []);
       const currentChainId = ethereum.networkVersion;
@@ -51,32 +52,32 @@ export const connectToMetaMask = async (stationState) => {
   });
 };
 
-export const connectToEncJSONWallet = async (provider, rawjson, passwd) => {
+export const connectWithPrivateKey = async (provider, privKey) => {
   window._DEBUG('attempting to connect to encrypted JSON wallet');
   return new Promise(async (resolve, reject) => {
-    ethers.Wallet.fromEncryptedJson(rawjson, passwd)
-      .then((wallet) => {
-        wallet = wallet.connect(provider);
-        resolve({
-          _signer: wallet,
-          _myAddress: wallet.address
-        });
-      })
-      .catch((error) => { reject(new Error(error)); });
+    try {
+      const wallet = new ethers.Wallet(privKey, provider);
+      resolve({
+        _signer: wallet,
+        _myAddress: wallet.address
+      });
+    } catch (error) {
+      reject(error);
+    }
   });
 };
 
-export const connectToPrivateKey = async (provider) => {
-  window._DEBUG('attempting to connect to encrypted JSON wallet');
-  return new Promise(async (resolve, reject) => {
-    ethers.Wallet.fromEncryptedJson(rawjson, passwd)
-      .then((wallet) => {
-        wallet = wallet.connect(provider);
-        resolve({
-          _signer: wallet,
-          _myAddress: wallet.address
-        });
-      })
-      .catch((error) => { reject(new Error(error)); });
-  });
-};
+// export const connectWithEncJSONWallet = async (provider, rawjson, passwd) => {
+//   window._DEBUG('attempting to connect to encrypted JSON wallet');
+//   return new Promise(async (resolve, reject) => {
+//     ethers.Wallet.fromEncryptedJson(rawjson, passwd)
+//       .then((wallet) => {
+//         wallet = wallet.connect(provider);
+//         resolve({
+//           _signer: wallet,
+//           _myAddress: wallet.address
+//         });
+//       })
+//       .catch((error) => { reject(new Error(error)); });
+//   });
+// };

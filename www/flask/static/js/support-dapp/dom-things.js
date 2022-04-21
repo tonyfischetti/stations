@@ -56,11 +56,39 @@ export const switchOperationPopupPane = (neededID, show = true) => {
   });
 };
 
+// TODO: now that we have dynamic adding, how do we make sure the
+//       user is logged in first?
+
+export const addSingleActions = (it) => {
+  // TODO: check permissions before adding
+  // TODO: PERMISSIONS, YO!
+  // TODO: skip if already done?
+  const tmp = document.querySelector(`#${it} > .broadcast-actions-container`);
+    // it.getElementsByClassName('broadcast-actions-container')[0];
+  tmp.insertAdjacentHTML('afterbegin',
+    `<button bid="${it}"
+             class="bcast-action bcast-action-edit">
+       edit
+      </button>`);
+  tmp.insertAdjacentHTML('afterbegin',
+    `<button bid="${it}"
+             class="bcast-action bcast-action-reply">
+       reply
+      </button>`);
+  tmp.insertAdjacentHTML('afterbegin',
+    `<button bid="${it}"
+             class="bcast-action bcast-action-delete">
+       delete
+      </button>`);
+};
+
+
+// TODO: re-write so it does one at a time!!!
 export const addActions = (stationState) => {
-  // TODO: maybe add broadcast actions here?
   // TODO: check permissions before adding
   // TODO: PERMISSIONS, YO!
   window._DEBUG('adding broadcast actions');
+  // TODO: do I need to make it into an array, at all?
   const allBroadcastEls = Array.from(document.getElementsByClassName('broadcast'));
   allBroadcastEls.forEach((it) => {
     // TODO: if allowed
@@ -117,4 +145,10 @@ export const revertToNonEditOrReply = (anid) => {
   document.querySelector(`#${anid} > .make-change`).innerText = 'Broadcast';
   document.querySelector(`#${anid} > .operation-modal-header > .operation-modal-title`).innerText = 'Compose broadcast';
   document.querySelector(`#${anid} > .hidden-info`).setAttribute('parent', 0);
+};
+
+export const clearPane = (anid) => {
+  const matches = document.querySelectorAll(`#${anid} > .clearable`);
+  matches.forEach((it) => { it.value = ""; });
+  window._DEBUG(`cleared input in pane #${anid}`);
 };

@@ -6,6 +6,7 @@ export const getDocAttr = (doc, at) => {
   return doc.documentElement.getAttribute(at);
 };
 
+// TODO: make it handle objects
 export const makeDebugFunction = (debug_p) => {
   /* if debug is true, this constructs the a working _DEBUG
    * function. If not, it's a no-op function */
