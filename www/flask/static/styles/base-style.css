@@ -12,7 +12,7 @@
   font-family: 'Commissioner';
   font-style: normal;
   font-weight: 300;
-  src: /*local('Commisioner'),*/
+  src: local('Commisioner'),
        url('../../static/assets/fonts/commissioner-v10-latin-ext_latin_greek_cyrillic-ext_cyrillic-300.woff2') format('woff2');
 }
 
@@ -20,7 +20,7 @@
   font-family: 'Commissioner';
   font-style: normal;
   font-weight: 400;
-  src: /*local('Commisioner'),*/
+  src: local('Commisioner'),
        url('../../static/assets/fonts/commissioner-v10-latin-ext_latin_greek_cyrillic-ext_cyrillic-400.woff2') format('woff2');
 }
 
@@ -28,7 +28,7 @@
   font-family: 'Commissioner';
   font-style: normal;
   font-weight: 500;
-  src: /*local('Commisioner'),*/
+  src: local('Commisioner'),
        url('../../static/assets/fonts/commissioner-v10-latin-ext_latin_greek_cyrillic-ext_cyrillic-500.woff2') format('woff2');
 }
 
@@ -36,7 +36,7 @@
   font-family: 'Commissioner';
   font-style: normal;
   font-weight: 700;
-  src: /*local('Commisioner'),*/
+  src: local('Commisioner'),
        url('../../static/assets/fonts/commissioner-v10-latin-ext_latin_greek_cyrillic-ext_cyrillic-700.woff2') format('woff2');
 }
 

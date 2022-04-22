@@ -175,6 +175,7 @@ const startDapp = async () => {
       utils.attachEventCallback("raw-html-compose-button", () => {
         console.log("triggered");
         dom.switchOperationPopupPane("raw-html-composition-container", true);
+        dom.giveFocus("raw-html-composition-area");
         dom.toggleBlock("station-button-popup");
         dom.switchStationButtonPopupPane("main_station-button-popup-container");
       });

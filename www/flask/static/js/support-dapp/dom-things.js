@@ -152,3 +152,7 @@ export const clearPane = (anid) => {
   matches.forEach((it) => { it.value = ""; });
   window._DEBUG(`cleared input in pane #${anid}`);
 };
+
+export const giveFocus = (anid) => {
+  document.getElementById(anid).focus();
+};

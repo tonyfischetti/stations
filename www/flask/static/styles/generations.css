@@ -40,12 +40,6 @@ html, body {
 
     /* ELEMENT STYLING AND FONTS */
 
-/* * { */
-/*     font-family: "Commissioner", Helvetica, Arial, sans-serif; */
-/*     font-weight: 300; */
-/* } */
-
-
 hr {
     background-color: var(--mars-red);
     width: 100%;
