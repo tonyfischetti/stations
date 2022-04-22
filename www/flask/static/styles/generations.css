@@ -545,31 +545,87 @@ hr {
 
 
 /* Add Animation */
-@-webkit-keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
+/* @-webkit-keyframes animatetop { */
+/*     from {top:-300px; opacity:0} */
+/*     to {top:0; opacity:1} */
+/* } */
+/*  */
+/* @keyframes animatetop { */
+/*     from {top:-300px; opacity:0} */
+/*     to {top:0; opacity:1} */
+/* } */
+/*  */
+/* .fade-in { */
+/*     opacity: 1; */
+/*     animation-name: fadeInOpacity; */
+/*     animation-iteration-count: 1; */
+/*     animation-timing-function: ease-in; */
+/*     animation-duration: 1s; */
+/* } */
+/*  */
+/* @keyframes fadeInOpacity { */
+/*     0% { */
+/*         opacity: 0; */
+/*     } */
+/*     100% { */
+/*         opacity: 1; */
+/*     } */
+/* } */
+
+
+
+/* ------------------------------------------- */
+
+    /* TOAST THINGS */
+
+#toast-holder {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 1;
+    inset-block-end: 0;
+    inset-inline: 0;
+    padding-block-end: 5vh;
+    pointer-events: none;
+    gap: 1vh;
 }
 
-@keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
+.an-toast {
+    background-color: var(--mars-red);
+    color: white;
+    align-self: center;
+    text-align: center;
+    max-inline-size: min(25ch, 90vw);
+    padding-block: .5ch;
+    padding-inline: 1ch;
+    border-radius: 3px;
+    --_duration: 3s;
+    --_travel-distance: 0;
+
+    will-change: transform;
+    animation:
+        fade-in .3s ease,
+        slide-in .3s ease,
+        fade-out .3s ease var(--_duration);
 }
 
-.fade-in {
-    opacity: 1;
-    animation-name: fadeInOpacity;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in;
-    animation-duration: 1s;
+@keyframes fade-in {
+    from { opacity: 0 }
 }
 
-@keyframes fadeInOpacity {
-    0% {
-        opacity: 0;
+@keyframes fade-out {
+    to { opacity: 0 }
+}
+
+@keyframes slide-in {
+    from { transform: translateY(var(--_travel-distance, 10px)) }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .an-toast {
+        --_travel-distance: 5vh;
     }
-    100% {
-        opacity: 1;
-    }
 }
 
+/* ------------------------------------------- */
 

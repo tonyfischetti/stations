@@ -156,3 +156,13 @@ export const clearPane = (anid) => {
 export const giveFocus = (anid) => {
   document.getElementById(anid).focus();
 };
+
+export const showToast = (text) => {
+  const node = document.createElement('output')
+  node.innerText = text;
+  node.classList.add('an-toast');
+  node.setAttribute('role', 'status');
+  document.getElementById("toast-holder").appendChild(node);
+  setTimeout(() => { node.remove(); }, 3300);
+
+}

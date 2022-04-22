@@ -127,7 +127,7 @@ const startDapp = async () => {
     /* broadcast are all loaded, now let's do everything else */
     then(() => {
 
-      dom.toggleBlock("station-button-container")
+      dom.toggleBlock("station-button-container");
 
       /* _now_ we can enable the export button */
       let exportButton = document.getElementById("export-button");
@@ -360,6 +360,7 @@ const loginSuccessful = (myContract, provider, signer) => {
         console.log(resp);
         dom.clearPane("raw-html-composition-container");
         dom.toggleFlex("operation-popup");
+        dom.showToast("broadcast submitted");
       });
       // finally(() => {
       //   dom.revertToNonEditOrReply("raw-html-composition-container");
