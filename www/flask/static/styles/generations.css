@@ -467,111 +467,27 @@ hr {
 
     /* ELEMENTS WHOMST VISIBILITY IS TOGGLED */
 
-#hidden-info{
-    display: none;
-}
-
-#connect_station-button-popup-container {
-    display: none;
-}
-
-#compose_station-button-popup-container {
-    display: none;
-}
 
 #connect-button {
     display: block;
 }
 
-#disconnect-button {
-    display: none;
-}
-
-#debug-console {
-    display: none;
-}
-
-#debug-console-button {
-    display: none;
-}
-
-#compose-button {
-    display: none;
-}
-
-#import-button {
-    display: none;
-}
-
-#change-user-metadata-button {
-    display: none;
-}
-
-#reply-raw-html-broadcast-button{
-    display: none;
-}
-
-#reply-raw-html-cancel-button {
-    display: none;
-}
-
+#hidden-info,
+#connect_station-button-popup-container,
+#compose_station-button-popup-container,
+#disconnect-button,
+#debug-console,
+#debug-console-button,
+#compose-button,
+#import-button,
+#change-user-metadata-button,
+#reply-raw-html-broadcast-button,
+#reply-raw-html-cancel-button,
 #bottom-wedge {
     display: none;
 }
-/* ------------------------------------------- */
-
 
 /* ------------------------------------------- */
-
-    /* UTILITY DIV STYLING */
-
-.black-bar {
-    background-color: black;
-    height: 5px;
-    margin-bottom: 50px;
-}
-
-.wedge {
-    height: 30px;
-}
-
-.spacer {
-    flex-grow: 1;
-}
-/* ------------------------------------------- */
-
-
-
-
-
-/* Add Animation */
-/* @-webkit-keyframes animatetop { */
-/*     from {top:-300px; opacity:0} */
-/*     to {top:0; opacity:1} */
-/* } */
-/*  */
-/* @keyframes animatetop { */
-/*     from {top:-300px; opacity:0} */
-/*     to {top:0; opacity:1} */
-/* } */
-/*  */
-/* .fade-in { */
-/*     opacity: 1; */
-/*     animation-name: fadeInOpacity; */
-/*     animation-iteration-count: 1; */
-/*     animation-timing-function: ease-in; */
-/*     animation-duration: 1s; */
-/* } */
-/*  */
-/* @keyframes fadeInOpacity { */
-/*     0% { */
-/*         opacity: 0; */
-/*     } */
-/*     100% { */
-/*         opacity: 1; */
-/*     } */
-/* } */
-
 
 
 /* ------------------------------------------- */
@@ -628,4 +544,59 @@ hr {
 }
 
 /* ------------------------------------------- */
+
+
+/* ------------------------------------------- */
+
+    /* UTILITY DIV STYLING */
+
+.black-bar {
+    background-color: black;
+    height: 5px;
+    margin-bottom: 50px;
+}
+
+.wedge {
+    height: 30px;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+/* ------------------------------------------- */
+
+
+
+
+
+/* Add Animation */
+/* @-webkit-keyframes animatetop { */
+/*     from {top:-300px; opacity:0} */
+/*     to {top:0; opacity:1} */
+/* } */
+/*  */
+/* @keyframes animatetop { */
+/*     from {top:-300px; opacity:0} */
+/*     to {top:0; opacity:1} */
+/* } */
+/*  */
+/* .fade-in { */
+/*     opacity: 1; */
+/*     animation-name: fadeInOpacity; */
+/*     animation-iteration-count: 1; */
+/*     animation-timing-function: ease-in; */
+/*     animation-duration: 1s; */
+/* } */
+/*  */
+/* @keyframes fadeInOpacity { */
+/*     0% { */
+/*         opacity: 0; */
+/*     } */
+/*     100% { */
+/*         opacity: 1; */
+/*     } */
+/* } */
+
+
+
 
