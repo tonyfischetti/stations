@@ -31,7 +31,7 @@ def debug_info():
 @app.route('/service-worker.js')
 def dapp_service_worker():
     content = "this should be replaced"
-    with open("./static/service-worker.js") as fh:
+    with open("./static/js/service-worker.js") as fh:
         content = fh.read()
     r = Response(response=content,
                  status=200,

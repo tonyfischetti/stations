@@ -1,5 +1,4 @@
 
-
 /* ------------------------------------------- */
 
     /* CSS VARS */
@@ -41,15 +40,11 @@ html, body {
 
     /* ELEMENT STYLING AND FONTS */
 
-* {
-    font-family: "Commissioner", Helvetica, Arial, sans-serif;
-}
+/* * { */
+/*     font-family: "Commissioner", Helvetica, Arial, sans-serif; */
+/*     font-weight: 300; */
+/* } */
 
-i, em {
-    font-family: "Commissioner Italic", Helvetica, Arial, sans-serif;
-    font-style: italic;
-    font-weight: 300;
-}
 
 hr {
     background-color: var(--mars-red);
@@ -147,10 +142,12 @@ hr {
     font-size: 2.5em;
     margin-bottom: 14px;
     color: black;
+    font-weight: 400;
 }
 
 #station-description {
     color: black;
+    font-weight: 400;
 }
 
 #inside-header {
@@ -414,7 +411,6 @@ hr {
 }
 
 .broadcast-content {
-    font-weight: 300 !important;
 }
 
 .reply.broadcast {

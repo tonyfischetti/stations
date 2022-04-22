@@ -1,8 +1,61 @@
 
+
+@font-face {
+  font-family: 'Commissioner';
+  font-style: normal;
+  font-weight: 200;
+  src: /*local('Commisioner'),*/
+       url('../../static/assets/fonts/commissioner-v10-latin-ext_latin_greek_cyrillic-ext_cyrillic-200.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Commissioner';
+  font-style: normal;
+  font-weight: 300;
+  src: /*local('Commisioner'),*/
+       url('../../static/assets/fonts/commissioner-v10-latin-ext_latin_greek_cyrillic-ext_cyrillic-300.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Commissioner';
+  font-style: normal;
+  font-weight: 400;
+  src: /*local('Commisioner'),*/
+       url('../../static/assets/fonts/commissioner-v10-latin-ext_latin_greek_cyrillic-ext_cyrillic-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Commissioner';
+  font-style: normal;
+  font-weight: 500;
+  src: /*local('Commisioner'),*/
+       url('../../static/assets/fonts/commissioner-v10-latin-ext_latin_greek_cyrillic-ext_cyrillic-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Commissioner';
+  font-style: normal;
+  font-weight: 700;
+  src: /*local('Commisioner'),*/
+       url('../../static/assets/fonts/commissioner-v10-latin-ext_latin_greek_cyrillic-ext_cyrillic-700.woff2') format('woff2');
+}
+
+
 * {
-    /* font-family: Commissioner, Helvetica, Arial, sans-serif; */
-    font-family: Poppins, Helvetica, Arial, sans-serif;
-    /* margin: 0px; */
+    font-family: "Commissioner", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+}
+
+i, em {
+    font-family: "Commissioner", Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-weight: 300;
+}
+
+b,
+strong  {
+    font-family: "Commissioner", Helvetica, Arial, sans-serif;
+    font-weight: 700;
 }
 
 html, body {
