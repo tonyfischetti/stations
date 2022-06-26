@@ -31,6 +31,8 @@ export const connectToMetaMask = async (stationState) => {
       await provider.send('eth_requestAccounts', []);
       const currentChainId = ethereum.networkVersion;
       const detectedChain = CHAIN_ID_MAPPING[currentChainId];
+      console.log(`ccid: ${currentChainId}`);
+      console.log(`dc: ${detectedChain}`);
       if (PROVIDER_PARAMS[stationState.contract.chain].chainName !== detectedChain) {
         console.log('WRONG!!');
         if (confirm("Switch to correct chain?\n\nAfterwards, when the page reloads, you'll have to connect again")) {

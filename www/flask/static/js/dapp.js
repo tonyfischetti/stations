@@ -39,6 +39,7 @@ const SCROLL_TO                       = utils.getDocAttr(document, "scrollto");
 const BASE_ABI_VERSION                = "v9";
 var   _DEBUG;                           // global debug function
 
+let   myAddress;
 
 
 
@@ -51,7 +52,6 @@ var   _DEBUG;                           // global debug function
 const startDapp = async () => {
 
   let   myContract;
-  let   myAddress;
   let   provider;
   let   signer;
 
